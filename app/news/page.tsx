@@ -1,7 +1,6 @@
-import { ToggleSearch } from "@components/client"
 import { Error } from "@components/error"
-import { Limit } from "@components/limit"
 import { Pagination } from "@components/pagination"
+import Search from "@components/search"
 import { Item, Sort } from "@components/sort"
 import { logger, toString } from "@lib/logger"
 import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, isDefaultLang, limits, sort } from "@resources"
@@ -42,12 +41,17 @@ export default async function News({ searchParams }: { searchParams: Promise<Rec
         <div className="main-body">
           <Form id="articlesForm" name="articlesForm" className="form" noValidate={true} action="/news">
             <section className="row search-group">
-              <label className="col s12 m6 l4 xl6 search-input">
-                <Limit id="limitBtn" className="limit" text={filter.limit} search={limitSearch} items={limits} dropDownId="limitDropdown" />
-                <input type="text" id="q" name="q" defaultValue={filter.q} maxLength={40} placeholder={resource.keyword} />
-                <ToggleSearch id="toggleSearchBtn" className="btn-filter" />
-                <button type="submit" id="searchBtn" className="btn-search" />
-              </label>
+              <Search
+                className="col s12 m6 l4 xl6 search-input" 
+                limit={filter.limit}
+                limits={limits}
+                limitSearch={limitSearch}
+                id="q"
+                name="q"
+                defaultValue={filter.q}
+                maxLength={40}
+                placeholder={resource.keyword}
+              />
               <Sort id="sortBtn" className="col s12 m6 l4 xl3 sort" text={sortText} items={items} dropDownId="sortDropdown" />
               <Pagination className="col s12 l4 xl3" total={total} size={filter.limit} page={filter.page} search={search} />
             </section>
