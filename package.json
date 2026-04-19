@@ -20,6 +20,7 @@
     "onecore": "^0.5.10",
     "pg": "^8.20.0",
     "pg-extension": "^0.3.6",
+    "rate-sql": "^0.1.2",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "sql-core": "^0.1.1",

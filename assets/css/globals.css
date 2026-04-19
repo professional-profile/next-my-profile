@@ -21,11 +21,13 @@
 @import "./button.css";
 @import "./search.css";
 @import "./layout.css";
-@import "./theme.css";
-@import "./dark.css";
 @import "./group.css";
 @import "./navigation.css";
 @import "./pagination.css";
+@import "./profile.css";
+@import "./rate.css";
+@import "./theme.css";
+@import "./dark.css";
 
 .App {
   text-align: center;
