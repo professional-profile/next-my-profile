@@ -11,7 +11,7 @@ import { headers } from "next/headers"
 import Link from "next/link"
 import { buildFilter, datetimeToString, formatDateTime, removeLimit, removePage, removeSort } from "web-one"
 
-export default async function Careers({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+export default async function Jobs({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const query = await searchParams
   const lang = getLang(query)
   const resource = getResource(lang)
@@ -40,7 +40,7 @@ export default async function Careers({ searchParams }: { searchParams: Promise<
           <h2>{resource.news}</h2>
         </header>
         <div className="main-body">
-          <Form id="jobsForm" name="jobsForm" className="form" noValidate={true} action="/careers">
+          <Form id="jobsForm" name="jobsForm" className="form" noValidate={true} action="/jobs">
             <section className="row search-group">
               <label className="col s12 m6 l4 xl6 search-input">
                 <Limit id="limitBtn" className="limit" text={filter.limit} search={limitSearch} items={limits} dropDownId="limitDropdown" />
@@ -81,7 +81,7 @@ export default async function Careers({ searchParams }: { searchParams: Promise<
             {list.map((item, i) => {
               return (
                 <li key={i} className="col s12 m6 l4 xl3 list-item">
-                  <Link href={`/careers/${item.slug}${langSearch}`} prefetch={false}>{item.title}</Link>
+                  <Link href={`/jobs/${item.slug}${langSearch}`} prefetch={false}>{item.title}</Link>
                   <p>
                     {item.location} {item.quantity}
                     <span>{formatDateTime(item.publishedAt, dateFormat)}</span>

@@ -2,6 +2,7 @@ import { db } from "@lib/db"
 import { SearchResult } from "onecore"
 import { Job, JobFilter, JobRepository, JobService } from "./job"
 import { SqlJobRepository } from "./repository"
+export * from "./job"
 
 export class JobUseCase implements JobService {
   constructor(private repository: JobRepository) {}
