@@ -1,8 +1,8 @@
 import { getLang, getResource } from "@resources"
 import { Contact, contactModel, getContactService } from "@service/contact"
 import { redirect } from "next/navigation"
+import { validate } from "validation-core"
 import { formatPhone, fromFormData } from "web-one"
-import { validate } from "xvalidators"
 
 export function printObject(obj: any): void {
   const keys = Object.keys(obj)

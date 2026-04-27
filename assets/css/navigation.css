@@ -353,7 +353,6 @@ nav.collapsed-all .sidebar-off-menu > .collapse {
   display: inline;
   font-size: 15px;
   font-weight: 100;
-  content: url("../images/pin.svg");
 }
 .menu.sidebar nav ul li:hover button.btn-pin {
   display: inline-block;

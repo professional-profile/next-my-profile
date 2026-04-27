@@ -49,7 +49,7 @@ Typing:
 Utilities:
 - locale: (locale-service) contain 123 languages and 210 locales, include date format, decimal separator, number group separator, currency code, currency decimal separator... 
 - logging: (logger-core) used for structure log, support 7 log level: trace, debug, info, warn, error, panic, fatal
-- data validation: (xvalidators) high performance, lightweight but feature-rich library for data validation
+- data validation: (validation-core) high performance, lightweight but feature-rich library for data validation
   - validate data by schema
   - support multi-languages
 - web: (web-one) web utilities to

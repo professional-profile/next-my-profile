@@ -102,6 +102,6 @@ export default async function News({ searchParams }: { searchParams: Promise<Rec
     const headerList = await headers()
     const pathname = headerList.get("x-current-path")
     logger.error(`Error at ${pathname}: ${toString(err)}`)
-    return <Error title={resource.error_404_title} message={resource.error_404_message} />
+    return <Error title={resource.error_500_title} message={resource.error_500_message} />
   }
 }

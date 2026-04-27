@@ -19,6 +19,6 @@ export default async function Content() {
     return <div className="content-container" dangerouslySetInnerHTML={{ __html: content.body || "" }}></div>
   } catch (err) {
     logger.error(`Error at ${pathname}: ${toString(err)}`)
-    return <Error title={resource.error_404_title} message={resource.error_404_message} />
+    return <Error title={resource.error_500_title} message={resource.error_500_message} />
   }
 }

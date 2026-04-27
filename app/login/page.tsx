@@ -3,8 +3,8 @@ import { getResource } from "@resources"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { Attributes, StringMap } from "onecore"
+import { validate } from "validation-core"
 import { fromFormData } from "web-one"
-import { validate } from "xvalidators"
 
 export const userModel: Attributes = {
   username: {
