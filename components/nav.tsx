@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { StringMap } from "onecore"
-import { NavClient, ToggleMenu } from "./client"
+import { NavClient, SubList, ToggleMenu } from "./client"
 
 export interface Props {
   items: MenuItem[]
@@ -31,13 +31,13 @@ export function Nav(props: Props) {
         {props.items.map((m) =>
           m.children && m.children.length > 0 ? (
             <li className="open" key={m.id}>
-              <div className="menu-item">
+              <SubList>
                 <i className="material-icons">{m.icon}</i>
                 <span>
                   {getName(m.name, m.resource, props.resource)}
                 </span>
                 <i className="entity-icon down"></i>
-              </div>
+              </SubList>
               <ul className="sub-list expanded">
                 {m.children.map((s) => (
                   <NavClient key={s.path} href={s.path}>

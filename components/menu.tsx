@@ -28,25 +28,28 @@ export function ToggleTheme({ id, theme, className, darkText, darkIcon, lightTex
 function toggleTheme(ele: HTMLElement, darkText: string, darkIcon: string, lightText: string, lightIcon: string) {
   const body = document.getElementById("sysBody")
   if (body) {
-    const light = body.classList.toggle("dark")
-    if (ele) {
-      if (ele.nodeName !== "LI") {
-        ele = ele.parentElement as HTMLElement
-      }
-      const text = light ? lightText : darkText
-      const icon = light ? lightIcon : darkIcon
-      const i = ele.querySelector("i")
-      if (i) {
-        i.innerText = icon
-      }
-      const span = ele.querySelector("span")
-      if (span) {
-        span.innerHTML = text
+    const parent = body.parentElement
+    if (parent) {
+      const light = parent.classList.toggle("dark")
+      if (ele) {
+        if (ele.nodeName !== "LI") {
+          ele = ele.parentElement as HTMLElement
+        }
+        const text = light ? lightText : darkText
+        const icon = light ? lightIcon : darkIcon
+        const i = ele.querySelector("i")
+        if (i) {
+          i.innerText = icon
+        }
+        const span = ele.querySelector("span")
+        if (span) {
+          span.innerHTML = text
+        }
       }
     }
+    
   }
 }
-
 
 interface SidebarProps {
   id?: string

@@ -24,10 +24,10 @@
 @import "./group.css";
 @import "./navigation.css";
 @import "./pagination.css";
-@import "./profile.css";
-@import "./rate.css";
 @import "./theme.css";
 @import "./dark.css";
+@import "./grey.css";
+@import "./grey-dark.css";
 
 .App {
   text-align: center;

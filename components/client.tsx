@@ -11,6 +11,74 @@ export function NavClient({ href, children }: { href: string; children: ReactNod
     <li className={isActive ? "active" : ""}>{children}</li>
   )
 }
+export function SubList({ children }: { children: ReactNode }) {
+  return (
+    <div className="menu-item" onClick={e => toggleMenuItem(e.target as HTMLElement)}>{children}</div>
+  )
+}
+function toggleMenuItem(target: HTMLElement) {
+  const nul = target.nextElementSibling
+  if (nul) {
+    const elI = target.querySelector(".menu-item > i.entity-icon")
+    if (elI) {
+      if (nul.classList.contains("expanded")) {
+        nul.classList.remove("expanded")
+        elI.classList.add("up")
+        elI.classList.remove("down")
+      } else {
+        /*
+        if (resources.autoCollapse) {
+          const nav = findParentNode(target, "NAV")
+          if (nav) {
+            const items = nav.querySelectorAll(".open")
+            const l = items.length
+            for (let i = 0; i < l; i++) {
+              const item = items[i] as HTMLElement
+              if (item) {
+                item.classList.remove("open")
+                const nu10 = item.querySelector(".expanded")
+                if (nu10) {
+                  nu10.classList.remove("expanded")
+                }
+                const el2 = item.querySelector(".entity-icon")
+                if (el2) {
+                  el2.classList.add("up")
+                  el2.classList.remove("down")
+                }
+              }
+            }
+          }
+        }
+          */
+        nul.classList.add("expanded")
+        elI.classList.remove("up")
+        elI.classList.add("down")
+      }
+    }
+  }
+  const parent = findParentNode(target, "LI")
+  if (parent) {
+    parent.classList.toggle("open")
+  }
+}
+function findParentNode(e: HTMLElement | null | undefined, nodeName: string): HTMLElement | null {
+  if (!e) {
+    return null
+  }
+  if (e.nodeName == nodeName || e.getAttribute("data-field")) {
+    return e
+  }
+  let p: HTMLElement | null = e
+  while (true) {
+    p = p.parentElement
+    if (!p) {
+      return null
+    }
+    if (p.nodeName == nodeName || p.getAttribute("data-field")) {
+      return p
+    }
+  }
+}
 
 interface LinkProps {
   id?: string
