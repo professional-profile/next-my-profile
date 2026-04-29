@@ -2,6 +2,7 @@ import { Error } from "@components/error"
 import { Pagination } from "@components/pagination"
 import Search from "@components/search"
 import { Item, Sort } from "@components/sort"
+import { getCurrentUser } from "@lib/account"
 import { logger, toString } from "@lib/logger"
 import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, isDefaultLang, limits, sort } from "@resources"
 import { ArticleFilter, getArticleService } from "@service/article"
@@ -16,6 +17,10 @@ export default async function News({ searchParams }: { searchParams: Promise<Rec
   const resource = getResource(lang)
 
   const filter = buildFilter<ArticleFilter>(query, defaultLimit, ["publishedAt"])
+  const account = await getCurrentUser()
+  if (account) {
+    filter.userId = account.id
+  }
   const service = getArticleService()
   try {
     const { list, total } = await service.search(filter, filter.limit, filter.page)
@@ -88,7 +93,11 @@ export default async function News({ searchParams }: { searchParams: Promise<Rec
                   <section>
                     <div className="cover" style={{ backgroundImage: `url('${item.thumbnail}')` }}></div>
                     <Link href={`/news/${item.slug}${langSearch}`} prefetch={false}>{item.title}</Link>
-                    <p>{formatDateTime(item.publishedAt, dateFormat)}</p>
+                    <p className="article-meta center-align-items">
+                      {formatDateTime(item.publishedAt, dateFormat)}
+                      {account && item.savedAt && <i className="material-icons">bookmark</i>}
+                      {account && !item.savedAt && <i className="material-icons">bookmark_border</i>}
+                    </p>
                     <p>{item.description}</p>
                   </section>
                 </li>

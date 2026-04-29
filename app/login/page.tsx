@@ -1,10 +1,13 @@
 import { getAuthenticator } from "@lib/authentication"
 import { getResource } from "@resources"
+import { sign } from "jsonwebtoken"
+import { cookies } from "next/headers"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { Attributes, StringMap } from "onecore"
 import { validate } from "validation-core"
 import { fromFormData } from "web-one"
+import { config } from "../../config"
 
 export const userModel: Attributes = {
   username: {
@@ -52,6 +55,19 @@ export default async function Login({ searchParams }: { searchParams: Promise<Re
       const result = await service.authenticate(obj)
       console.log("Result " + result.status)
       if (result.status === 1) {
+        const account = result.user
+        if (account) {
+          const cookie = await cookies()
+          if (!account.displayName) {
+            account.displayName = (account.username ? account.username : (account.email ? account.email :account.id))
+          }
+          const secret = process.env.TOKEN_SECRET || config.token.secret
+           const token = sign({ id: account.id, username: obj.username, displayName: account.displayName, language: account.language, dateFormat: account.dateFormat }, secret, {
+              expiresIn: config.token.expires,
+            })
+
+          cookie.set("token", token, {httpOnly: true, path: "/"})
+        }
         redirect("/news")
       } else {
         let key: string | undefined = map["" + result.status]

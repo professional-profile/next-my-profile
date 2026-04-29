@@ -47,9 +47,7 @@ export class ArticleUseCase implements ArticleService {
 
 let articleService: ArticleService | undefined
 export function getArticleService(): ArticleService {
-  console.log("enter getArticleService")
   if (!articleService) {
-    console.log("create ArticleService")
     const repository = new SqlArticleRepository(db)
     const savedRepository = new SqlSavedRepository(db, "saved_articles", "user_id", "id", "saved_at")
     const rateSummaryRepository = new SqlRateSummaryRepository(db)
