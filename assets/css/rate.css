@@ -207,11 +207,14 @@
   border-top: 1px solid #eee;
   padding: 12px 0;
 }
-.review-item header {
+.review-item header,
+.review-item footer {
   width: calc(100% - 16px);
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.review-item header {
   font-size: 16px;
   margin-bottom: 8px;
 }
@@ -220,10 +223,15 @@
   font-size: 14px;
   margin-bottom: 8px;
 }
-.review-item p:last-child {
+.review-item footer {
+  font-size: 14px;
   margin-bottom: 0;
   padding-bottom: 8px;
   border-bottom: 1px solid #ebebeb;
+}
+.review-item footer > .center-align-items .material-icons {
+  margin-top: -2px;
+  font-size: 16px;
 }
 .review-item-stars {
   position: relative;

@@ -4,188 +4,115 @@
 }
 @media screen and (min-width: 769px) {
   .top-menu .profile {
-    max-height: calc(100vh - 52px - 46px);
+    max-height: calc(100vh - 52px - 52px);
   }
   .classic.top-menu .profile {
     max-height: auto;
     overflow-x: unset;
   }
 }
-@media only screen and (min-width: 1201px) {
-  .profile {
-    padding: 8px 5% 0 5%;
-  }
-
-  .page-body > div > header.profile-header,
-  .profile-header {
-    width: calc(100% - 30px);
-    margin-left: 15px;
-  }
+.profile .cover {
+  height: 240px;
+  width: 100%;
+  margin-left: 0;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.profile .cover > .btn-camera {
+  position: absolute;
+  top: 10px;
+  right: 6px;
+}
+.header-trigger {
+  height: 1px;
 }
 .page-body > div > header.profile-header,
 .profile-header {
-  position: relative;
-  height: 314px; /* 394px */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  height: unset;
   margin-bottom: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  border: none;
+  transition: box-shadow 0.3s ease;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18);
   color: inherit;
   background-image: none;
 }
-
-@media screen and (max-width: 600px) {
-  .dark .page-body > .profile-header,
-  .page-body > .profile-header {
-    background-image: none;
+.dark .page-body > div > header.profile-header {
+  color: inherit;
+  background-image: none;
+}
+.page-body > div > header.profile-header.compact,
+.profile-header.compact {
+  height: 76px;
+}
+@media only screen and (min-width: 1201px) {
+  .profile {
+    padding: 0 5% 0 5%;
+  }
+  .profile .cover {
+    width: calc(100% - 32px);
+    margin-left: 16px;
+  }
+  .page-body > div > header.profile-header,
+  .profile-header {
+    width: calc(100% - 32px);
+    margin-left: 16px;
   }
 }
-
-.profile-header > .btn-camera {
-  position: absolute;
-  top: 16px;
-  right: 16px;
+.profile-header-inner {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  padding-bottom: 8px;
+  background-color: transparent;
+  transition: padding 0.3s ease;
 }
-.profile-header .btn-follow {
+.profile-info .btn-follow {
   position: absolute;
-  bottom: 20px;
-  right: 18px;
-  min-width: 110px;
-  height: 35px;
-  border-radius: 20px;
+  top: 8px;
+  right: 8px;
+  min-width: 96px;
+  height: 34px;
+  border-radius: 16px;
   font-size: 14px;
   background-color: transparent;
   border: 1px solid;
   color: #c9b500;
 }
 
-.profile-header .contact-group {
+.profile-info h1 {
   display: flex;
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  background-color: transparent;
-}
-.profile-header .contact-group > button {
-  width: 35px;
-  height: 35px;
-  border: 1px solid;
-  background-color: transparent;
-  border-radius: 20px;
-  font-size: 22px;
-  font-style: normal;
-  color: #fff;
-}
-.profile-header .contact-group > button:not(:first-child) {
-  margin-left: 20px;
-}
-
-.profile-header > nav {
-  width: 100%;
-}
-.profile-header > nav > ul {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding-inline-start: 0;
-  margin-block-end: 0;
-}
-.profile-header > nav > ul > li {
-  display: inline-flex;
-  height: 38px;
   align-items: center;
+  font-size: 24px;
+  padding-left: 114px;
+  gap: 12px;
+  margin-bottom: 6px;
+  color: inherit;
+}
+.dark .profile-info h1,
+.profile-info h1 a {
+  color: inherit;
+}
+.profile-info p {
   font-size: 16px;
-  margin-left: 12px;
-  margin-right: 12px;
-}
-.profile-header > nav > ul > li:first-child {
-  margin-left: 0;
-}
-.profile-header > nav > ul > li:last-child {
-  margin-right: 0;
-}
-
-.profile-header > .cover-image {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  padding: 0px;
-}
-.profile-header > .cover-image > img {
-  width: 100%;
-}
-
-.avatar-wrapper {
-  position: relative;
-  width: 120px;
-  height: 120px;
-  margin-top: -83px;
-  -ms-flex-item-align: center;
-  align-self: center;
-  background-color: transparent;
-}
-.avatar-wrapper .avatar {
-  border: 4px solid #fff;
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-}
-.avatar-wrapper .profile-status {
-  position: absolute;
-  left: 85px;
-  top: 85px;
-  width: 30px;
-  height: 30px;
-}
-.avatar-wrapper .btn-camera {
-  position: absolute;
-  top: -10px;
-  right: -15px;
-}
-
-.profile-title {
-  position: relative;
-  width: 100%;
-  margin-top: 8px;
-  text-align: center;
-  word-break: break-word;
-  -moz-word-break: break-word;
-  -webkit-word-break: break-word;
-}
-.profile-title > h2 {
-  font-size: 20px;
+  padding-left: 114px;
   margin-bottom: 8px;
-  padding-left: 0;
-  padding-right: 0;
-  color: inherit;
 }
-.profile-title > h2 > a {
-  margin-left: 0;
-  color: inherit;
-}
-.profile-title > p {
-  margin-block-end: 8px;
-  font-size: 16px;
-}
-
 .profile-followers {
   display: flex;
-  justify-content: center;
   width: 100%;
-  margin-bottom: 8px;
-}
-header.nav > .profile-followers {
-  margin-bottom: 0;
+  padding-left: 114px;
+  margin-bottom: 4px;
+  gap: 16px;
+  color: inherit;
 }
 .profile-followers > a {
   display: flex;
-  margin-left: 8px;
-  margin-right: 8px;
-  margin-bottom: 8px;
   color: inherit;
 }
 .profile-followers > a > i {
@@ -195,85 +122,72 @@ header.nav > .profile-followers {
   font-size: 19px;
 }
 
+.avatar-wrapper {
+  position: relative;
+  margin-right: 16px;
+  transition: transform 0.3s ease;
+}
+.avatar {
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: -72px;
+  left: 2px;
+  transition: all 0.3s ease;
+}
+.avatar-wrapper .profile-status {
+  position: absolute;
+  top: 10px;
+  left: 83px;
+  width: 30px;
+  height: 30px;
+}
+.avatar-wrapper .btn-camera {
+  position: absolute;
+  top: -41px;
+  left: 81px;
+}
+.profile-header.compact .profile-info h1 {
+  padding-left: 54px;
+  margin-bottom: 4px;
+}
+.profile-header.compact .profile-info p {
+  display: none;
+}
+.profile-header.compact .profile-followers {
+  padding-left: 54px;
+  margin-bottom: 2px;
+}
+.profile-header.compact .avatar {
+  top: -33px;
+  margin-left: -4px;
+  width: 64px;
+  height: 64px;
+}
+.compact .avatar-wrapper .profile-status {
+  top: 11px;
+  left: 40px;
+  width: 18px;
+  height: 18px;
+}
+.compact .avatar-wrapper .btn-camera {
+  top: -17px;
+  left: 28px;  
+}
 @media (min-width: 993px) {
-  .profile-header {
-    height: 394px;
-  }
-  .profile-header .contact-group {
-    left: unset;
-    right: 148px;
-  }
-  .profile-header > nav {
-    padding-left: 152px;
-  }
-  .profile-header > nav > ul {
-    justify-content: unset;
-  }
-  .profile-header > nav > ul > li {
-    height: 50px;
-  }
-  .avatar-wrapper {
-    position: absolute;
-    left: 16px;
-    bottom: 4px;
-    margin-top: 0;
-    margin-bottom: 0;
-    background-color: transparent;
-  }
-  .profile-title {
-    margin-top: 12px;
-    padding-left: 152px;
-    text-align: left;
-    background-color: transparent;
-    width: calc(100% - 246px);
-  }
-  header.nav > .profile-title {
-    margin-top: -79px;
-  }
-  header.nav > .profile-title > p {
-    margin-block-end: 3px;
-  }
-  .profile-followers {
-    height: 48px;
-    justify-content: flex-start;
-    align-items: center;
-    margin-right: 18px;
-    margin-bottom: 0;
-    z-index: 1000;
-    padding-left: 150px;
-    background-color: transparent;
-    width: calc(100% - 246px)
-  }
-  .profile-followers > a {
-    margin-left: 0;
-    margin-right: 16px;
-  }
-  header.nav > .profile-followers {
-    justify-content: flex-start;
-    width: 100%;
-    height: unset;
-    margin-right: unset;
-    padding-left: 152px;
-    margin-bottom: 3px;
-    color: #fff;
-  }
+  
 }
 
-.profile-header > .card,
 .profile .card {
   border-radius: 4px;
   word-wrap: break-word;
   -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18);
   -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18);
-}
-
-.profile-header > .card {
-  position: relative;
-  width: calc(100% - 32px);
-  margin: -32px 16px 7px 16px;
-  border-radius: 15px;
-  background-color: #fff;
 }
 
 .profile .list.row.card-grid {
