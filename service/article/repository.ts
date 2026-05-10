@@ -1,20 +1,13 @@
 import { DB } from "onecore"
 import { param } from "pg-extension"
-import { buildSort, SearchRepository, SqlLoader, Statement } from "sql-core"
-import { RateSummary, rateSummaryModel, RateSummaryRepository } from "../shared/rate"
+import { buildSort, SearchRepository, Statement } from "sql-core"
 import { Article, ArticleFilter, articleModel, ArticleRepository } from "./article"
-
-export class SqlRateSummaryRepository extends SqlLoader<RateSummary, string> implements RateSummaryRepository {
-  constructor(db: DB) {
-    super(db, "article_info", rateSummaryModel)
-  }
-}
 
 export class SqlArticleRepository extends SearchRepository<Article, ArticleFilter> implements ArticleRepository {
   constructor(db: DB) {
     super(db, "articles", articleModel, buildQuery)
   }
-  async load(id: string, userId?: string): Promise<Article | null> {
+  async load(slug: string, userId?: string): Promise<Article | null> {
     const params = []
     let query: string
     if (userId) {
@@ -26,14 +19,9 @@ export class SqlArticleRepository extends SearchRepository<Article, ArticleFilte
     } else {
       query = `select a.* from articles a where a.slug = ${this.db.param(1)}`
     }
-    params.push(id)
+    params.push(slug)
     const articles = await this.db.query<Article>(query, params, this.map)
     return articles && articles.length > 0 ? articles[0] : null
-  }
-  async getIdBySlug(slug: string): Promise<string> {
-    const query = `select a.id from articles a where a.slug = ${this.db.param(1)}`
-    const articles = await this.db.query<Article>(query, [slug], this.map)
-    return (articles && articles.length > 0 ? articles[0].id : slug)
   }
 }
 

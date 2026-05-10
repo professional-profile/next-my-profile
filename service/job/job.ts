@@ -7,6 +7,7 @@ export interface Job {
   description: string
   publishedAt?: Date
   expiredAt?: Date
+  company?: string
   position?: string
   quantity?: number
   location?: string
@@ -36,11 +37,11 @@ export interface JobFilter extends Filter {
 
 export interface JobRepository {
   search(filter: JobFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<Job>>
-  load(id: string): Promise<Job | null>
+  load(slug: string): Promise<Job | null>
 }
 export interface JobService {
   search(filter: JobFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<Job>>
-  load(id: string): Promise<Job | null>
+  load(slug: string): Promise<Job | null>
 }
 
 export const jobModel: Attributes = {
@@ -66,6 +67,9 @@ export const jobModel: Attributes = {
   expiredAt: {
     column: "expired_at",
     type: "datetime",
+  },
+  company: {
+    length: 40,
   },
   position: {
     length: 100,
