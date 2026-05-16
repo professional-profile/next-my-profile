@@ -1,4 +1,22 @@
+import Link from "next/link"
 import { SearchLink, ToggleDropdown } from "./client"
+
+interface SortProps {
+  id?: string
+  className?: string
+  href: string
+  text?: string
+  type?: "+" | "-"
+}
+
+export function SortLink(props: SortProps) {
+  return (
+    <Link id={props.id} className={props.className} href={props.href} prefetch={false}>
+      {props.text}
+      {props.type && (props.type === "+" ? <i className="sort-up"></i> : <i className="sort-down"></i>)}
+    </Link>
+  )
+}
 
 export interface Item {
   id?: string

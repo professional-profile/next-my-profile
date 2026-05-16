@@ -59,8 +59,9 @@ const map = {
 
 let authenticator: Authenticator<User, string> | undefined
 export function getAuthenticator(): Authenticator<User, string> {
-  console.log("enter getAuthenticator")
+  console.log("enter getAuthenticator 0")
   if (!authenticator) {
+    console.log("enter getAuthenticator 1")
     const status = initializeStatus(authConfig.status)
     const userRepository = useUserRepository<string, SqlAuthTemplateConfig>(db, authConfig, map)
     authenticator = new Authenticator(status, compare, authConfig.account, userRepository, undefined, authConfig.lockedMinutes, authConfig.maxPasswordFailed)

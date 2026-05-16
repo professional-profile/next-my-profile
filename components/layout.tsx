@@ -2,7 +2,7 @@ import { Nav } from "@components/nav";
 import { getMenu } from "@lib/menu";
 import { getResource } from "@resources";
 import { cloneArray, rebuildPath } from "web-one";
-import { LayoutClient } from "./client";
+import { ClientLayout } from "./client";
 import PageHeader from "./page-header";
 
 export default async function LayoutPage({ lang, children }: { lang: string; children: React.ReactNode }) {
@@ -34,8 +34,8 @@ export default async function LayoutPage({ lang, children }: { lang: string; chi
     </>
   )
   return (
-    <LayoutClient nav={nav} header={pageHeader}>
+    <ClientLayout nav={nav} header={pageHeader}>
       {children}
-    </LayoutClient>
+    </ClientLayout>
   )
 }
