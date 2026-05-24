@@ -1,4 +1,4 @@
-import { Attributes, Filter, SearchResult, TimeRange } from "onecore"
+import { Attributes, Filter, TimeRange } from "onecore"
 
 export interface Job {
   id: string
@@ -17,13 +17,12 @@ export interface Job {
   companyId?: string
   status: string
 }
+
 export interface JobFilter extends Filter {
   id?: string
   slug?: string
   title?: string
   description?: string
-  requirements?: string
-  benefit?: string
   publishedAt?: TimeRange
   expiredAt?: TimeRange
   skills?: string[]
@@ -32,15 +31,6 @@ export interface JobFilter extends Filter {
   applicantCount?: number
   companyId?: string
   status?: string
-}
-
-export interface JobRepository {
-  search(filter: JobFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<Job>>
-  load(slug: string): Promise<Job | null>
-}
-export interface JobService {
-  search(filter: JobFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<Job>>
-  load(slug: string): Promise<Job | null>
 }
 
 export const jobModel: Attributes = {

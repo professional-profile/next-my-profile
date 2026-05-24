@@ -5,7 +5,7 @@ import { SqlJobRepository } from "./repository"
 export * from "./job"
 
 export class JobUseCase implements JobService {
-  constructor(private repository: JobRepository) { }
+  constructor(private repository: JobRepository) {}
   search(filter: JobFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<Job>> {
     return this.repository.search(filter, limit, page, fields)
   }
@@ -14,11 +14,11 @@ export class JobUseCase implements JobService {
   }
 }
 
-let jobService: JobService | undefined
+let service: JobService | undefined
 export function getJobService(): JobService {
-  if (!jobService) {
+  if (!service) {
     const repository = new SqlJobRepository(db)
-    jobService = new JobUseCase(repository)
+    service = new JobUseCase(repository)
   }
-  return jobService
+  return service
 }

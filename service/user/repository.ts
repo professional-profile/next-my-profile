@@ -1,6 +1,6 @@
-import { DB } from "onecore"
+import { DB, Statement } from "onecore"
 import { param } from "pg-extension"
-import { buildSort, SearchRepository, Statement } from "sql-core"
+import { buildSort, SearchRepository } from "sql-core"
 import { User, UserFilter, userModel, UserRepository } from "./user"
 
 export class SqlUserRepository extends SearchRepository<User, UserFilter> implements UserRepository {
@@ -8,25 +8,24 @@ export class SqlUserRepository extends SearchRepository<User, UserFilter> implem
     super(db, "users", userModel, buildQuery)
   }
 
-  async load(id: string, userId?: string): Promise<User | null> {
+  async load(slug: string, userId?: string): Promise<User | null> {
     let params = []
     let query: string
 
     if (userId) {
-      query = `select u.*, ui.follower_count, ui.following_count, uf.following_at, ur.followed_at
+      query = `select u.*, ui.follower_count, ui.following_count, ur.followed_at
         from users u
         left join user_info ui on u.id = ui.id
-        left join user_following uf on uf.id = ${this.db.param(1)} and uf.following = u.id
-        left join user_followers ur on ur.id = ${this.db.param(2)} and ur.follower = u.id
-        where u.username = ${this.db.param(3)}`
-      params.push(userId, userId)
+        left join user_followers ur on ur.id = u.id and ur.follower = ${this.db.param(1)}
+        where u.username = ${this.db.param(2)}`
+      params.push(userId, slug)
     } else {
       query = `select u.*, ui.follower_count, ui.following_count
         from users u
         left join user_info ui on u.id = ui.id
         where u.username = ${this.db.param(1)}`
+      params.push(slug)
     }
-    params.push(id)
 
     let users = await this.db.query<User>(query, params, this.map)
     if (users && users.length > 0) {
@@ -36,22 +35,21 @@ export class SqlUserRepository extends SearchRepository<User, UserFilter> implem
     params = []
     query = `select * from users where id = ${this.db.param(1)}`
     if (userId) {
-      query = `select u.*, ui.follower_count, ui.following_count, uf.following_at, ur.followed_at
+      query = `select u.*, ui.follower_count, ui.following_count, ur.followed_at
         from users u
         left join user_info ui on u.id = ui.id
-        left join user_following uf on uf.id = ${this.db.param(1)} and uf.following = u.id
-        left join user_followers ur on ur.id = ${this.db.param(2)} and ur.follower = u.id
-        where u.id = ${this.db.param(3)}`
-      params.push(userId, userId)
+        left join user_followers ur on ur.id = u.id and ur.follower = ${this.db.param(1)} 
+        where u.id = ${this.db.param(2)}`
+      params.push(userId, slug)
     } else {
       query = `select u.*, ui.follower_count, ui.following_count
         from users u
         left join user_info ui on u.id = ui.id
         where u.id = ${this.db.param(1)}`
+      params.push(slug)
     }
-    params.push(id)
 
-    users = await this.db.query<User>(query, [id], this.map)
+    users = await this.db.query<User>(query, [slug], this.map)
     return users && users.length > 0 ? users[0] : null
   }
 
@@ -77,14 +75,13 @@ export function buildQuery(filter: UserFilter): Statement {
   }
   if (filter.userId) {
     query = `select u.id, u.username, u.email, u.image_url, u.display_name, u.occupation, u.headline,
-        ui.follower_count, ui.following_count, uf.following_at, ur.followed_at
+        ui.follower_count, ui.following_count, ur.followed_at
       from users u ${sub}
       left join user_info ui on u.id = ui.id
-      left join user_following uf on uf.id = ${param(i++)} and uf.following = u.id
-      left join user_followers ur on ur.id = ${param(i++)} and ur.follower = u.id`
-    params.push(filter.userId, filter.userId)
+      left join user_followers ur on ur.id = u.id and ur.follower = ${param(i++)} `
+    params.push(filter.userId)
   } else {
-    query = `select u.id, u.username, u.email, u.image_url, u.display_name, u.occupation, u.headline from users u ${sub}`
+    query = `select u.id, u.username, u.email, u.image_url, u.display_name, u.occupation, u.headline from users u ${sub} `
   }
 
   if (filter.id) {
@@ -142,5 +139,3 @@ export function buildQuery(filter: UserFilter): Statement {
   }
   return { query, params }
 }
-// CREATE INDEX interests_index ON users (interests);
-// db.Query(`select interests from users where interests && $1 and skills && $2`, [ 'Basketball', 'Kapp' ])

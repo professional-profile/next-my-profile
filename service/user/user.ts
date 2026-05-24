@@ -1,4 +1,8 @@
 import { Attributes, DateRange, Filter, SearchResult } from "onecore"
+import { Article } from "../shared/article"
+import { Company } from "../shared/company"
+import { ArticleFilter } from "./article"
+import { CompanyFilter } from "./company"
 
 export interface User {
   id: string
@@ -26,9 +30,9 @@ export interface User {
   works: Work[]
   educations: Education[]
   settings?: UserSettings
-  followerCount?: number
+
   followingCount?: number
-  followingAt?: Date
+  followerCount?: number
   followedAt?: Date
 }
 export interface UserSettings {
@@ -77,16 +81,17 @@ export interface UserFilter extends Filter {
 
 export interface UserRepository {
   search(filter: UserFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<User>>
-  load(id: string, userId?: string): Promise<User | null>
+  load(slug: string, userId?: string): Promise<User | null>
   getIdBySlug(slug: string): Promise<string>
 }
 export interface UserService {
   search(filter: UserFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<User>>
-  load(id: string, userId?: string): Promise<User | null>
+  load(slug: string, userId?: string): Promise<User | null>
   getIdBySlug(slug: string): Promise<string>
   follow(id: string, target: string): Promise<number>
   unfollow(id: string, target: string): Promise<number>
-  checkFollow(id: string, target: string): Promise<number>
+  getArticles(filter: ArticleFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<Article>>
+  getCompanies(filter: CompanyFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<Company>>
 }
 
 export const skillsModel: Attributes = {
@@ -217,21 +222,16 @@ export const userModel: Attributes = {
     type: "object",
     typeof: userSettingsModel,
   },
-  followerCount: {
-    column: "follower_count",
-    type: "integer",
-    noinsert: true,
-    noupdate: true,
-  },
+  
   followingCount: {
     column: "following_count",
     type: "integer",
     noinsert: true,
     noupdate: true,
   },
-  followingAt: {
-    column: "following_at",
-    type: "datetime",
+  followerCount: {
+    column: "follower_count",
+    type: "integer",
     noinsert: true,
     noupdate: true,
   },

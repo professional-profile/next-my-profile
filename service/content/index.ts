@@ -14,11 +14,11 @@ export class ContentUseCase implements ContentService {
   }
 }
 
-let contentService: ContentService | undefined
+let service: ContentService | undefined
 export function getContentService(): ContentService {
-  if (!contentService) {
+  if (!service) {
     const repository = new SqlContentRepository(db)
-    contentService = new ContentUseCase(repository)
+    service = new ContentUseCase(repository)
   }
-  return contentService
+  return service
 }

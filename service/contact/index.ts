@@ -13,11 +13,11 @@ export class ContactUseCase implements ContactService {
   }
 }
 
-let contactService: ContactService | undefined
+let service: ContactService | undefined
 export function getContactService(): ContactService {
-  if (!contactService) {
+  if (!service) {
     const repository = new SqlContactRepository(db)
-    contactService = new ContactUseCase(repository)
+    service = new ContactUseCase(repository)
   }
-  return contactService
+  return service
 }

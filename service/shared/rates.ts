@@ -13,12 +13,14 @@ export interface Rate {
   review: string
   usefulCount: number
   replyCount: number
+  reaction: number
   anonymous: boolean
 }
 export interface RateFilter extends Filter {
   id: string
   rate?: number
   sort?: string
+  userId?: string
 }
 
 export const rateModel: Attributes = {
@@ -61,18 +63,29 @@ export const rateModel: Attributes = {
 }
 
 export function buildQuery(filter: RateFilter): Statement {
-  let query = `select ar.*, u.display_name from article_rates ar inner join users u on ar.author = u.id`
+  let query: string
   const where: string[] = []
   const params = []
   let i = 1
+  if (filter.userId) {
+    query = `select r.*, rr.reaction, u.display_name
+      from article_rates r 
+      inner join users u
+        on r.author = u.id
+      left join article_rate_reactions rr 
+        on r.rate_id = rr.rate_id and rr.user_id = ${param(i++)}`
+    params.push(filter.userId)
+  } else {
+    query = `select r.*, u.display_name from article_rates r inner join users u on r.author = u.id`
+  }
 
   if (filter.id) {
     params.push(filter.id)
-    where.push(`ar.id = ${param(i++)}`)
+    where.push(`r.id = ${param(i++)}`)
   }
   if (filter.rate) {
     params.push(filter.rate)
-    where.push(`ar.rate = ${param(i++)}`)
+    where.push(`r.rate = ${param(i++)}`)
   }
 
   if (where.length > 0) {
