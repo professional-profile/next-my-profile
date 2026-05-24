@@ -7,6 +7,7 @@ import { ArticleFilter, ArticleRepository, SqlArticleRepository } from "./articl
 import { Company, CompanyFilter, CompanyRepository, CompanyService } from "./company"
 import { SqlCompanyRepository } from "./repository"
 import { SqlUserRepository, UserFilter, UserRepository } from "./user"
+export * from "./company"
 
 export class CompanyUseCase extends FollowService<string> implements CompanyService {
   constructor(private repository: CompanyRepository, protected followRepository: FollowRepository<string>, protected articleRepository: ArticleRepository, protected userRepository: UserRepository) {

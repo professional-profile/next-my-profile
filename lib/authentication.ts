@@ -13,7 +13,8 @@ const authConfig = {
   lockedMinutes: 2,
   maxPasswordFailed: 5,
   account: {
-    displayName: "displayname",
+    displayName: "display_name",
+    dateFormat: "date_format",
   },
   userStatus: {
     activated: "A",
@@ -24,7 +25,7 @@ const authConfig = {
   db: {
     user: "users",
     password: "passwords",
-    id: "user_id",
+    id: "id",
     username: "username",
     status: "status",
     successTime: "success_time",
@@ -33,11 +34,11 @@ const authConfig = {
     lockedUntilTime: "locked_until_time",
   },
   query: `
-      select u.user_id, u.username, u.display_name, email, u.status, u.max_password_age, 
+      select u.id, u.username, u.display_name, email, u.status, language, dateformat as date_format, u.max_password_age, 
         p.password, p.success_time, p.fail_time, p.fail_count, p.locked_until_time, p.changed_time
       from users u
       inner join passwords p
-        on u.user_id = p.user_id
+        on u.id = p.id
       where username = $1`,
   expires: 500,
   template: {

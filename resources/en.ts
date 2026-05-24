@@ -77,11 +77,13 @@ export const en = {
   error_ca_post_code: "{0} is not a valid Canada post code.",
   error_us_post_code: "{0} is not a valid US post code.",
 
+  error_enum: "{0} must be one of {1}.",
   error_min: "{0} must be greater than or equal to {1}.",
   error_max: "{0} must be less than or equal to {1}.",
   error_gt: "{0} must be greater than {1}.",
   error_lt: "{0} must be less than {1}.",
   error_equal: "{0} must be equal to {1}.",
+
   error_date: "{0} is not a valid date.",
   error_min_date: "{0} cannot be before {1}.",
   error_max_date: "{0} cannot be after {1}.",
@@ -90,6 +92,7 @@ export const en = {
   error_from: "{0} must be after {1}.",
   error_after_now: "{0} cannot be after now.",
   error_after_tomorrow: "{0} cannot be after tomorrow.",
+  error_after_yesterday: "{0} must be after yesterday.",
   error_after: "{0} cannot be after {1}.",
 
   error_400: "The server will not process the request due to the malformed request syntax.",
