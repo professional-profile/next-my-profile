@@ -17,8 +17,8 @@
     "logger-core": "^0.3.1",
     "nanoid": "^3.3.4",
     "next": "16.2.6",
-    "onecore": "^0.5.11",
-    "pg": "^8.20.0",
+    "onecore": "^0.5.15",
+    "pg": "^8.21.0",
     "pg-extension": "^0.3.6",
     "rate-service": "^0.0.1",
     "rate-sql": "^0.2.0",
@@ -27,13 +27,13 @@
     "script-plus": "^0.0.2",
     "sql-core": "^0.1.3",
     "validation-core": "^1.1.0",
-    "web-one": "^0.0.7"
+    "web-one": "^0.0.8"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.6.0",
     "@types/pg": "^8.20.0",
-    "@types/react": "^19.2.14",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.4",
     "eslint-config-next": "16.2.4",

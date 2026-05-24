@@ -1,14 +1,9 @@
 import { db } from "@lib/db"
 import { nanoid } from "nanoid"
-import { CRUDRepository, DB } from "sql-core"
-import { Contact, contactModel, ContactRepository, ContactService } from "./contact"
+import { Contact, ContactRepository, ContactService } from "./contact"
+import { SqlContactRepository } from "./repository"
 export * from "./contact"
 
-export class SqlContactRepository extends CRUDRepository<Contact, string> implements ContactRepository {
-  constructor(db: DB) {
-    super(db, "contacts", contactModel)
-  }
-}
 export class ContactUseCase implements ContactService {
   constructor(private repository: ContactRepository) { }
   submit(contact: Contact): Promise<number> {
