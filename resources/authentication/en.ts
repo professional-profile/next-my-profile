@@ -11,7 +11,7 @@ export const en = {
   email: "Email",
   password: "Password",
   passcode: "Verification Code",
-  contact: "Contact",
+  username_or_email: "Username Or Email",
 
   signin: "Sign in",
 
@@ -24,6 +24,7 @@ export const en = {
 
   msg_account_reactivated: "Your account has been reactivated.",
   msg_password_expired_soon: "Your password will be expired in {0} day(s). Please change your password soon.",
+  msg_passcode_incorrect: "The verification code is incorrect. Please try again.",
 
   fail_authentication: "Your username or password is invalid. Please try again.",
   fail_unexisted_password: "The password does not exist in the system. Please contact the administrator.",
@@ -55,6 +56,7 @@ export const en = {
   placeholder_new_password: "Enter new password",
   placeholder_confirm_password: "Confirm Password",
 
+  forgot_password_message: "Enter your username or email address and we will send a code to your email address to reset password",
   button_send_code_to_reset_password: "Send a code to reset password",
   button_forgot_password: "Forgot password",
   button_reset_password: "Reset password",
@@ -65,6 +67,8 @@ export const en = {
   error_username: "Username is not valid",
   error_contact: "Email is not an valid email",
   success_sign_up: "You have been successfully registered, Please check email to comfirm account.",
+  success_activate_account: "Activate account successfully. You can click sigin in to navigate to sign in screen.",
+  fail_activate_account: "Error to activate account. Maybe it is expired to activate this account.",
   error_sign_up_username: "This username is registered already or the username format is invalid.",
   error_sign_up_contact: "This email is registered already or the email format is invalid.",
   fail_sign_up_password_decode: "Cannot decode password at server side. Please refresh browser and try again.",

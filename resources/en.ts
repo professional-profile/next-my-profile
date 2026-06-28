@@ -1,13 +1,16 @@
 export const en = {
-  home: "Home",
-  services: "Services",
   news: "News",
-  careers: "Careers",
-  contact: "Contact",
+  jobs: "Jobs",
+  profiles: "Profiles",
   about: "About",
-  milestones: "Milestones",
-  companies: "Companies",
-  leadership: "Leadership",
+
+  articles: "Articles",
+  saved_articles: "My saved articles",
+  my_articles: "My articles",
+  my_article: "My article",
+  followers: "Followers",
+  following: "Following",
+  overview: "Overview",
 
   menu: "Menu",
   sidebar: "Sidebar",
@@ -77,13 +80,11 @@ export const en = {
   error_ca_post_code: "{0} is not a valid Canada post code.",
   error_us_post_code: "{0} is not a valid US post code.",
 
-  error_enum: "{0} must be one of {1}.",
   error_min: "{0} must be greater than or equal to {1}.",
   error_max: "{0} must be less than or equal to {1}.",
   error_gt: "{0} must be greater than {1}.",
   error_lt: "{0} must be less than {1}.",
   error_equal: "{0} must be equal to {1}.",
-
   error_date: "{0} is not a valid date.",
   error_min_date: "{0} cannot be before {1}.",
   error_max_date: "{0} cannot be after {1}.",
@@ -92,7 +93,6 @@ export const en = {
   error_from: "{0} must be after {1}.",
   error_after_now: "{0} cannot be after now.",
   error_after_tomorrow: "{0} cannot be after tomorrow.",
-  error_after_yesterday: "{0} must be after yesterday.",
   error_after: "{0} cannot be after {1}.",
 
   error_400: "The server will not process the request due to the malformed request syntax.",
@@ -105,6 +105,7 @@ export const en = {
   error_network: "The network is down. Cannot connect to server.",
   error_response_body: "Error while processing the response body.",
   error_submit_failed: "Failed to submit data.",
+  error_ajax: "Cannot load page by ajax",
 
   error_500: "Internal Server error",
   error_502: "Bad Gateway",
@@ -132,14 +133,23 @@ export const en = {
 
   quantity: "Quantity",
   location: "Location",
-  skills: "Skills",
-  tags: "Tags",
-  skill_placeholder: "Enter a skill...",
-  tag_placeholder: "Enter a tag value...",
 
+  reviews: "Reviews",
+  ratings_and_reviews: "Ratings and Reviews",
+  write_a_review: "Write a review",
+  review_placeholder: "Share your experience",
+
+  sort_useful_desc: "Most Useful",
   sort_time_desc: "Most Recent",
   sort_time_asc: "Oldest",
+  sort_rate_desc: "Highest Rating",
+  sort_rate_asc: "Lowest Rating",
 
+  sort_desc_useful_desc: "Sort by Most Useful",
   sort_desc_time_desc: "Sort by Most Recent",
   sort_desc_time_asc: "Sort by Oldest",
+  sort_desc_rate_desc: "Sort by Highest Rating",
+  sort_desc_rate_asc: "Sort by Lowest Rating",
+  all: "All",
+  useful_review_description: "It is useful"
 }

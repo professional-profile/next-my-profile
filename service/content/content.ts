@@ -1,4 +1,4 @@
-import { Attributes } from "onecore"
+import { Attributes, Filter, TimeRange } from "onecore"
 
 export interface Content {
   id: string
@@ -8,6 +8,16 @@ export interface Content {
   publishedAt: Date
   tags?: string[]
   status?: string
+}
+
+export interface ContentFilter extends Filter {
+  id?: string
+  lang?: string
+  title?: string
+  body?: string
+  publishedAt?: TimeRange
+  tags?: string[]
+  status?: string[]
 }
 
 export interface ContentRepository {

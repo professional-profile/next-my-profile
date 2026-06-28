@@ -1,13 +1,16 @@
 export const vi = {
-  home: "Trang chủ",
-  services: "Dịch vụ",
   news: "Tin tức",
-  careers: "Việc làm",
-  contact: "Liên hệ",
-  about: "Về chúng tôi",
-  milestones: "Các cột mốc quan trọng",
-  companies: "Công ty thành viên",
-  leadership: "Khả năng lãnh đạo",
+  jobs: "Việc làm",
+  profiles: "Hồ sơ",
+  about: "Giới thiệu",
+
+  articles: "Bài viết",
+  saved_articles: "Bài viết đã lưu",
+  my_articles: "Bài viết của tôi",
+  my_article: "Bài viết của tôi",
+  followers: "Người theo dõi",
+  following: "Người được theo dõi",
+  overview: "Tổng quan",
 
   menu: "Menu",
   sidebar: "Sidebar",
@@ -20,9 +23,9 @@ export const vi = {
 
   search: "Tìm kiếm",
   submit: "Submit",
-  save: "Save",
-  cancel: "Cancel",
-  close: "Close",
+  save: "Lưu",
+  cancel: "Hủy",
+  close: "Đóng",
 
   msg_no_data_found: "No data found.",
   msg_search_result_sequence: "Items {0} to {1}.",
@@ -39,8 +42,8 @@ export const vi = {
   button_no: "No",
   button_home: "Home",
 
-  msg_confirm_save: "Bạn có chắc chắn là bạn muốn lưu không?",
-  msg_save_success: "Dữ liệu đã được lưu thành công.",
+  msg_confirm_save: "Bạn có chắc chắn là bạn muốn lưu?",
+  msg_save_success: "Lưu dữ liệu thành công.",
 
   error_undefined: "{0} không được phép tồn tại.",
   error_exp: "{0} không khớp với biểu thức chính quy.",
@@ -77,13 +80,11 @@ export const vi = {
   error_ca_post_code: "{0} is not a valid Canada post code.",
   error_us_post_code: "{0} is not a valid US post code.",
 
-  error_enum: "{0} phải là một trong các giá trị sau: {1}.",
   error_min: "{0} phải lớn hơn hoặc bằng {1}.",
   error_max: "{0} phải nhỏ hơn hoặc bằng {1}.",
-  error_gt: "{0} must be greater than {1}.",
-  error_lt: "{0} must be less than {1}.",
-  error_equal: "{0} must be equal to {1}.",
-
+  error_gt: "{0} phải lớn hơn {1}.",
+  error_lt: "{0} phải nhỏ hơn {1}.",
+  error_equal: "{0} phải bằng {1}.",
   error_date: "{0} không phải là ngày hợp lệ.",
   error_min_date: "{0} cannot be before {1}.",
   error_max_date: "{0} cannot be after {1}.",
@@ -92,7 +93,6 @@ export const vi = {
   error_from: "{0} must be after {1}.",
   error_after_now: "{0} cannot be after now.",
   error_after_tomorrow: "{0} cannot be after tomorrow.",
-  error_after_yesterday: "{0} must be after yesterday.",
   error_after: "{0} cannot be after {1}.",
 
   error_400: "The server will not process the request due to the malformed request syntax.",
@@ -105,6 +105,7 @@ export const vi = {
   error_network: "The network is down. Cannot connect to server.",
   error_response_body: "Error while processing the response body.",
   error_submit_failed: "Failed to submit data.",
+  error_ajax: "Không thể lấy trang với ajax",
 
   error_500: "Internal Server error",
   error_502: "Bad Gateway",
@@ -132,14 +133,23 @@ export const vi = {
 
   quantity: "Số lượng",
   location: "Vị trí",
-  skills: "Kỹ năng",
-  tags: "Thẻ",
-  skill_placeholder: "Nhập kỹ năng...",
-  tag_placeholder: "Nhập thẻ...",
 
+  reviews: "Đánh giá",
+  ratings_and_reviews: "Đánh giá và nhận xét",
+  write_a_review: "Đánh giá",
+  review_placeholder: "Viết nhận xét",
+
+  sort_useful_desc: "Có ích nhất",
   sort_time_desc: "Mới nhất",
   sort_time_asc: "Cũ nhất",
-  
+  sort_rate_desc: "Đánh giá cao nhất",
+  sort_rate_asc: "Đánh giá thấp nhất",
+
+  sort_desc_useful_desc: "Sắp xếp theo Có ích nhất",
   sort_desc_time_desc: "Sắp xếp theo Mới nhất",
   sort_desc_time_asc: "Sắp xếp theo Cũ nhất",
+  sort_desc_rate_desc: "Sắp xếp theo Đánh giá cao nhất",
+  sort_desc_rate_asc: "Sắp xếp theo Đánh giá thấp nhất",
+  all: "Tất cả",
+  useful_review_description: "Đánh giá này có ích"
 }

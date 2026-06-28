@@ -5,13 +5,7 @@ import { RateFilter, RatesRepository, Rate as SearchRate } from "../shared/rates
 import { Article, ArticleFilter, ArticleRepository, ArticleService } from "./article"
 
 export class ArticleUseCase extends SavedService<string, string> implements ArticleService {
-  constructor(
-    protected repository: ArticleRepository,
-    protected savedRepository: SavedRepository<string, string>,
-    protected max: number,
-    protected rateSummaryRepository: RateSummaryRepository,
-    protected ratesRepository: RatesRepository,
-  ) {
+  constructor(protected repository: ArticleRepository, protected savedRepository: SavedRepository<string, string>, protected max: number, protected rateSummaryRepository: RateSummaryRepository, protected ratesRepository: RatesRepository) {
     super(savedRepository, max)
   }
   search(filter: ArticleFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<Article>> {
@@ -25,7 +19,7 @@ export class ArticleUseCase extends SavedService<string, string> implements Arti
   }
   async getRateSummary(id: string): Promise<RateSummary> {
     let rateSummary = await this.rateSummaryRepository.load(id)
-    return rateSummary ? rateSummary : { ...zeroSummary, id }
+    return (rateSummary ? rateSummary : { ...zeroSummary, id })
   }
   searchRates(filter: RateFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<SearchRate>> {
     return this.ratesRepository.search(filter, limit, page, fields)

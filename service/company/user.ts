@@ -53,6 +53,5 @@ export function buildFollowerQuery(filter: UserFilter): Statement {
   if (orderBy) {
     query = query + ` order by ${orderBy}`
   }
-  console.log(filter.companyId + " " + query)
   return { query, params }
 }

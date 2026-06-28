@@ -7,12 +7,7 @@ import { Company, CompanyFilter, CompanyRepository, CompanyService } from "./com
 import { UserFilter, UserRepository } from "./user"
 
 export class CompanyUseCase extends FollowService<string> implements CompanyService {
-  constructor(
-    private repository: CompanyRepository,
-    protected followRepository: FollowRepository<string>,
-    protected articleRepository: ArticleRepository,
-    protected userRepository: UserRepository,
-  ) {
+  constructor(private repository: CompanyRepository, protected followRepository: FollowRepository<string>, protected articleRepository: ArticleRepository, protected userRepository: UserRepository) {
     super(followRepository)
   }
   search(filter: CompanyFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<Company>> {
