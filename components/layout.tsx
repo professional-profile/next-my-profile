@@ -1,16 +1,17 @@
-import { Nav } from "@components/nav";
-import { getMenu } from "@lib/menu";
-import { getResource } from "@resources";
-import { cloneArray, rebuildPath } from "web-one";
-import { ClientLayout } from "./client";
-import PageHeader from "./page-header";
+import { Nav } from "@components/nav"
+import { getCurrentUser } from "@lib/account"
+import { getMenu } from "@lib/menu"
+import { getResource } from "@resources"
+import { MenuItem } from "web-one"
+import { ClientLayout } from "./client"
+import PageHeader from "./page-header"
 
 export default async function LayoutPage({ lang, children }: { lang: string; children: React.ReactNode }) {
   const resource = getResource(lang)
-  const rootItems = await getMenu()
-  const items = lang !== "en" ? cloneArray(rootItems) : rootItems
-  if (lang !== "en") {
-    rebuildPath(items, lang)
+  let items: MenuItem[] = []
+  const account = await getCurrentUser()
+  if (account) {
+    items = await getMenu(account.id)
   }
   const pageHeader = <PageHeader resource={resource} />
   const nav = (
