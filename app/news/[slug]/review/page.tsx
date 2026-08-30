@@ -1,7 +1,97 @@
-export default function Review() {
-  return (
-    <div>
-      this is review page
-    </div>
-  )
+import { Error } from "@components/error"
+import RatingForm from "@components/rating-form"
+import { RatingSummary } from "@components/rating-summary"
+import ReviewFilter from "@components/review-filter"
+import SearchResultMessage from "@components/search-result-message"
+import { logger, toString } from "@lib/logger"
+import { getLang, getResource } from "@resources"
+import { getArticleService } from "@service/article"
+import { formatRate } from "@service/shared/rate"
+import { headers } from "next/headers"
+import Link from "next/link"
+
+export default async function ReviewPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
+  const query = await searchParams
+
+  const lang = getLang(query)
+  const resource = getResource(lang)
+
+  const selectedRate = typeof query.rate === "string" ? `${query.rate} ☆` : resource.all
+
+  const selectedSort = typeof query.sort === "string" ? query.sort : undefined
+
+  const { slug } = await params
+
+  const service = getArticleService()
+
+  const backToArticle = query.from === "company" && typeof query.company === "string" ? `/news/${slug}?from=company&company=${query.company}` : `/news/${slug}`
+
+  try {
+    const article = await service.load(slug)
+
+    if (!article) {
+      return <Error title={resource.error_404_title} message={resource.error_404_message} />
+    }
+
+    const summary = await service.getRateSummary(article.id)
+
+    const rate = formatRate(summary)
+
+    return (
+      <div>
+        <header>
+          <h2
+            style={{
+              fontSize: "20px",
+              marginTop: "0px",
+              marginLeft: "-15px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Link
+              href={backToArticle}
+              style={{
+                color: "#000",
+                textDecoration: "none",
+                fontSize: "34px",
+                fontWeight: 300,
+                marginRight: "6px",
+                lineHeight: 1,
+              }}
+            >
+              ‹
+            </Link>
+
+            <span>{resource.ratings_and_reviews}</span>
+          </h2>
+        </header>
+
+        <div className="main-body">
+          <div className="rating-summary-container">
+            <RatingSummary rate={rate} />
+          </div>
+
+          <RatingForm resource={resource} />
+
+          <ReviewFilter resource={resource} selectedRate={selectedRate} selectedSort={selectedSort} />
+
+          {/* Luôn hiện No data found */}
+          <SearchResultMessage from={0} to={0} total={0} page={1} size={12} noData={true} />
+        </div>
+      </div>
+    )
+  } catch (err) {
+    const headerList = await headers()
+
+    logger.error(`Error at ${headerList.get("x-current-path")}: ${toString(err)}`)
+
+    return <Error title={resource.error_500_title} message={resource.error_500_message} />
+  }
 }

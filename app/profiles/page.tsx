@@ -42,7 +42,7 @@ export default async function UsersForm({ searchParams }: { searchParams: Promis
           <Form id="usersForm" name="usersForm" className="form" noValidate={true} action="/users">
             <section className="row search-group">
               <Search
-                className="col s12 m6 l4 xl6 search-input" 
+                className="col s12 m6 l4 xl6 search-input"
                 limit={filter.limit}
                 limits={limits}
                 limitSearch={limitSearch}
@@ -58,12 +58,7 @@ export default async function UsersForm({ searchParams }: { searchParams: Promis
             <section className="row search-group advance-search" hidden>
               <label className="col s12 m6">
                 {resource.email}
-                <input
-                  type="text"
-                  id="email"
-                  name="email"
-                  defaultValue={filter.email}
-                />
+                <input type="text" id="email" name="email" defaultValue={filter.email} />
               </label>
             </section>
             {!isDefaultLang(lang) && <input type="hidden" id="lang" name="lang" value={lang} />}
@@ -72,12 +67,10 @@ export default async function UsersForm({ searchParams }: { searchParams: Promis
             {list.map((item, i) => {
               return (
                 <li key={i} className="col s12 m6 l6 xl3 img-item">
-                  <img
-                    src={item.imageURL}
-                    alt="user"
-                    className="round-border"
-                  />
-                  <Link href={`/users/${item.username}${langSearch}`} prefetch={false}>{item.displayName}</Link>
+                  <img src={item.imageURL} alt="user" className="round-border" />
+                  <Link href={`/users/${item.username}${langSearch}`} prefetch={false}>
+                    {item.displayName}
+                  </Link>
                   <p>
                     {item.location} {item.occupation}
                   </p>
