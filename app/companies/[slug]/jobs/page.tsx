@@ -3,19 +3,14 @@ import { Pagination } from "@components/pagination"
 import Search from "@components/search"
 import { Item, Sort } from "@components/sort"
 import { getCurrentUser } from "@lib/account"
-import { logger, toString } from "@lib/logger"
-import CompanyHeader from "../../_components/header"
-
+import { logError, logger } from "@lib/logger"
 import { defaultLimit, getDateFormat, getLang, getResource, limits, sort } from "@resources"
-
 import { getCompanyService } from "@service/company"
 import { getJobService, JobFilter } from "@service/job"
-
 import Form from "next/form"
-import { headers } from "next/headers"
 import Link from "next/link"
-
 import { buildFilter, formatDateTime, removeLimit, removePage, removeSort } from "web-one"
+import CompanyHeader from "../../_components/header"
 
 export default async function CompanyJobsPage({
   params,
@@ -24,9 +19,6 @@ export default async function CompanyJobsPage({
   params: Promise<{ slug: string }>
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const headerList = await headers()
-  const pathname = headerList.get("x-current-path")
-
   const { slug } = await params
   const query = await searchParams
 
@@ -44,6 +36,7 @@ export default async function CompanyJobsPage({
     const company = await companyService.load(slug, account?.id)
 
     if (!company) {
+      logger.warn(`Company not found: ${slug}`)
       return <Error title={resource.error_404_title} message={resource.error_404_message} />
     }
 
@@ -58,19 +51,8 @@ export default async function CompanyJobsPage({
     const sortSearch = removeSort(query)
 
     const prefix = sortSearch ? `?${sortSearch}&` : "?"
-
-    const sort1: Item = {
-      id: "timeDescSort",
-      value: `${prefix}${sort}=-publishedAt`,
-      text: resource.sort_time_desc,
-    }
-
-    const sort2: Item = {
-      id: "timeAscSort",
-      value: `${prefix}${sort}=publishedAt`,
-      text: resource.sort_time_asc,
-    }
-
+    const sort1: Item = { id: "timeDescSort", value: `${prefix}${sort}=-publishedAt`, text: resource.sort_time_desc }
+    const sort2: Item = { id: "timeAscSort", value: `${prefix}${sort}=publishedAt`, text: resource.sort_time_asc }
     const items = [sort1, sort2]
 
     const sortText = filter.sort === "publishedAt" ? resource.sort_desc_time_asc : resource.sort_desc_time_desc
@@ -119,8 +101,7 @@ export default async function CompanyJobsPage({
       </div>
     )
   } catch (err) {
-    logger.error(`Error at ${pathname}: ${toString(err)}`)
-
+    logError(err)
     return <Error title={resource.error_500_title} message={resource.error_500_message} />
   }
 }

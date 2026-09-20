@@ -5,16 +5,12 @@ import Search from "@components/search"
 import SearchResultMessage from "@components/search-result-message"
 import { Item, Sort } from "@components/sort"
 import { getCurrentUser } from "@lib/account"
-import { logger, toString } from "@lib/logger"
-import CompanyHeader from "../../_components/header"
-
+import { logError, logger } from "@lib/logger"
 import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, isDefaultLang, limits, sort } from "@resources"
-
 import { getCompanyService } from "@service/company"
-
 import Form from "next/form"
-import { headers } from "next/headers"
 import Link from "next/link"
+import CompanyHeader from "../../_components/header"
 
 import { buildFilter, datetimeToString, formatDateTime, removeLimit, removePage, removeSort } from "web-one"
 
@@ -25,9 +21,6 @@ export default async function CompanyArticlesPage({
   params: Promise<{ slug: string }>
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const headerList = await headers()
-  const pathname = headerList.get("x-current-path")
-
   const { slug } = await params
   const query = await searchParams
 
@@ -44,6 +37,7 @@ export default async function CompanyArticlesPage({
     const company = await service.load(slug, account?.id)
 
     if (!company) {
+      logger.warn(`Company not found: ${slug}`)
       return <Error title={resource.error_404_title} message={resource.error_404_message} />
     }
 
@@ -61,34 +55,20 @@ export default async function CompanyArticlesPage({
     const sortSearch = removeSort(query)
 
     const prefix = sortSearch ? `?${sortSearch}&` : "?"
-
-    const sort1: Item = {
-      id: "timeDescSort",
-      value: `${prefix}${sort}=-publishedAt`,
-      text: resource.sort_time_desc,
-    }
-
-    const sort2: Item = {
-      id: "timeAscSort",
-      value: `${prefix}${sort}=publishedAt`,
-      text: resource.sort_time_asc,
-    }
+    const sort1: Item = { id: "timeDescSort", value: `${prefix}${sort}=-publishedAt`, text: resource.sort_time_desc }
+    const sort2: Item = { id: "timeAscSort", value: `${prefix}${sort}=publishedAt`, text: resource.sort_time_asc }
+    const items = [sort1, sort2]
 
     const sortText = filter.sort === "publishedAt" ? resource.sort_desc_time_asc : resource.sort_desc_time_desc
-
-    const items = [sort1, sort2]
 
     return (
       <div className="profile">
         <CompanyHeader company={company} activeTab="articles" />
-
         <div className="profile-body">
           <SearchResultMessage page={filter.page} limit={filter.limit} length={list.length} total={total} eventName="company-articles-click" />
-
           <header>
             <h3>{resource.articles}</h3>
           </header>
-
           <Form id="articlesForm" name="articlesForm" className="form" noValidate action={`/companies/${company.slug}/articles`}>
             <section className="row search-group">
               <Search
@@ -102,16 +82,12 @@ export default async function CompanyArticlesPage({
                 maxLength={40}
                 placeholder="Search"
               />
-
               <Sort id="sortBtn" className="col s12 m6 l4 xl3 sort" text={sortText} items={items} dropDownId="sortDropdown" />
-
               <Pagination className="col s12 l4 xl3" total={totalCount} size={filter.limit} page={filter.page} search={search} />
             </section>
-
             <section className="row search-group advance-search" hidden>
               <label className="col s12 m6">
                 {resource.published_at_from}
-
                 <input
                   type="datetime-local"
                   step=".010"
@@ -121,10 +97,8 @@ export default async function CompanyArticlesPage({
                   defaultValue={datetimeToString(filter.publishedAt?.min)}
                 />
               </label>
-
               <label className="col s12 m6">
                 {resource.published_at_to}
-
                 <input
                   type="datetime-local"
                   step=".010"
@@ -135,10 +109,8 @@ export default async function CompanyArticlesPage({
                 />
               </label>
             </section>
-
             {!isDefaultLang(lang) && <input type="hidden" id="lang" name="lang" value={lang} />}
           </Form>
-
           {list.length === 0 ? (
             <div>{/* SearchResultMessage sẽ hiện "No data found." */}</div>
           ) : (
@@ -156,7 +128,6 @@ export default async function CompanyArticlesPage({
                     <Link href={`/news/${item.slug}${langSearch}${langSearch ? "&" : "?"}from=company&company=${company.slug}`} prefetch={false}>
                       {item.title}
                     </Link>
-
                     <div
                       style={{
                         display: "flex",
@@ -167,10 +138,8 @@ export default async function CompanyArticlesPage({
                       }}
                     >
                       <p style={{ margin: 0 }}>{formatDateTime(item.publishedAt, dateFormat)}</p>
-
                       <ArticleSaveButton slug={item.slug} saved={Boolean(item.savedAt)} />
                     </div>
-
                     <p>{item.description}</p>
                   </section>
                 </li>
@@ -181,8 +150,7 @@ export default async function CompanyArticlesPage({
       </div>
     )
   } catch (err) {
-    logger.error(`Error at ${pathname}: ${toString(err)}`)
-
+    logError(err)
     return <Error title={resource.error_500_title} message={resource.error_500_message} />
   }
 }

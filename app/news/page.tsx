@@ -100,7 +100,6 @@ export default async function News({ searchParams }: { searchParams: Promise<Rec
                   <Link href={`/news/${item.slug}${langSearch}`} prefetch={false}>
                     {item.title}
                   </Link>
-
                   <p
                     style={{
                       textAlign: "left",

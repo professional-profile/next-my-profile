@@ -65,12 +65,9 @@ export default async function CompaniesForm({ searchParams }: { searchParams: Pr
                 <Link href={`/companies/${item.slug}${langSearch}`} prefetch={false}>
                   {item.name}
                 </Link>
-
                 <button type="button" className="btn-detail" />
-
                 <p className="center-align-items">
                   {item.industry}
-
                   <FollowButton slug={item.slug} followed={Boolean(item.followingAt || item.followedAt)} />
                 </p>
               </li>

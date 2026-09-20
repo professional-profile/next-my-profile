@@ -7,17 +7,13 @@ interface Props {
   followed: boolean
 }
 
-export default function CompanyFollowButton({
-  slug,
-  followed,
-}: Props) {
+export default function FollowButton({ slug, followed }: Props) {
   const [isFollowed, setIsFollowed] = useState(followed)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState("")
 
   const showMessage = (text: string) => {
     setMessage(text)
-
     setTimeout(() => {
       setMessage("")
     }, 2000)
@@ -31,38 +27,24 @@ export default function CompanyFollowButton({
     setLoading(true)
 
     try {
-      const response = await fetch(
-        `/api/companies/${slug}/follow`,
-        {
-          method: "POST",
-        }
-      )
+      const response = await fetch(`/api/companies/${slug}/follow`, {
+        method: "POST",
+      })
 
       const text = await response.text()
 
-      console.log(
-        "COMPANY FOLLOW STATUS:",
-        response.status
-      )
+      console.log("COMPANY FOLLOW STATUS:", response.status)
 
-      console.log(
-        "COMPANY FOLLOW RESPONSE:",
-        text
-      )
+      console.log("COMPANY FOLLOW RESPONSE:", text)
 
       if (!response.ok) {
-        throw new Error(
-          `Follow failed: ${response.status}`
-        )
+        throw new Error(`Follow failed: ${response.status}`)
       }
 
       setIsFollowed(true)
       showMessage("Follow successfully")
     } catch (error) {
-      console.error(
-        "COMPANY FOLLOW ERROR:",
-        error
-      )
+      console.error("COMPANY FOLLOW ERROR:", error)
     } finally {
       setLoading(false)
     }
@@ -76,38 +58,24 @@ export default function CompanyFollowButton({
     setLoading(true)
 
     try {
-      const response = await fetch(
-        `/api/companies/${slug}/follow`,
-        {
-          method: "DELETE",
-        }
-      )
+      const response = await fetch(`/api/companies/${slug}/follow`, {
+        method: "DELETE",
+      })
 
       const text = await response.text()
 
-      console.log(
-        "COMPANY UNFOLLOW STATUS:",
-        response.status
-      )
+      console.log("COMPANY UNFOLLOW STATUS:", response.status)
 
-      console.log(
-        "COMPANY UNFOLLOW RESPONSE:",
-        text
-      )
+      console.log("COMPANY UNFOLLOW RESPONSE:", text)
 
       if (!response.ok) {
-        throw new Error(
-          `Unfollow failed: ${response.status}`
-        )
+        throw new Error(`Unfollow failed: ${response.status}`)
       }
 
       setIsFollowed(false)
       showMessage("Unfollow successfully")
     } catch (error) {
-      console.error(
-        "COMPANY UNFOLLOW ERROR:",
-        error
-      )
+      console.error("COMPANY UNFOLLOW ERROR:", error)
     } finally {
       setLoading(false)
     }
@@ -136,17 +104,9 @@ export default function CompanyFollowButton({
           display: "inline-flex",
           alignItems: "center",
         }}
-        aria-label={
-          isFollowed
-            ? "Unfollow company"
-            : "Follow company"
-        }
+        aria-label={isFollowed ? "Unfollow company" : "Follow company"}
       >
-        <i className="material-icons">
-          {isFollowed
-            ? "bookmark"
-            : "bookmark_border"}
-        </i>
+        <i className="material-icons">{isFollowed ? "bookmark" : "bookmark_border"}</i>
       </button>
 
       {message && (

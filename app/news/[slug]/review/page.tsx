@@ -3,11 +3,10 @@ import RatingForm from "@components/rating-form"
 import { RatingSummary } from "@components/rating-summary"
 import ReviewFilter from "@components/review-filter"
 import SearchResultMessage from "@components/search-result-message"
-import { logger, toString } from "@lib/logger"
+import { logError } from "@lib/logger"
 import { getLang, getResource } from "@resources"
 import { getArticleService } from "@service/article"
 import { formatRate } from "@service/shared/rate"
-import { headers } from "next/headers"
 import Link from "next/link"
 
 export default async function ReviewPage({
@@ -84,10 +83,7 @@ export default async function ReviewPage({
       </div>
     )
   } catch (err) {
-    const headerList = await headers()
-
-    logger.error(`Error at ${headerList.get("x-current-path")}: ${toString(err)}`)
-
+    logError(err)
     return <Error title={resource.error_500_title} message={resource.error_500_message} />
   }
 }

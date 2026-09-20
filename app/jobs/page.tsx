@@ -2,11 +2,10 @@ import { Error } from "@components/error"
 import { Pagination } from "@components/pagination"
 import Search from "@components/search"
 import { Item, Sort } from "@components/sort"
-import { logger, toString } from "@lib/logger"
+import { logError } from "@lib/logger"
 import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, isDefaultLang, limits, sort } from "@resources"
 import { getJobService, JobFilter } from "@service/job"
 import Form from "next/form"
-import { headers } from "next/headers"
 import Link from "next/link"
 import { buildFilter, datetimeToString, formatDateTime, removeLimit, removePage, removeSort } from "web-one"
 
@@ -36,13 +35,13 @@ export default async function Jobs({ searchParams }: { searchParams: Promise<Rec
     return (
       <div>
         <header>
-          <h2>{resource.news}</h2>
+          <h2>{resource.jobs}</h2>
         </header>
         <div className="main-body">
           <Form id="jobsForm" name="jobsForm" className="form" noValidate={true} action="/jobs">
             <section className="row search-group">
               <Search
-                className="col s12 m6 l4 xl6 search-input" 
+                className="col s12 m6 l3 search-input"
                 limit={filter.limit}
                 limits={limits}
                 limitSearch={limitSearch}
@@ -52,8 +51,8 @@ export default async function Jobs({ searchParams }: { searchParams: Promise<Rec
                 maxLength={40}
                 placeholder={resource.keyword}
               />
-              <Sort id="sortBtn" className="col s12 m6 l4 xl3 sort" text={sortText} items={items} dropDownId="sortDropdown" />
-              <Pagination className="col s12 l4 xl3" total={total} size={filter.limit} page={filter.page} search={search} />
+              <Sort id="sortBtn" className="col s12 m6 l3 sort" text={sortText} items={items} dropDownId="sortDropdown" />
+              <Pagination className="col s12 m12 l6" total={total} size={filter.limit} page={filter.page} search={search} />
             </section>
             <section className="row search-group advance-search" hidden>
               <label className="col s12 m6">
@@ -84,8 +83,10 @@ export default async function Jobs({ searchParams }: { searchParams: Promise<Rec
           <ul className="row list card-grid">
             {list.map((item, i) => {
               return (
-                <li key={i} className="col s12 m6 l4 xl3 list-item">
-                  <Link href={`/jobs/${item.slug}${langSearch}`} prefetch={false}>{item.title}</Link>
+                <li key={i} className="col s12 m6 list-item">
+                  <Link href={`/jobs/${item.slug}${langSearch}`} prefetch={false}>
+                    {item.title}
+                  </Link>
                   <p>
                     {item.location} {item.quantity}
                     <span>{formatDateTime(item.publishedAt, dateFormat)}</span>
@@ -98,9 +99,7 @@ export default async function Jobs({ searchParams }: { searchParams: Promise<Rec
       </div>
     )
   } catch (err) {
-    const headerList = await headers()
-    const pathname = headerList.get("x-current-path")
-    logger.error(`Error at ${pathname}: ${toString(err)}`)
+    logError(err)
     return <Error title={resource.error_500_title} message={resource.error_500_message} />
   }
 }

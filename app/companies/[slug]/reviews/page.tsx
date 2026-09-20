@@ -1,16 +1,12 @@
 import { Error } from "@components/error"
 import { getCurrentUser } from "@lib/account"
-import { logger, toString } from "@lib/logger"
+import { logError, logger } from "@lib/logger"
 import { getResource } from "@resources"
 import { getCompanyService } from "@service/company"
-import { headers } from "next/headers"
 import CompanyHeader from "../../_components/header"
 import CompanyReviews from "../../_components/reviews"
 
 export default async function CompanyReviewsPage({ params }: { params: Promise<{ slug: string }> }) {
-  const headerList = await headers()
-  const pathname = headerList.get("x-current-path")
-
   const resource = getResource("en")
   const { slug } = await params
 
@@ -21,6 +17,7 @@ export default async function CompanyReviewsPage({ params }: { params: Promise<{
     const company = await service.load(slug, account?.id)
 
     if (!company) {
+      logger.warn(`Company not found: ${slug}`)
       return <Error title={resource.error_404_title} message={resource.error_404_message} />
     }
 
@@ -31,7 +28,7 @@ export default async function CompanyReviewsPage({ params }: { params: Promise<{
       </div>
     )
   } catch (err) {
-    logger.error(`Error at ${pathname}: ${toString(err)}`)
+    logError(err)
     return <Error title={resource.error_500_title} message={resource.error_500_message} />
   }
 }

@@ -4,17 +4,12 @@ import Search from "@components/search"
 import SearchResultMessage from "@components/search-result-message"
 import { Item, Sort } from "@components/sort"
 import { getCurrentUser } from "@lib/account"
-import { logger, toString } from "@lib/logger"
-import CompanyHeader from "../../_components/header"
-
+import { logError, logger } from "@lib/logger"
 import { defaultLimit, getLang, getResource, limits, sort } from "@resources"
-
 import { getCompanyService } from "@service/company"
-
 import Form from "next/form"
-import { headers } from "next/headers"
-
 import { buildFilter, removeLimit, removePage, removeSort } from "web-one"
+import CompanyHeader from "../../_components/header"
 
 export default async function CompanyFollowersPage({
   params,
@@ -23,9 +18,6 @@ export default async function CompanyFollowersPage({
   params: Promise<{ slug: string }>
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const headerList = await headers()
-  const pathname = headerList.get("x-current-path")
-
   const { slug } = await params
   const query = await searchParams
 
@@ -40,8 +32,8 @@ export default async function CompanyFollowersPage({
     const account = await getCurrentUser()
 
     const company = await service.load(slug, account?.id)
-
     if (!company) {
+      logger.warn(`Company not found: ${slug}`)
       return <Error title={resource.error_404_title} message={resource.error_404_message} />
     }
 
@@ -56,31 +48,10 @@ export default async function CompanyFollowersPage({
     const sortSearch = removeSort(query)
 
     const prefix = sortSearch ? `?${sortSearch}&` : "?"
-
-    const sort1: Item = {
-      id: "timeDescSort",
-      value: `${prefix}${sort}=-followedAt`,
-      text: "Most Recent",
-    }
-
-    const sort2: Item = {
-      id: "timeAscSort",
-      value: `${prefix}${sort}=followedAt`,
-      text: "Oldest",
-    }
-
-    const sort3: Item = {
-      id: "nameSort",
-      value: `${prefix}${sort}=displayName`,
-      text: "Name",
-    }
-
-    const sort4: Item = {
-      id: "nameRevertSort",
-      value: `${prefix}${sort}=-displayName`,
-      text: "Name Revert",
-    }
-
+    const sort1: Item = { id: "timeDescSort", value: `${prefix}${sort}=-followedAt`, text: "Most Recent" }
+    const sort2: Item = { id: "timeAscSort", value: `${prefix}${sort}=followedAt`, text: "Oldest" }
+    const sort3: Item = { id: "nameSort", value: `${prefix}${sort}=displayName`, text: "Name" }
+    const sort4: Item = { id: "nameRevertSort", value: `${prefix}${sort}=-displayName`, text: "Name Revert" }
     const items = [sort1, sort2, sort3, sort4]
 
     const sortText =
@@ -89,14 +60,11 @@ export default async function CompanyFollowersPage({
     return (
       <div className="profile">
         <CompanyHeader company={company} activeTab="followers" />
-
         <div className="profile-body">
           <SearchResultMessage page={filter.page} limit={filter.limit} length={list.length} total={total} eventName="company-followers-click" />
-
           <header>
             <h3>{resource.followers}</h3>
           </header>
-
           <Form id="followersForm" name="followersForm" className="form" noValidate action={`/companies/${company.slug}/followers`}>
             <section className="row search-group">
               <Search
@@ -110,9 +78,7 @@ export default async function CompanyFollowersPage({
                 maxLength={40}
                 placeholder={resource.search ?? "Search"}
               />
-
               <Sort id="sortBtn" className="col s12 m6 l4 xl3 sort" text={sortText} items={items} dropDownId="sortDropdown" />
-
               <Pagination className="col s12 l4 xl3" total={totalCount} size={filter.limit} page={filter.page} search={search} />
             </section>
           </Form>
@@ -120,8 +86,7 @@ export default async function CompanyFollowersPage({
       </div>
     )
   } catch (err) {
-    logger.error(`Error at ${pathname}: ${toString(err)}`)
-
+    logError(err)
     return <Error title={resource.error_500_title} message={resource.error_500_message} />
   }
 }
