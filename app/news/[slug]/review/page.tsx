@@ -77,13 +77,9 @@ export default async function ReviewPage({
           <div className="rating-summary-container">
             <RatingSummary rate={rate} />
           </div>
-
           <RatingForm resource={resource} />
-
           <ReviewFilter resource={resource} selectedRate={selectedRate} selectedSort={selectedSort} />
-
-          {/* Luôn hiện No data found */}
-          <SearchResultMessage from={0} to={0} total={0} page={1} size={12} noData={true} />
+          <SearchResultMessage total={0} page={1} limit={12} length={12} />
         </div>
       </div>
     )

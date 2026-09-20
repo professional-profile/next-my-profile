@@ -4,16 +4,19 @@ import { usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
 interface Props {
-  from: number
-  to: number
   total?: number
   page?: number
-  size?: number
-  noData?: boolean
+  limit: number
+  length: number
   eventName?: string
 }
 
-export default function SearchResultMessage({ from, to, total, page = 1, size = 12, noData = false, eventName }: Props) {
+export default function SearchResultMessage({ length = 0, total, page = 1, limit = 12, eventName }: Props) {
+  if (page == null || page < 1) {
+    page = 1
+  }
+  const from = (page - 1) * limit + 1
+  const to = from + length - 1
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -48,7 +51,7 @@ export default function SearchResultMessage({ from, to, total, page = 1, size = 
     }
 
     showMessage()
-  }, [pathname, searchParams.toString(), from, to, total, page, size, noData])
+  }, [pathname, searchParams.toString(), from, to, total, page, limit])
 
   useEffect(() => {
     if (!eventName) {
@@ -104,10 +107,10 @@ export default function SearchResultMessage({ from, to, total, page = 1, size = 
 
   let message = ""
 
-  if (noData) {
+  if (length === 0) {
     message = "No data found."
   } else if (typeof total === "number" && total > 0) {
-    const totalPages = Math.ceil(total / size)
+    const totalPages = Math.ceil(total / limit)
 
     message = `Items ${from} to ${to} of ${total}. ` + `Page ${page} of ${totalPages}.`
   } else {
