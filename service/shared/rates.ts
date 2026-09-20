@@ -1,6 +1,6 @@
-import { Attributes, DB, Filter, SearchResult, Statement } from "onecore";
-import { param } from "pg-extension";
-import { buildSort, SearchRepository } from "sql-core";
+import { Attributes, DB, Filter, SearchResult, Statement } from "onecore"
+import { param } from "postgres-kit"
+import { buildSort, SearchRepository } from "sql-core"
 
 export interface Rate {
   rateId: string
@@ -27,39 +27,39 @@ export const rateModel: Attributes = {
   rateId: {
     column: "rate_id",
     key: true,
-    required: true
+    required: true,
   },
   id: {
     required: true,
-    operator: '='
+    operator: "=",
   },
   author: {
     required: true,
-    operator: '='
+    operator: "=",
   },
   rate: {
-    type: 'number',
+    type: "number",
   },
   time: {
-    type: 'datetime',
+    type: "datetime",
   },
   review: {
     q: true,
   },
   usefulCount: {
     column: "useful_count",
-    type: 'integer'
+    type: "integer",
   },
   replyCount: {
     column: "reply_count",
-    type: 'integer'
+    type: "integer",
   },
   anonymous: {
-    type: 'boolean',
+    type: "boolean",
   },
   displayName: {
     column: "display_name",
-  }
+  },
 }
 
 export function buildQuery(filter: RateFilter): Statement {

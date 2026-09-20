@@ -1,5 +1,5 @@
 import { DB, Filter, SearchResult, Statement, TimeRange } from "onecore"
-import { param } from "pg-extension"
+import { param } from "postgres-kit"
 import { buildSort, SearchRepository } from "sql-core"
 import { Article, articleModel } from "../shared/article"
 
