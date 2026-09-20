@@ -10,7 +10,7 @@ import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, isDef
 import { getCompanyService } from "@service/company"
 import Form from "next/form"
 import Link from "next/link"
-import CompanyHeader from "../../_components/header"
+import CompanyHeader from "../header"
 
 import { buildFilter, datetimeToString, formatDateTime, removeLimit, removePage, removeSort } from "web-one"
 

@@ -9,7 +9,7 @@ import { defaultLimit, getLang, getResource, limits, sort } from "@resources"
 import { getCompanyService } from "@service/company"
 import Form from "next/form"
 import { buildFilter, removeLimit, removePage, removeSort } from "web-one"
-import CompanyHeader from "../../_components/header"
+import CompanyHeader from "../header"
 
 export default async function CompanyFollowersPage({
   params,

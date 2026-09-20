@@ -9,7 +9,7 @@ import { CompanyFilter, getCompanyService } from "@service/company"
 import Form from "next/form"
 import Link from "next/link"
 import { buildFilter, removeLimit, removePage } from "web-one"
-import FollowButton from "./_components/follow-button"
+import FollowButton from "./follow-button"
 
 export default async function CompaniesForm({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const query = await searchParams

@@ -3,8 +3,8 @@ import { getCurrentUser } from "@lib/account"
 import { logError, logger } from "@lib/logger"
 import { getResource } from "@resources"
 import { getCompanyService } from "@service/company"
-import CompanyHeader from "../../_components/header"
-import CompanyReviews from "../../_components/reviews"
+import CompanyHeader from "../header"
+import CompanyReviews from "../reviews"
 
 export default async function CompanyReviewsPage({ params }: { params: Promise<{ slug: string }> }) {
   const resource = getResource("en")

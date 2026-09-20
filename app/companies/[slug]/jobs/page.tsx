@@ -10,7 +10,7 @@ import { getJobService, JobFilter } from "@service/job"
 import Form from "next/form"
 import Link from "next/link"
 import { buildFilter, formatDateTime, removeLimit, removePage, removeSort } from "web-one"
-import CompanyHeader from "../../_components/header"
+import CompanyHeader from "../header"
 
 export default async function CompanyJobsPage({
   params,
