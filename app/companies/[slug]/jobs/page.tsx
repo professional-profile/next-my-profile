@@ -1,10 +1,10 @@
-import CompanyHeader from "@components/company/header"
 import { Error } from "@components/error"
 import { Pagination } from "@components/pagination"
 import Search from "@components/search"
 import { Item, Sort } from "@components/sort"
 import { getCurrentUser } from "@lib/account"
 import { logger, toString } from "@lib/logger"
+import CompanyHeader from "../../_components/header"
 
 import { defaultLimit, getDateFormat, getLang, getResource, limits, sort } from "@resources"
 

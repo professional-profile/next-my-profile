@@ -1,6 +1,6 @@
-import CompanyHeader from "@components/company/header"
-import CompanyOverview from "@components/company/overview"
 import { Error } from "@components/error"
+import CompanyHeader from "../_components/header"
+import CompanyOverview from "../_components/overview"
 
 import { getCurrentUser } from "@lib/account"
 import { logger, toString } from "@lib/logger"
@@ -10,11 +10,7 @@ import { getCompanyService } from "@service/company"
 
 import { headers } from "next/headers"
 
-export default async function CompanyDetail({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
+export default async function CompanyDetail({ params }: { params: Promise<{ slug: string }> }) {
   const headerList = await headers()
   const pathname = headerList.get("x-current-path")
 
@@ -26,26 +22,15 @@ export default async function CompanyDetail({
   try {
     const account = await getCurrentUser()
 
-    const company = await service.load(
-      slug,
-      account?.id
-    )
+    const company = await service.load(slug, account?.id)
 
     if (!company) {
-      return (
-        <Error
-          title={resource.error_404_title}
-          message={resource.error_404_message}
-        />
-      )
+      return <Error title={resource.error_404_title} message={resource.error_404_message} />
     }
 
     return (
       <div className="profile">
-        <CompanyHeader
-          company={company}
-          activeTab="overview"
-        />
+        <CompanyHeader company={company} activeTab="overview" />
 
         <div className="profile-body">
           <CompanyOverview company={company} />
@@ -53,15 +38,8 @@ export default async function CompanyDetail({
       </div>
     )
   } catch (err) {
-    logger.error(
-      `Error at ${pathname}: ${toString(err)}`
-    )
+    logger.error(`Error at ${pathname}: ${toString(err)}`)
 
-    return (
-      <Error
-        title={resource.error_500_title}
-        message={resource.error_500_message}
-      />
-    )
+    return <Error title={resource.error_500_title} message={resource.error_500_message} />
   }
 }

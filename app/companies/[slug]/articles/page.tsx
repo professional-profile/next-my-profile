@@ -1,5 +1,4 @@
 import ArticleSaveButton from "@components/article-save-button"
-import CompanyHeader from "@components/company/header"
 import { Error } from "@components/error"
 import { Pagination } from "@components/pagination"
 import Search from "@components/search"
@@ -7,6 +6,7 @@ import SearchResultMessage from "@components/search-result-message"
 import { Item, Sort } from "@components/sort"
 import { getCurrentUser } from "@lib/account"
 import { logger, toString } from "@lib/logger"
+import CompanyHeader from "../../_components/header"
 
 import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, isDefaultLang, limits, sort } from "@resources"
 

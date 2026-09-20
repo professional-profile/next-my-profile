@@ -1,4 +1,3 @@
-import CompanyFollowButton from "@components/company-follow-button"
 import { Error } from "@components/error"
 import { Pagination } from "@components/pagination"
 import Search from "@components/search"
@@ -10,6 +9,7 @@ import { CompanyFilter, getCompanyService } from "@service/company"
 import Form from "next/form"
 import Link from "next/link"
 import { buildFilter, removeLimit, removePage } from "web-one"
+import FollowButton from "./_components/follow-button"
 
 export default async function CompaniesForm({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const query = await searchParams
@@ -71,7 +71,7 @@ export default async function CompaniesForm({ searchParams }: { searchParams: Pr
                 <p className="center-align-items">
                   {item.industry}
 
-                  <CompanyFollowButton slug={item.slug} followed={Boolean(item.followingAt || item.followedAt)} />
+                  <FollowButton slug={item.slug} followed={Boolean(item.followingAt || item.followedAt)} />
                 </p>
               </li>
             ))}
