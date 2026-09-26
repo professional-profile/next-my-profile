@@ -1,32 +1,35 @@
-import ArticleSaveButton from "@components/article-save-button"
 import { Error } from "@components/error"
 import { Pagination } from "@components/pagination"
+import SaveButton from "@components/save-button"
 import Search from "@components/search"
 import SearchResultMessage from "@components/search-result-message"
 import { Item, Sort } from "@components/sort"
+import { getCurrentUser } from "@lib/account"
 import { logError } from "@lib/logger"
 import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, isDefaultLang, limits, sort } from "@resources"
-import { ArticleFilter, getArticleService } from "@service/article"
+import { ArticleFilter, getArticleService, Published } from "@service/article"
 import Form from "next/form"
 import Link from "next/link"
 import { buildFilter, datetimeToString, formatDateTime, removeLimit, removePage, removeSort } from "web-one"
 
 export default async function News({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const account = await getCurrentUser()
   const query = await searchParams
-  const lang = getLang(query)
+  const lang = getLang(query, account?.language)
   const resource = getResource(lang)
   const filter = buildFilter<ArticleFilter>(query, defaultLimit, ["publishedAt"])
   if (!filter.sort) {
     filter.sort = "-publishedAt"
   }
+  filter.status = Published
+  filter.userId = account?.id
 
   const service = getArticleService()
-
   try {
     const { list, total } = await service.search(filter, filter.limit, filter.page)
 
     const dateFormat = getDateFormat(lang)
-    const langSearch = getLangSearch(lang)
+    const langSearch = getLangSearch(lang, account?.language)
 
     const search = removePage(query)
     const limitSearch = removeLimit(query)
@@ -35,8 +38,8 @@ export default async function News({ searchParams }: { searchParams: Promise<Rec
     const prefix = sortSearch ? `?${sortSearch}&` : "?"
     const sort1: Item = { id: "timeDescSort", value: `${prefix}${sort}=-publishedAt`, text: resource.sort_time_desc }
     const sort2: Item = { id: "timeAscSort", value: `${prefix}${sort}=publishedAt`, text: resource.sort_time_asc }
-    const sortText = filter.sort == "publishedAt" ? resource.sort_desc_time_asc : resource.sort_desc_time_desc
     const items = [sort1, sort2]
+    const sortText = filter.sort == "publishedAt" ? resource.sort_desc_time_asc : resource.sort_desc_time_desc
 
     return (
       <div>
@@ -115,7 +118,7 @@ export default async function News({ searchParams }: { searchParams: Promise<Rec
                         top: "3px",
                       }}
                     >
-                      <ArticleSaveButton slug={item.slug} saved={!!item.savedAt} />
+                      <SaveButton id={item.id} saved={item.savedAt != null} />
                     </span>
                   </p>
                   <p>{item.description}</p>

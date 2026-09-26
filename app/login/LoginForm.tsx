@@ -17,7 +17,7 @@ export default function LoginForm({ lang, resource }: Props) {
 
   const initialState: LoginState = {
     success: false,
-    lang
+    lang,
   }
   const [state, formAction, pending] = useActionState(loginAction, initialState)
   const [clientError, setClientError] = useState("")
@@ -27,11 +27,7 @@ export default function LoginForm({ lang, resource }: Props) {
   useEffect(() => {
     if (state.success) {
       // ✅ client-side redirect only on success
-      if (state.lang === "vi") {
-        router.push("/vi/")
-      } else {
-        router.push("/")
-      }
+      router.push("/news")
     }
   }, [state.success, router])
 
@@ -62,16 +58,10 @@ export default function LoginForm({ lang, resource }: Props) {
         <div className="view-body row">
           <img className="logo" src="/logo192.png" alt="logo" />
           <h1>{resource.signin}</h1>
-          {(clientError || state.message) && (<div className="message alert-error">{clientError || state.message}</div>)}
+          {(clientError || state.message) && <div className="message alert-error">{clientError || state.message}</div>}
           <label className="col s12">
             {resource.username}
-            <input
-              name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              maxLength={100}
-              placeholder={resource.placeholder_username}
-            />
+            <input name="username" value={username} onChange={(e) => setUsername(e.target.value)} maxLength={100} placeholder={resource.placeholder_username} />
           </label>
           <label className="col s12">
             {resource.password}

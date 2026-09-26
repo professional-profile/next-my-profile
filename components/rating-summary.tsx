@@ -1,50 +1,70 @@
-import { RateFormat } from "@service/shared/rate"
 import React from "react"
 
+export interface Rate {
+  rate: number
+  rate1: number
+  rate2: number
+  rate3: number
+  rate4: number
+  rate5: number
+}
 type Props = {
-  rate: RateFormat
+  rate: Rate
+}
+
+interface RateFormat {
+  rate: string
+  count: number
+  rate1: string
+  rate2: string
+  rate3: string
+  rate4: string
+  rate5: string
+}
+function formatRate(r: Rate): RateFormat {
+  const rCount = r.rate1 + r.rate2 + r.rate3 + r.rate4 + r.rate5
+  const score = r.rate1 + r.rate2 * 2 + r.rate3 * 3 + r.rate4 * 4 + r.rate5 * 5
+  const count = rCount > 0 ? rCount : 1
+  const rate = score / count
+  const srate = rate.toFixed(1)
+  return {
+    rate: srate,
+    count: rCount,
+    rate1: `${((r.rate1 * 100) / count).toFixed(0)}%`,
+    rate2: `${((r.rate2 * 100) / count).toFixed(0)}%`,
+    rate3: `${((r.rate3 * 100) / count).toFixed(0)}%`,
+    rate4: `${((r.rate4 * 100) / count).toFixed(0)}%`,
+    rate5: `${((r.rate5 * 100) / count).toFixed(0)}%`,
+  }
 }
 
 export function RatingSummary({ rate }: Props) {
-  const getWidth = (style: string) => {
-    const match = style?.match(/width:\s*(\d+)%/)
-    return match ? `${match[1]}%` : "0%"
-  }
+  const r = formatRate(rate)
 
-  const renderStar = (star?: string) => {
-    if (!star) return <span className="star"></span>
-
-    if (star.includes("partial-star")) {
-      const match = star.match(/--w:\s*(\d+)%/)
-      const width = match ? `${match[1]}%` : "50%"
-
-      return <span className="star partial-star" style={{ "--w": width } as React.CSSProperties} />
-    }
-
-    if (star.includes("empty-star")) {
-      return <span className="star empty-star"></span>
-    }
-
-    return <span className="star"></span>
+  const renderStar = (i: number, rate: number) => {
+    if (rate > i) return <span className="star"></span>
+    if (rate <= i - 1) return <span className="star empty-star"></span>
+    const width = ((rate - i + 1) * 100).toFixed(0) + "%"
+    return <span className="star partial-star" style={{ "--w": width } as React.CSSProperties}></span>
   }
 
   return (
     <div className="rating-summary">
       <div className="score">
         <div id="avgValue" className="value">
-          {rate.rate}
+          {r.rate}
         </div>
 
         <div id="avgStars" className="stars">
-          {renderStar(rate.star1)}
-          {renderStar(rate.star2)}
-          {renderStar(rate.star3)}
-          {renderStar(rate.star4)}
-          {renderStar(rate.star5)}
+          {renderStar(1, rate.rate)}
+          {renderStar(2, rate.rate)}
+          {renderStar(3, rate.rate)}
+          {renderStar(4, rate.rate)}
+          {renderStar(5, rate.rate)}
         </div>
 
         <div id="count" className="muted">
-          {rate.count} ratings
+          {r.count} ratings
         </div>
       </div>
 
@@ -52,35 +72,35 @@ export function RatingSummary({ rate }: Props) {
         <div className="bar">
           <span className="bar-stars">★★★★★</span>
           <div className="track">
-            <div className="fill" style={{ width: getWidth(rate.rate5) }} />
+            <div className="fill" style={{ width: r.rate5 }} />
           </div>
         </div>
 
         <div className="bar">
           <span className="bar-stars">★★★★☆</span>
           <div className="track">
-            <div className="fill" style={{ width: getWidth(rate.rate4) }} />
+            <div className="fill" style={{ width: r.rate4 }} />
           </div>
         </div>
 
         <div className="bar">
           <span className="bar-stars">★★★☆☆</span>
           <div className="track">
-            <div className="fill" style={{ width: getWidth(rate.rate3) }} />
+            <div className="fill" style={{ width: r.rate3 }} />
           </div>
         </div>
 
         <div className="bar">
           <span className="bar-stars">★★☆☆☆</span>
           <div className="track">
-            <div className="fill" style={{ width: getWidth(rate.rate2) }} />
+            <div className="fill" style={{ width: r.rate2 }} />
           </div>
         </div>
 
         <div className="bar">
           <span className="bar-stars">★☆☆☆☆</span>
           <div className="track">
-            <div className="fill" style={{ width: getWidth(rate.rate1) }} />
+            <div className="fill" style={{ width: r.rate1 }} />
           </div>
         </div>
       </div>

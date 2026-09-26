@@ -3,14 +3,11 @@
 import { useState } from "react"
 
 interface Props {
-  slug: string
+  id: string
   saved: boolean
 }
 
-export default function ArticleSaveButton({
-  slug,
-  saved,
-}: Props) {
+export default function SaveButton({ id, saved }: Props) {
   const [isSaved, setIsSaved] = useState(saved)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState("")
@@ -23,30 +20,19 @@ export default function ArticleSaveButton({
     setLoading(true)
 
     try {
-      const response = await fetch(
-        `/api/articles/${slug}/save`,
-        {
-          method: isSaved ? "DELETE" : "POST",
-        }
-      )
+      const response = await fetch(`/api/articles/${id}/save`, {
+        method: isSaved ? "DELETE" : "POST",
+      })
 
       if (!response.ok) {
-        throw new Error(
-          isSaved
-            ? "Unsave failed"
-            : "Save failed"
-        )
+        throw new Error(isSaved ? "Unsave failed" : "Save failed")
       }
 
       const newSavedState = !isSaved
 
       setIsSaved(newSavedState)
 
-      setMessage(
-        newSavedState
-          ? "Save article successfully"
-          : "Unsave article successfully"
-      )
+      setMessage(newSavedState ? "Save article successfully" : "Unsave article successfully")
 
       setTimeout(() => {
         setMessage("")
@@ -64,19 +50,13 @@ export default function ArticleSaveButton({
         type="button"
         onClick={handleClick}
         disabled={loading}
-        aria-label={
-          isSaved
-            ? "Unsave article"
-            : "Save article"
-        }
+        aria-label={isSaved ? "Unsave article" : "Save article"}
         style={{
           border: "none",
           background: "transparent",
           padding: 0,
           margin: 0,
-          cursor: loading
-            ? "default"
-            : "pointer",
+          cursor: loading ? "default" : "pointer",
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
@@ -90,9 +70,7 @@ export default function ArticleSaveButton({
             lineHeight: 1,
           }}
         >
-          {isSaved
-            ? "bookmark"
-            : "bookmark_border"}
+          {isSaved ? "bookmark" : "bookmark_border"}
         </i>
       </button>
 

@@ -1,11 +1,11 @@
-import ArticleSaveButton from "@components/article-save-button"
+import { BackButton } from "@components/client"
 import { Error } from "@components/error"
 import { RatingSummary } from "@components/rating-summary"
+import SaveButton from "@components/save-button"
 import { getCurrentUser } from "@lib/account"
 import { logError, logger } from "@lib/logger"
 import { getDateFormat, getLang, getLangSearch, getResource } from "@resources"
 import { getArticleService } from "@service/article"
-import { formatRate } from "@service/shared/rate"
 import Link from "next/link"
 import { formatDateTime } from "web-one"
 
@@ -16,54 +16,39 @@ export default async function Article({
   params: Promise<{ slug: string }>
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
+  const account = await getCurrentUser()
   const query = await searchParams
 
-  const lang = getLang(query)
+  const lang = getLang(query, account?.language)
   const resource = getResource(lang)
-  const langSearch = getLangSearch(lang)
-
+  const langSearch = getLangSearch(lang, account?.language)
   const { slug } = await params
 
-  const account = await getCurrentUser()
   const service = getArticleService()
-
-  const fromCompany = query.from === "company" && typeof query.company === "string" ? query.company : null
-
-  const backHref = fromCompany ? `/companies/${fromCompany}/articles` : "/news"
-
-  const backToArticleReview = fromCompany
-    ? `/news/${slug}/review${langSearch}${langSearch ? "&" : "?"}from=company&company=${fromCompany}`
-    : `/news/${slug}/review${langSearch}`
-
   try {
     const article = await service.load(slug, account?.id)
 
     if (!article) {
       logger.warn(`Article not found: ${slug}`)
-
       return <Error title={resource.error_404_title} message={resource.error_404_message} />
     }
 
-    const summary = await service.getRateSummary(article.id)
-
-    const rate = formatRate(summary)
-
+    const rate = await service.getRateSummary(article.id)
     const dateFormat = getDateFormat(lang)
-
     return (
       <article className="article">
         <header>
-          <Link href={backHref} className="btn-back" id="backBtn"></Link>
+          <BackButton id="backBtn" name="backBtn" className="btn-back" />
           <h2>{article.title}</h2>
         </header>
         <div className="article-body">
           <h4 className="article-description">{article.description}</h4>
           <h4 className="article-meta center-align-items">
             {formatDateTime(article.publishedAt, dateFormat)}
-            {account && <ArticleSaveButton slug={article.slug} saved={Boolean(article.savedAt)} />}
+            {account && <SaveButton id={article.id} saved={article.savedAt != null} />}
           </h4>
           <h4 className="rating-title">
-            <Link href={backToArticleReview}>{resource.ratings_and_reviews}</Link>
+            <Link href={`/news/${slug}/review${langSearch}`}>{resource.ratings_and_reviews}</Link>
           </h4>
           <div className="rating-summary-container">
             <RatingSummary rate={rate} />

@@ -13,7 +13,6 @@ import FollowButton from "./follow-button"
 
 export default async function CompaniesForm({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const query = await searchParams
-
   const lang = getLang(query)
   const resource = getResource(lang)
 
@@ -23,7 +22,6 @@ export default async function CompaniesForm({ searchParams }: { searchParams: Pr
 
   try {
     const user = await getCurrentUser()
-
     if (user) {
       filter.userId = user.id
     }
@@ -31,7 +29,6 @@ export default async function CompaniesForm({ searchParams }: { searchParams: Pr
     const { list, total } = await service.search(filter, filter.limit, filter.page)
 
     const langSearch = getLangSearch(lang)
-
     const search = removePage(query)
     const limitSearch = removeLimit(query)
 

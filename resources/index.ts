@@ -54,10 +54,17 @@ export function getDateFormat(lang?: string, dateFormat?: string): string {
   const locale = getLocale(lang) || usLocale
   return locale.dateFormat
 }
+
+export function getDefaultLang(lang?: string): string {
+  return "en"
+}
 export function isDefaultLang(lang?: string): boolean {
   return !lang || lang === "en"
 }
-export function getLangSearch(lang?: string): string {
+export function getLangSearch(lang?: string, loginLang?: string): string {
+  if (loginLang && loginLang === lang) {
+    return ""
+  }
   return !lang || lang === "en" ? "" : `?lang=${lang}`
 }
 
@@ -73,7 +80,10 @@ export function getLangByPath(path?: string | null): string {
   }
   return path === "/vi" || path.startsWith("/vi/") ? "vi" : "en"
 }
-export function getLang(record: Record<string, string | string[] | undefined>): string {
+export function getLang(record: Record<string, string | string[] | undefined>, loginLang?: string): string {
+  if (loginLang) {
+    return loginLang
+  }
   const lang = getRecordValue(record.lang)
   return lang ? lang : "en"
 }

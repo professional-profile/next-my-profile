@@ -1,6 +1,6 @@
-import ArticleSaveButton from "@components/article-save-button"
 import { Error } from "@components/error"
 import { Pagination } from "@components/pagination"
+import SaveButton from "@components/save-button"
 import Search from "@components/search"
 import SearchResultMessage from "@components/search-result-message"
 import { Item, Sort } from "@components/sort"
@@ -8,11 +8,11 @@ import { getCurrentUser } from "@lib/account"
 import { logError, logger } from "@lib/logger"
 import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, isDefaultLang, limits, sort } from "@resources"
 import { getCompanyService } from "@service/company"
+import { ArticleFilter } from "@service/company/article"
 import Form from "next/form"
 import Link from "next/link"
-import CompanyHeader from "../header"
-
 import { buildFilter, datetimeToString, formatDateTime, removeLimit, removePage, removeSort } from "web-one"
+import CompanyHeader from "../header"
 
 export default async function CompanyArticlesPage({
   params,
@@ -27,7 +27,7 @@ export default async function CompanyArticlesPage({
   const lang = getLang(query)
   const resource = getResource(lang)
 
-  const filter = buildFilter<any>(query, defaultLimit, ["publishedAt"])
+  const filter = buildFilter<ArticleFilter>(query, defaultLimit, ["publishedAt"])
 
   const service = getCompanyService()
 
@@ -44,8 +44,6 @@ export default async function CompanyArticlesPage({
     filter.companyId = company.id
 
     const { list, total } = await service.getArticles(filter, filter.limit, filter.page)
-
-    const totalCount = total ?? 0
 
     const dateFormat = getDateFormat(lang)
     const langSearch = getLangSearch(lang)
@@ -83,7 +81,7 @@ export default async function CompanyArticlesPage({
                 placeholder="Search"
               />
               <Sort id="sortBtn" className="col s12 m6 l4 xl3 sort" text={sortText} items={items} dropDownId="sortDropdown" />
-              <Pagination className="col s12 l4 xl3" total={totalCount} size={filter.limit} page={filter.page} search={search} />
+              <Pagination className="col s12 l4 xl3" total={total} size={filter.limit} page={filter.page} search={search} />
             </section>
             <section className="row search-group advance-search" hidden>
               <label className="col s12 m6">
@@ -138,7 +136,7 @@ export default async function CompanyArticlesPage({
                       }}
                     >
                       <p style={{ margin: 0 }}>{formatDateTime(item.publishedAt, dateFormat)}</p>
-                      <ArticleSaveButton slug={item.slug} saved={Boolean(item.savedAt)} />
+                      <SaveButton id={item.id} saved={item.savedAt != null} />
                     </div>
                     <p>{item.description}</p>
                   </section>
