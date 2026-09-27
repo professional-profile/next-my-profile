@@ -1,5 +1,6 @@
 import { SearchResult } from "onecore"
-import { Job, JobFilter, JobRepository, JobService } from "./job"
+import { Job, JobFilter } from "../shared/job"
+import { JobRepository, JobService } from "./job"
 
 export class JobUseCase implements JobService {
   constructor(private repository: JobRepository) { }

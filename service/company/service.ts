@@ -1,13 +1,15 @@
 import { FollowService } from "follow-service"
 import { FollowRepository, SearchResult } from "onecore"
 import { Article } from "../shared/article"
+import { Job, JobFilter } from "../shared/job"
 import { User } from "../shared/user"
 import { ArticleFilter, ArticleRepository } from "./article"
 import { Company, CompanyFilter, CompanyRepository, CompanyService } from "./company"
+import { JobRepository } from "./job"
 import { UserFilter, UserRepository } from "./user"
 
 export class CompanyUseCase extends FollowService<string> implements CompanyService {
-  constructor(private repository: CompanyRepository, protected followRepository: FollowRepository<string>, protected articleRepository: ArticleRepository, protected userRepository: UserRepository) {
+  constructor(private repository: CompanyRepository, protected articleRepository: ArticleRepository, protected jobRepository: JobRepository, protected userRepository: UserRepository, protected followRepository: FollowRepository<string>) {
     super(followRepository)
   }
   search(filter: CompanyFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<Company>> {
@@ -21,6 +23,9 @@ export class CompanyUseCase extends FollowService<string> implements CompanyServ
   }
   getArticles(filter: ArticleFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<Article>> {
     return this.articleRepository.search(filter, limit, page, fields)
+  }
+  getJobs(filter: JobFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<Job>> {
+    return this.jobRepository.search(filter, limit, page, fields)
   }
   getFollowers(filter: UserFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<User>> {
     return this.userRepository.search(filter, limit, page, fields)

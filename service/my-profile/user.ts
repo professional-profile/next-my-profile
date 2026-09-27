@@ -1,11 +1,7 @@
-import { Attributes, DateRange, Filter, SearchResult } from "onecore"
-import { Article } from "../shared/article"
-import { Company } from "../shared/company"
-import { ArticleFilter } from "./article"
-import { CompanyFilter } from "./company"
+import { Attributes, DateRange, Filter } from "onecore"
 
 export interface User {
-  id: string
+  id?: string
   username: string
   email?: string
   phone?: string
@@ -30,10 +26,6 @@ export interface User {
   works: Work[]
   educations: Education[]
   settings?: UserSettings
-
-  followingCount?: number
-  followerCount?: number
-  followedAt?: Date
 }
 export interface UserSettings {
   language: string
@@ -41,7 +33,23 @@ export interface UserSettings {
   dateTimeFormat: string
   timeFormat: string
   notification: boolean
+
+  searchEnginesLinksToMyProfile: boolean
+  emailFeedUpdates: boolean
+  notifyFeedUpdates: boolean
+  emailPostMentions: boolean
+  notifyPostMentions: boolean
+  emailCommentsOfYourPosts: boolean
+  notifyCommentsOfYourPosts: boolean
+  emailEventInvitations: boolean
+  notifyEventInvitations: boolean
+  emailWhenNewEventsAround: boolean
+  notifyWhenNewEventsAround: boolean
+  followingListPublicOnMyProfile: boolean
+  showMyProfileInSpacesAroundMe: boolean
+  showAroundMeResultsInMemberFeed: boolean
 }
+
 export interface Skill {
   skill: string
   hirable: boolean
@@ -72,26 +80,22 @@ export interface UserFilter extends Filter {
   email?: string
   phone?: string
   dateOfBirth?: DateRange
-  interests?: string[]
-  skills?: Skill[]
-  userId?: string
-  followedUserId?: string
-  followingUserId?: string
+  interests: string[]
+  skills: Skill[]
 }
 
 export interface UserRepository {
-  search(filter: UserFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<User>>
-  load(slug: string, userId?: string): Promise<User | null>
-  getIdBySlug(slug: string): Promise<string>
+  load(id: string): Promise<User | null>
+  create(user: User): Promise<number>
+  update(user: User): Promise<number>
+  patch(user: Partial<User>): Promise<number>
+  delete(id: string): Promise<number>
 }
-export interface UserService {
-  search(filter: UserFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<User>>
-  load(slug: string, userId?: string): Promise<User | null>
-  getIdBySlug(slug: string): Promise<string>
-  follow(id: string, target: string): Promise<number>
-  unfollow(id: string, target: string): Promise<number>
-  getArticles(filter: ArticleFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<Article>>
-  getCompanies(filter: CompanyFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<Company>>
+export interface MyProfileService {
+  getMyProfile(id: string): Promise<User | null>
+  saveMyProfile(user: User): Promise<number>
+  getMySettings(id: string): Promise<UserSettings | null>
+  saveMySettings(id: string, settings: UserSettings): Promise<number>
 }
 
 export const skillsModel: Attributes = {
@@ -130,7 +134,6 @@ export const educationsModel: Attributes = {
   },
 }
 export const userSettingsModel: Attributes = {
-  userId: {},
   language: {},
   dateFormat: {},
   dateTimeFormat: {},
@@ -146,9 +149,8 @@ export const userModel: Attributes = {
   },
   username: {},
   email: {
-    required: true,
     format: "email",
-    length: 255,
+    required: true,
   },
   phone: {
     format: "phone",
@@ -179,17 +181,14 @@ export const userModel: Attributes = {
   },
   imageURL: {
     column: "image_url",
-    length: 500,
+    length: 255,
   },
   coverURL: {
     column: "cover_url",
-    length: 500,
-  },
-  headline: {
-    length: 500,
+    length: 255,
   },
   bio: {
-    length: 3000,
+    length: 255,
   },
   website: {
     length: 255,
@@ -221,24 +220,5 @@ export const userModel: Attributes = {
   settings: {
     type: "object",
     typeof: userSettingsModel,
-  },
-
-  followingCount: {
-    column: "following_count",
-    type: "integer",
-    noinsert: true,
-    noupdate: true,
-  },
-  followerCount: {
-    column: "follower_count",
-    type: "integer",
-    noinsert: true,
-    noupdate: true,
-  },
-  followedAt: {
-    column: "followed_at",
-    type: "datetime",
-    noinsert: true,
-    noupdate: true,
   },
 }

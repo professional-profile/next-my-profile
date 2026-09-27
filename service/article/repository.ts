@@ -33,7 +33,7 @@ export class SqlArticleRepository extends SearchRepository<Article, ArticleFilte
   async getIdBySlug(slug: string): Promise<string> {
     const query = `select a.id from articles a where a.slug = ${this.db.param(1)}`
     const articles = await this.db.query<Article>(query, [slug], this.map)
-    return articles && articles.length > 0 ? articles[0].id : slug
+    return (articles && articles.length > 0 ? articles[0].id : slug)
   }
 }
 

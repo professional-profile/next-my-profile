@@ -10,7 +10,7 @@ export class SqlCompanyRepository extends SearchRepository<Company, CompanyFilte
   async getIdBySlug(slug: string): Promise<string> {
     const query = `select c.id from companies c where c.slug = ${this.db.param(1)}`
     const articles = await this.db.query<Company>(query, [slug], this.map)
-    return articles && articles.length > 0 ? articles[0].id : slug
+    return (articles && articles.length > 0 ? articles[0].id : slug)
   }
   async load(slug: string, userId?: string): Promise<Company | null> {
     let params = []

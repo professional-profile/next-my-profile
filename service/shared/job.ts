@@ -1,4 +1,6 @@
-import { Attributes, Filter, TimeRange } from "onecore"
+import { Attributes, Filter, Statement, TimeRange } from "onecore"
+import { param } from "postgres-kit"
+import { buildSort } from "sql-core"
 
 export interface Job {
   id: string
@@ -15,9 +17,9 @@ export interface Job {
   minSalary?: number
   maxSalary?: number
   companyId?: string
+  companyName?: string
   status: string
 }
-
 export interface JobFilter extends Filter {
   id?: string
   slug?: string
@@ -82,4 +84,60 @@ export const jobModel: Attributes = {
     column: "max_salary",
     type: "integer",
   },
+  companyId: {
+    column: "company_id",
+  },
+  companyName: {
+    column: "company_name",
+  },
+  status: {},
+}
+
+export function buildQuery(filter: JobFilter): Statement {
+  let query = `select * from jobs`
+  const where: string[] = []
+  const params = []
+  let i = 1
+
+  /*
+  if (filter.companyId) {
+    where.push(`company_id = ${param(i++)}`)
+    params.push(filter.companyId)
+  }
+    */
+  if (filter.status) {
+    where.push(`status = ${param(i++)}`)
+    params.push(filter.status)
+  }
+
+  if (filter.publishedAt) {
+    if (filter.publishedAt.min) {
+      where.push(`published_at >= ${param(i++)}`)
+      params.push(filter.publishedAt.min)
+    }
+    if (filter.publishedAt.max) {
+      where.push(`published_at <= ${param(i++)}`)
+      params.push(filter.publishedAt.max)
+    }
+  }
+
+  if (filter.skills && filter.skills.length > 0) {
+    params.push(filter.skills)
+    where.push(`skills && ${param(i++)}`)
+  }
+
+  if (filter.q) {
+    const q = filter.q.replace(/%/g, "\\%").replace(/_/g, "\\_")
+    where.push(`title ilike ${param(i++)}`)
+    params.push(`%${q}%`)
+  }
+
+  if (where.length > 0) {
+    query = query + ` where ` + where.join(` and `)
+  }
+  const orderBy = buildSort(filter.sort, jobModel)
+  if (orderBy) {
+    query = query + ` order by ${orderBy}`
+  }
+  return { query, params }
 }
