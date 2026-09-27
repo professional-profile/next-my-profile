@@ -10,7 +10,7 @@ import { logError, logger } from "@lib/logger"
 import { defaultLimit, getLang, getResource, sort } from "@resources"
 import { getArticleService } from "@service/article"
 import { RateFilter } from "@service/shared/rates"
-import { buildFilter, getRecordValue, getSortText, Item, removePage, removeSort } from "web-one"
+import { buildFilter, getRecordValue, getSortText, Item, removeField, removePage, removeSort } from "web-one"
 
 export default async function ReviewPage({
   params,
@@ -60,7 +60,7 @@ export default async function ReviewPage({
 
     const search = removePage(query)
 
-    let rateSearch = removeSort(query, "rate")
+    let rateSearch = removeField(query, "rate")
     const srate = getRecordValue(query.rate)
     const rateText = typeof srate === "string" ? `${srate} ☆` : resource.all
     let ratePrefix = rateSearch ? `?${rateSearch}` : `?`

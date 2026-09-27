@@ -26,10 +26,10 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "saved-service": "^0.0.1",
-    "script-plus": "^0.0.3",
+    "script-plus": "^0.0.5",
     "sql-core": "^0.1.10",
     "validation-core": "^1.1.1",
-    "web-one": "^0.1.2"
+    "web-one": "^0.1.3"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.10",
