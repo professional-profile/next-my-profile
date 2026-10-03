@@ -1,7 +1,7 @@
 import { SavedRepository, SearchResult } from "onecore"
 import { SavedService } from "saved-service"
 import { RateSummary, RateSummaryRepository, zeroSummary } from "../shared/rate"
-import { RateFilter, RatesRepository, Rate as SearchRate } from "../shared/rates"
+import { Rate, RateFilter, RatesRepository } from "../shared/rates"
 import { Article, ArticleFilter, ArticleRepository, ArticleService } from "./article"
 
 export class ArticleUseCase extends SavedService<string, string> implements ArticleService {
@@ -21,7 +21,7 @@ export class ArticleUseCase extends SavedService<string, string> implements Arti
     let rateSummary = await this.rateSummaryRepository.load(id)
     return (rateSummary ? rateSummary : { ...zeroSummary, id })
   }
-  searchRates(filter: RateFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<SearchRate>> {
+  searchRates(filter: RateFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<Rate>> {
     return this.ratesRepository.search(filter, limit, page, fields)
   }
 }

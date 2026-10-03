@@ -2,6 +2,8 @@ import { Attributes, Filter, Statement, TimeRange } from "onecore"
 import { param } from "postgres-kit"
 import { buildSort } from "sql-core"
 
+export const Published = "P"
+
 export interface Job {
   id: string
   slug: string
@@ -33,6 +35,8 @@ export interface JobFilter extends Filter {
   applicantCount?: number
   companyId?: string
   status?: string
+  userId?: string
+  isSaved?: boolean
 }
 
 export const jobModel: Attributes = {
@@ -87,26 +91,63 @@ export const jobModel: Attributes = {
   companyId: {
     column: "company_id",
   },
+  status: {},
+
+  savedAt: {
+    column: "saved_at",
+    type: "datetime",
+    noupdate: true,
+    noinsert: true,
+  },
   companyName: {
     column: "company_name",
+    noupdate: true,
+    noinsert: true,
   },
-  status: {},
+  logo: {
+    noupdate: true,
+    noinsert: true,
+  },
 }
 
 export function buildQuery(filter: JobFilter): Statement {
-  let query = `select * from jobs`
   const where: string[] = []
   const params = []
   let i = 1
 
-  /*
+  let query = `
+        select j.id, j.slug, j.title, j.published_at, j.expired_at,
+          j.position, j.quantity, j.location, j.applicant_count,
+          c.name as company_name, c.logo
+        from jobs j
+          left join companies c on j.company_id = c.id`
+  if (filter.userId) {
+    if (filter.isSaved) {
+      query = `
+        select j.id, j.slug, j.title, j.published_at, j.expired_at,
+          j.position, j.quantity, j.location, j.applicant_count, sj.saved_at,
+          c.name as company_name, c.logo
+        from saved_jobs sj
+          inner join jobs j on sj.user_id = ${param(i++)} and sj.id = j.id
+          left join companies c on j.company_id = c.id `
+    } else {
+      query = `
+        select j.id, j.slug, j.title, j.published_at, j.expired_at,
+          j.position, j.quantity, j.location, j.applicant_count, sj.saved_at,
+          c.name as company_name, c.logo
+        from jobs j
+          left join companies c on j.company_id = c.id
+          left join saved_jobs sj on sj.id = j.id and sj.user_id = ${param(i++)} `
+    }
+    params.push(filter.userId)
+  }
+
   if (filter.companyId) {
     where.push(`company_id = ${param(i++)}`)
     params.push(filter.companyId)
   }
-    */
   if (filter.status) {
-    where.push(`status = ${param(i++)}`)
+    where.push(`j.status = ${param(i++)}`)
     params.push(filter.status)
   }
 

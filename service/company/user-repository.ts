@@ -1,15 +1,8 @@
-import { DB, Filter, SearchResult, Statement } from "onecore"
+import { DB, Statement } from "onecore"
 import { param } from "postgres-kit"
 import { buildSort, SearchRepository } from "sql-core"
 import { User, userModel } from "../shared/user"
-
-export interface UserFilter extends Filter {
-  companyId?: string
-  userId?: string
-}
-export interface UserRepository {
-  search(filter: UserFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<User>>
-}
+import { UserFilter, UserRepository } from "./company"
 
 export class SqlUserRepository extends SearchRepository<User, UserFilter> implements UserRepository {
   constructor(db: DB) {

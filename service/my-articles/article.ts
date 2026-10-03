@@ -15,10 +15,6 @@ export interface Article {
   authorId?: string
 }
 export interface ArticleFilter extends Filter {
-  id?: string
-  slug?: string
-  title?: string
-  description?: string
   status: string[]
   publishedAt: TimeRange
   tags?: string[]

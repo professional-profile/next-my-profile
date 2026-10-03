@@ -1,18 +1,8 @@
-import { DB, Filter, SearchResult, Statement, TimeRange } from "onecore"
+import { DB, Statement } from "onecore"
 import { param } from "postgres-kit"
 import { buildSort, SearchRepository } from "sql-core"
 import { Article, articleModel } from "../shared/article"
-
-export interface ArticleFilter extends Filter {
-  publishedAt: TimeRange
-  tags?: string[]
-  status?: string
-  authorId?: string
-  userId?: string
-}
-export interface ArticleRepository {
-  search(filter: ArticleFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<Article>>
-}
+import { ArticleFilter, ArticleRepository } from "./user"
 
 export class SqlArticleRepository extends SearchRepository<Article, ArticleFilter> implements ArticleRepository {
   constructor(db: DB) {

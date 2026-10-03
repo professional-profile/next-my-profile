@@ -1,10 +1,12 @@
 import { db } from "@lib/db"
 import { SqlFollowRepository } from "follow-service"
-import { SqlArticleRepository } from "./article"
+import { createSearchRateRepository } from "../shared/rates"
+import { SqlArticleRepository } from "./article-repository"
 import { CompanyService } from "./company"
-import { SqlCompanyRepository } from "./repository"
+import { SqlJobRepository } from "./job-repository"
+import { SqlCompanyRepository, SqlRateSummaryRepository } from "./repository"
 import { CompanyUseCase } from "./service"
-import { SqlUserRepository } from "./user"
+import { SqlUserRepository } from "./user-repository"
 export * from "./company"
 
 let service: CompanyService | undefined
@@ -26,8 +28,11 @@ export function getCompanyService(): CompanyService {
     )
     const repository = new SqlCompanyRepository(db)
     const articleRepository = new SqlArticleRepository(db)
+    const jobRepository = new SqlJobRepository(db)
     const userRepository = new SqlUserRepository(db)
-    service = new CompanyUseCase(repository, followRepository, articleRepository, userRepository)
+    const rateSummaryRepository = new SqlRateSummaryRepository(db)
+    const ratesRepository = createSearchRateRepository(db, "company_rates", "company_rate_reactions")
+    service = new CompanyUseCase(repository, articleRepository, jobRepository, userRepository, followRepository, rateSummaryRepository, ratesRepository)
   }
   return service
 }

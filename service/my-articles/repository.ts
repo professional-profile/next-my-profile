@@ -15,11 +15,6 @@ export function buildQuery(filter: ArticleFilter): Statement {
   const params = []
   let i = 1
 
-  if (filter.id) {
-    where.push(`id = ${param(i++)}`)
-    params.push(filter.id)
-  }
-
   if (filter.authorId) {
     params.push(filter.authorId)
     where.push(`author_id = ${param(i++)}`)

@@ -1,7 +1,15 @@
 import { DB, Statement } from "onecore"
 import { param } from "postgres-kit"
-import { buildSort, SearchRepository } from "sql-core"
-import { Company, CompanyFilter, companyModel, CompanyRepository } from "./company"
+import { buildSort, SearchRepository, SqlLoader } from "sql-core"
+import { Company, companyModel } from "../shared/company"
+import { RateSummary, rateSummaryModel, RateSummaryRepository } from "../shared/rate"
+import { CompanyFilter, CompanyRepository } from "./company"
+
+export class SqlRateSummaryRepository extends SqlLoader<RateSummary, string> implements RateSummaryRepository {
+  constructor(db: DB) {
+    super(db, "company_info", rateSummaryModel)
+  }
+}
 
 export class SqlCompanyRepository extends SearchRepository<Company, CompanyFilter> implements CompanyRepository {
   constructor(db: DB) {

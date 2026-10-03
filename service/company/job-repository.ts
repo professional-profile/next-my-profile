@@ -1,11 +1,8 @@
 
 import { DB } from "onecore"
-import { SearchRepository, SearchResult } from "sql-core"
+import { SearchRepository } from "sql-core"
 import { buildQuery, Job, JobFilter, jobModel } from "../shared/job"
-
-export interface JobRepository {
-  search(filter: JobFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<Job>>
-}
+import { JobRepository } from "./company"
 
 export class SqlJobRepository extends SearchRepository<Job, JobFilter> implements JobRepository {
   constructor(db: DB) {

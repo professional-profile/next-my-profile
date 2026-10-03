@@ -80,7 +80,7 @@ export function buildQuery(filter: ArticleFilter): Statement {
     }
   }
 
-  if (filter.status && filter.status.length > 0) {
+  if (filter.status) {
     params.push(filter.status)
     where.push(`status = ${param(i++)}`)
   }

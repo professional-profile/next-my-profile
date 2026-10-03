@@ -1,8 +1,6 @@
-import { Attributes, DateRange, Filter, SearchResult } from "onecore"
+import { Attributes, DateRange, Filter, SearchResult, TimeRange } from "onecore"
 import { Article } from "../shared/article"
 import { Company } from "../shared/company"
-import { ArticleFilter } from "./article"
-import { CompanyFilter } from "./company"
 
 export interface User {
   id: string
@@ -66,6 +64,7 @@ export interface Education {
   from: string
   to: string
 } // Education
+
 export interface UserFilter extends Filter {
   id?: string
   username?: string
@@ -78,12 +77,20 @@ export interface UserFilter extends Filter {
   followedUserId?: string
   followingUserId?: string
 }
+export interface ArticleFilter extends Filter {
+  status?: string
+  publishedAt: TimeRange
+  tags?: string[]
+  authorId?: string
 
-export interface UserRepository {
-  search(filter: UserFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<User>>
-  load(slug: string, userId?: string): Promise<User | null>
-  getIdBySlug(slug: string): Promise<string>
+  userId?: string
 }
+export interface CompanyFilter extends Filter {
+  userId?: string
+  currentUserId?: string
+  status?: string
+}
+
 export interface UserService {
   search(filter: UserFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<User>>
   load(slug: string, userId?: string): Promise<User | null>
@@ -92,6 +99,18 @@ export interface UserService {
   unfollow(id: string, target: string): Promise<number>
   getArticles(filter: ArticleFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<Article>>
   getCompanies(filter: CompanyFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<Company>>
+}
+
+export interface UserRepository {
+  search(filter: UserFilter, limit: number, page?: number | string, fields?: string[]): Promise<SearchResult<User>>
+  load(slug: string, userId?: string): Promise<User | null>
+  getIdBySlug(slug: string): Promise<string>
+}
+export interface ArticleRepository {
+  search(filter: ArticleFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<Article>>
+}
+export interface CompanyRepository {
+  search(filter: CompanyFilter, limit: number, page?: number, fields?: string[]): Promise<SearchResult<Company>>
 }
 
 export const skillsModel: Attributes = {
@@ -237,6 +256,12 @@ export const userModel: Attributes = {
   },
   followedAt: {
     column: "followed_at",
+    type: "datetime",
+    noinsert: true,
+    noupdate: true,
+  },
+  followingAt: {
+    column: "following_at",
     type: "datetime",
     noinsert: true,
     noupdate: true,

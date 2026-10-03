@@ -2,9 +2,7 @@ import { FollowService } from "follow-service"
 import { FollowRepository, SearchResult } from "onecore"
 import { Article } from "../shared/article"
 import { Company } from "../shared/company"
-import { ArticleFilter, ArticleRepository } from "./article"
-import { CompanyFilter, CompanyRepository } from "./company"
-import { User, UserFilter, UserRepository, UserService } from "./user"
+import { ArticleFilter, ArticleRepository, CompanyFilter, CompanyRepository, User, UserFilter, UserRepository, UserService } from "./user"
 
 export class UserUseCase extends FollowService<string> implements UserService {
   constructor(protected repository: UserRepository, protected followRepository: FollowRepository<string>, protected articleRepository: ArticleRepository, protected companyRepository: CompanyRepository) {

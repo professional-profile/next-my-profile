@@ -130,7 +130,7 @@
   display: none;
   align-items: center;
   justify-content: center;
-  z-index: 4;
+  z-index: 204;
 }
 .modal {
   background: white;
