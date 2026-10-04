@@ -6,61 +6,60 @@ import SearchResultMessage from "@components/search-result-message"
 import { Item, Sort } from "@components/sort"
 import { getCurrentUser } from "@lib/account"
 import { logError, logger } from "@lib/logger"
-import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, isDefaultLang, limits, sort } from "@resources"
+import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, limits, sort } from "@resources"
 import { ArticleFilter, getCompanyService } from "@service/company"
+import { Published } from "@service/shared/article"
 import Form from "next/form"
 import Link from "next/link"
 import { buildFilter, datetimeToString, formatDateTime, removeLimit, removePage, removeSort } from "web-one"
-import CompanyHeader from "../header"
+import Header from "../header"
 
-export default async function CompanyArticlesPage({
+export default async function ArticlesPage({
   params,
   searchParams,
 }: {
   params: Promise<{ slug: string }>
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const { slug } = await params
+  const account = await getCurrentUser()
   const query = await searchParams
-
-  const lang = getLang(query)
+  const lang = getLang(query, account?.language)
   const resource = getResource(lang)
 
   const filter = buildFilter<ArticleFilter>(query, defaultLimit, ["publishedAt"])
+  if (!filter.sort) {
+    filter.sort = "-publishedAt"
+  }
+  filter.status = Published
+  filter.userId = account?.id
 
   const service = getCompanyService()
-
   try {
-    const account = await getCurrentUser()
-
+    const { slug } = await params
     const company = await service.load(slug, account?.id)
-
     if (!company) {
       logger.warn(`Company not found: ${slug}`)
       return <Error title={resource.error_404_title} message={resource.error_404_message} />
     }
-
     filter.companyId = company.id
 
     const { list, total } = await service.getArticles(filter, filter.limit, filter.page)
 
     const dateFormat = getDateFormat(lang)
     const langSearch = getLangSearch(lang)
-
     const search = removePage(query)
     const limitSearch = removeLimit(query)
-    const sortSearch = removeSort(query)
 
+    const sortSearch = removeSort(query)
     const prefix = sortSearch ? `?${sortSearch}&` : "?"
     const sort1: Item = { id: "timeDescSort", value: `${prefix}${sort}=-publishedAt`, text: resource.sort_time_desc }
     const sort2: Item = { id: "timeAscSort", value: `${prefix}${sort}=publishedAt`, text: resource.sort_time_asc }
     const items = [sort1, sort2]
-
     const sortText = filter.sort === "publishedAt" ? resource.sort_desc_time_asc : resource.sort_desc_time_desc
 
     return (
       <div className="profile">
-        <CompanyHeader company={company} activeTab="articles" />
+        <Header company={company} activeTab="articles" />
         <div className="profile-body">
           <SearchResultMessage page={filter.page} limit={filter.limit} length={list.length} total={total} eventName="company-articles-click" />
           <header>
@@ -82,7 +81,7 @@ export default async function CompanyArticlesPage({
               <Sort id="sortBtn" className="col s12 m6 l4 xl3 sort" text={sortText} items={items} dropDownId="sortDropdown" />
               <Pagination className="col s12 l4 xl3" total={total} size={filter.limit} page={filter.page} search={search} />
             </section>
-            <section className="row search-group advance-search" hidden>
+            <section className="row search-group inline advance-search" hidden>
               <label className="col s12 m6">
                 {resource.published_at_from}
                 <input
@@ -106,52 +105,34 @@ export default async function CompanyArticlesPage({
                 />
               </label>
             </section>
-            {!isDefaultLang(lang) && <input type="hidden" id="lang" name="lang" value={lang} />}
+            {langSearch && <input type="hidden" id="lang" name="lang" value={lang} />}
           </Form>
-          {list.length === 0 ? (
-            <div>{/* SearchResultMessage sẽ hiện "No data found." */}</div>
-          ) : (
-            <ul className="row list card-grid">
-              {list.map((item: any) => (
-                <li key={item.id} className="col s12 m6 l4 xl3 img-card">
-                  <section>
-                    <div
-                      className="cover"
-                      style={{
-                        backgroundImage: `url('${item.thumbnail}')`,
-                      }}
+          <ul className="row list card-grid">
+            {list.map((item, i) => (
+              <li key={item.id ?? i} className="col s12 m6 l4 xl3 img-card">
+                <section>
+                  <div className="cover" style={{ backgroundImage: `url('${item.thumbnail}')` }} />
+                  <Link href={`/news/${item.slug}${langSearch}`} prefetch={false}>
+                    {item.title}
+                  </Link>
+                  <p className="article-meta center-align-items">
+                    {formatDateTime(item.publishedAt, dateFormat)}
+                    <SaveButton
+                      id={item.id}
+                      saved={item.savedAt != null}
+                      api="/api/articles"
+                      savedMessage={resource.article_save_success}
+                      unsavedMessage={resource.article_unsave_success}
+                      errorHeader={resource.header_error}
+                      errorMessage={resource.error_network}
+                      error401={resource.error_401}
                     />
-
-                    <Link href={`/news/${item.slug}${langSearch}${langSearch ? "&" : "?"}from=company&company=${company.slug}`} prefetch={false}>
-                      {item.title}
-                    </Link>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "flex-start",
-                        width: "95%",
-                        gap: "8px",
-                      }}
-                    >
-                      <p style={{ margin: 0 }}>{formatDateTime(item.publishedAt, dateFormat)}</p>
-                      <SaveButton
-                        id={item.id}
-                        saved={item.savedAt != null}
-                        api="/api/articles"
-                        savedMessage={resource.article_save_success}
-                        unsavedMessage={resource.article_unsave_success}
-                        errorHeader={resource.header_error}
-                        errorMessage={resource.error_network}
-                        error401={resource.error_401}
-                      />
-                    </div>
-                    <p>{item.description}</p>
-                  </section>
-                </li>
-              ))}
-            </ul>
-          )}
+                  </p>
+                  <p>{item.description}</p>
+                </section>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     )

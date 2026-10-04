@@ -12,20 +12,16 @@ import Link from "next/link"
 import { buildFilter, removeLimit, removePage } from "web-one"
 
 export default async function CompaniesForm({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const account = await getCurrentUser()
   const query = await searchParams
-  const lang = getLang(query)
+  const lang = getLang(query, account?.language)
   const resource = getResource(lang)
 
   const filter = buildFilter<CompanyFilter>(query, defaultLimit, ["publishedAt"])
+  filter.userId = account?.id
 
   const service = getCompanyService()
-
   try {
-    const user = await getCurrentUser()
-    if (user) {
-      filter.userId = user.id
-    }
-
     const { list, total } = await service.search(filter, filter.limit, filter.page)
 
     const langSearch = getLangSearch(lang)
@@ -67,7 +63,7 @@ export default async function CompaniesForm({ searchParams }: { searchParams: Pr
                   {item.industry}
                   <FollowButton
                     id={item.id}
-                    followed={item.followingAt != null}
+                    followed={item.followedAt != null}
                     api="/api/companies"
                     followedMessage={resource.company_follow_success}
                     unfollowedMessage={resource.company_unfollow_success}

@@ -1,6 +1,7 @@
 import { Error } from "@components/error"
 import { Pagination } from "@components/pagination"
 import Search from "@components/search"
+import { getCurrentUser } from "@lib/account"
 import { logError } from "@lib/logger"
 import { defaultLimit, getLang, getLangSearch, getResource, isDefaultLang, limits } from "@resources"
 import { getUserService, UserFilter } from "@service/user"
@@ -9,11 +10,13 @@ import Link from "next/link"
 import { buildFilter, removeLimit, removePage } from "web-one"
 
 export default async function UsersForm({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const account = await getCurrentUser()
   const query = await searchParams
-  const lang = getLang(query)
+  const lang = getLang(query, account?.language)
   const resource = getResource(lang)
 
   const filter = buildFilter<UserFilter>(query, defaultLimit, ["publishedAt"])
+
   const service = getUserService()
   try {
     const { list, total } = await service.search(filter, filter.limit, filter.page)
@@ -41,7 +44,7 @@ export default async function UsersForm({ searchParams }: { searchParams: Promis
                 maxLength={40}
                 placeholder={resource.keyword}
               />
-              <Pagination className="col s12 l4 xl3" total={total} size={filter.limit} page={filter.page} search={search} />
+              <Pagination className="col s12 m6 l4 xl3" total={total} size={filter.limit} page={filter.page} search={search} />
             </section>
             <section className="row search-group inline advance-search" hidden>
               <label className="col s12 m6">

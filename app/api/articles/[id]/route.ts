@@ -17,7 +17,7 @@ export async function PATCH(_request: Request, { params }: { params: Promise<{ i
     return NextResponse.json({}, { status: 200 })
   } catch (err) {
     logger.error(`Error to save article ${id}: ${err}`)
-    return NextResponse.json({ message: "Save failed" }, { status: 500 })
+    return NextResponse.json({}, { status: 500 })
   }
 }
 

@@ -134,6 +134,8 @@ export const en = {
   quantity: "Quantity",
   location: "Location",
 
+  review_required_error: "Please select rating.",
+  review_success: "Review is submitted successfully.",
   reviews: "Reviews",
   ratings_and_reviews: "Ratings and Reviews",
   write_a_review: "Write a review",
@@ -152,7 +154,4 @@ export const en = {
   sort_desc_rate_asc: "Sort by Lowest Rating",
   all: "All",
   useful_review_description: "It is useful",
-
-  review_required_error: "Please select rating.",
-  review_success: "Review is submitted successfully.",
 }

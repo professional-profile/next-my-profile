@@ -2,6 +2,7 @@ import { Error } from "@components/error"
 import { Pagination } from "@components/pagination"
 import Search from "@components/search"
 import { Item, Sort } from "@components/sort"
+import { getCurrentUser } from "@lib/account"
 import { logError } from "@lib/logger"
 import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, isDefaultLang, limits, sort } from "@resources"
 import { getJobService } from "@service/job"
@@ -11,18 +12,19 @@ import Link from "next/link"
 import { buildFilter, datetimeToString, formatDateTime, removeLimit, removePage, removeSort } from "web-one"
 
 export default async function Jobs({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const account = await getCurrentUser()
   const query = await searchParams
-  const lang = getLang(query)
+  const lang = getLang(query, account?.language)
   const resource = getResource(lang)
 
   const filter = buildFilter<JobFilter>(query, defaultLimit, ["publishedAt"])
+
   const service = getJobService()
   try {
     const { list, total } = await service.search(filter, filter.limit, filter.page)
 
     const dateFormat = getDateFormat(lang)
     const langSearch = getLangSearch(lang)
-
     const search = removePage(query)
     const limitSearch = removeLimit(query)
 

@@ -21,6 +21,7 @@ export interface Job {
   companyId?: string
   companyName?: string
   status: string
+  savedAt?: Date
 }
 export interface JobFilter extends Filter {
   id?: string

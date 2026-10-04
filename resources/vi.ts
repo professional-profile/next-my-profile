@@ -134,6 +134,8 @@ export const vi = {
   quantity: "Số lượng",
   location: "Vị trí",
 
+  review_required_error: "Vui lòng đánh giá.",
+  review_success: "Đánh giá đã được gửi thành công.",
   reviews: "Đánh giá",
   ratings_and_reviews: "Đánh giá và nhận xét",
   write_a_review: "Đánh giá",
@@ -152,7 +154,4 @@ export const vi = {
   sort_desc_rate_asc: "Sắp xếp theo Đánh giá thấp nhất",
   all: "Tất cả",
   useful_review_description: "Đánh giá này có ích",
-
-  review_required_error: "Vui lòng đánh giá.",
-  review_success: "Đánh giá đã được gửi thành công.",
 }

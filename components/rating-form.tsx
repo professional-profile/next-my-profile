@@ -49,13 +49,8 @@ export default function RatingForm({
 
       const res = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          rate,
-          review,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rate, review }),
       })
 
       if (!res.ok) {
@@ -102,10 +97,12 @@ export default function RatingForm({
               </div>
               <textarea className="review" placeholder={reviewPlaceHolder} value={review} onChange={(e) => setReview(e.target.value)} />
               <footer className="review-footer">
-                <button type="button" className="btn-secondary" onClick={() => setOpen(false)}>
+                <button type="button" id="cancelBtn" name="cancelBtn" className="btn-secondary" onClick={() => setOpen(false)}>
                   {cancelText}
                 </button>
-                <button type="submit">{submitText}</button>
+                <button type="submit" id="submitBtn" name="submitBtn">
+                  {submitText}
+                </button>
               </footer>
             </form>
           </div>

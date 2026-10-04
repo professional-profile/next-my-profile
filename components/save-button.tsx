@@ -33,39 +33,17 @@ export default function SaveButton({ id, saved, api, savedMessage, unsavedMessag
       } else {
         alertError(errorMessage, errorHeader)
       }
-    } catch (error) {
-      console.error(error)
+    } catch (err) {
+      console.error(err)
+      alertError(errorMessage, errorHeader)
     } finally {
       hideLoading()
     }
   }
 
   return (
-    <>
-      <button
-        type="button"
-        onClick={handleClick}
-        style={{
-          border: "none",
-          background: "transparent",
-          padding: 0,
-          margin: 0,
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          lineHeight: 1,
-        }}
-      >
-        <i
-          className="material-icons"
-          style={{
-            fontSize: "23px",
-            lineHeight: 1,
-          }}
-        >
-          {isSaved ? "bookmark" : "bookmark_border"}
-        </i>
-      </button>
-    </>
+    <i onClick={handleClick} className="material-icons">
+      {isSaved ? "bookmark" : "bookmark_border"}
+    </i>
   )
 }

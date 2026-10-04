@@ -22,6 +22,7 @@ export interface Item {
   id?: string
   value: string
   text?: string
+  fulltext?: string
 }
 interface Props {
   items: Item[]

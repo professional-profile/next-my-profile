@@ -6,7 +6,7 @@ import SearchResultMessage from "@components/search-result-message"
 import { Item, Sort } from "@components/sort"
 import { getCurrentUser } from "@lib/account"
 import { logError } from "@lib/logger"
-import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, isDefaultLang, limits, sort } from "@resources"
+import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, limits, sort } from "@resources"
 import { ArticleFilter, getArticleService, Published } from "@service/article"
 import Form from "next/form"
 import Link from "next/link"
@@ -17,6 +17,7 @@ export default async function News({ searchParams }: { searchParams: Promise<Rec
   const query = await searchParams
   const lang = getLang(query, account?.language)
   const resource = getResource(lang)
+
   const filter = buildFilter<ArticleFilter>(query, defaultLimit, ["publishedAt"])
   if (!filter.sort) {
     filter.sort = "-publishedAt"
@@ -30,7 +31,6 @@ export default async function News({ searchParams }: { searchParams: Promise<Rec
 
     const dateFormat = getDateFormat(lang)
     const langSearch = getLangSearch(lang, account?.language)
-
     const search = removePage(query)
     const limitSearch = removeLimit(query)
 
@@ -63,7 +63,7 @@ export default async function News({ searchParams }: { searchParams: Promise<Rec
               <Sort id="sortBtn" className="col s12 m6 l4 xl3 sort" text={sortText} items={items} dropDownId="sortDropdown" />
               <Pagination className="col s12 l4 xl3" total={total} size={filter.limit} page={filter.page} search={search} />
             </section>
-            <section className="row search-group advance-search" hidden>
+            <section className="row search-group inline advance-search" hidden>
               <label className="col s12 m6">
                 {resource.published_at_from}
                 <input
@@ -87,48 +87,28 @@ export default async function News({ searchParams }: { searchParams: Promise<Rec
                 />
               </label>
             </section>
-            {!isDefaultLang(lang) && <input type="hidden" id="lang" name="lang" value={lang} />}
+            {langSearch && <input type="hidden" id="lang" name="lang" value={lang} />}
           </Form>
-
           <ul className="row list card-grid">
             {list.map((item, i) => (
               <li key={item.id ?? i} className="col s12 m6 l4 xl3 img-card">
                 <section>
-                  <div
-                    className="cover"
-                    style={{
-                      backgroundImage: `url('${item.thumbnail}')`,
-                    }}
-                  />
+                  <div className="cover" style={{ backgroundImage: `url('${item.thumbnail}')` }} />
                   <Link href={`/news/${item.slug}${langSearch}`} prefetch={false}>
                     {item.title}
                   </Link>
-                  <p
-                    style={{
-                      textAlign: "left",
-                    }}
-                  >
-                    <span>{formatDateTime(item.publishedAt, dateFormat)}</span>
-                    <span
-                      style={{
-                        display: "inline-flex",
-                        marginLeft: "8px",
-                        verticalAlign: "middle",
-                        position: "relative",
-                        top: "3px",
-                      }}
-                    >
-                      <SaveButton
-                        id={item.id}
-                        saved={item.savedAt != null}
-                        api="/api/articles"
-                        savedMessage={resource.article_save_success}
-                        unsavedMessage={resource.article_unsave_success}
-                        errorHeader={resource.header_error}
-                        errorMessage={resource.error_network}
-                        error401={resource.error_401}
-                      />
-                    </span>
+                  <p className="article-meta center-align-items">
+                    {formatDateTime(item.publishedAt, dateFormat)}
+                    <SaveButton
+                      id={item.id}
+                      saved={item.savedAt != null}
+                      api="/api/articles"
+                      savedMessage={resource.article_save_success}
+                      unsavedMessage={resource.article_unsave_success}
+                      errorHeader={resource.header_error}
+                      errorMessage={resource.error_network}
+                      error401={resource.error_401}
+                    />
                   </p>
                   <p>{item.description}</p>
                 </section>

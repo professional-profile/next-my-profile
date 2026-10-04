@@ -18,16 +18,13 @@ export default async function Article({
 }) {
   const account = await getCurrentUser()
   const query = await searchParams
-
   const lang = getLang(query, account?.language)
   const resource = getResource(lang)
-  const langSearch = getLangSearch(lang, account?.language)
-  const { slug } = await params
 
   const service = getArticleService()
   try {
+    const { slug } = await params
     const article = await service.load(slug, account?.id)
-
     if (!article) {
       logger.warn(`Article not found: ${slug}`)
       return <Error title={resource.error_404_title} message={resource.error_404_message} />
@@ -35,6 +32,7 @@ export default async function Article({
 
     const rate = await service.getRateSummary(article.id)
     const dateFormat = getDateFormat(lang)
+    const langSearch = getLangSearch(lang, account?.language)
     return (
       <article className="article">
         <header>

@@ -8,7 +8,7 @@ type Props = {
   activeTab?: "overview" | "reviews" | "articles" | "followers" | "jobs"
 }
 
-export default function CompanyHeader({ company, activeTab = "overview" }: Props) {
+export default function Header({ company, activeTab = "overview" }: Props) {
   const [following, setFollowing] = useState(Boolean(company.followingAt || company.followedAt))
   const [followerCount, setFollowerCount] = useState(company.followerCount ?? 0)
   const [message, setMessage] = useState("")
@@ -130,13 +130,6 @@ export default function CompanyHeader({ company, activeTab = "overview" }: Props
                 {followerCount} followers
               </span>
             </div>
-            {company.website && (
-              <p>
-                <a href={company.website} target="_blank" rel="noopener noreferrer">
-                  {company.website}
-                </a>
-              </p>
-            )}
             <button type="button" className="btn-follow" onClick={handleFollowToggle} disabled={loading}>
               {following ? "Unfollow" : "Follow"}
             </button>

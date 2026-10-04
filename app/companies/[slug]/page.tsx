@@ -1,19 +1,26 @@
 import { Error } from "@components/error"
 import { getCurrentUser } from "@lib/account"
 import { logError, logger } from "@lib/logger"
-import { getResource } from "@resources"
+import { getLang, getResource } from "@resources"
 import { getCompanyService } from "@service/company"
-import CompanyHeader from "./header"
+import Header from "./header"
 import CompanyOverview from "./overview"
 
-export default async function CompanyDetail({ params }: { params: Promise<{ slug: string }> }) {
-  const resource = getResource("en")
-  const { slug } = await params
+export default async function CompanyPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
+  const account = await getCurrentUser()
+  const query = await searchParams
+  const lang = getLang(query, account?.language)
+  const resource = getResource(lang)
 
   const service = getCompanyService()
-
   try {
-    const account = await getCurrentUser()
+    const { slug } = await params
     const company = await service.load(slug, account?.id)
     if (!company) {
       logger.warn(`Company not found: ${slug}`)
@@ -22,7 +29,7 @@ export default async function CompanyDetail({ params }: { params: Promise<{ slug
 
     return (
       <div className="profile">
-        <CompanyHeader company={company} activeTab="overview" />
+        <Header company={company} activeTab="overview" />
         <div className="profile-body">
           <CompanyOverview company={company} />
         </div>
