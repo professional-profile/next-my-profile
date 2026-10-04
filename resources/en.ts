@@ -151,5 +151,5 @@ export const en = {
   sort_desc_rate_desc: "Sort by Highest Rating",
   sort_desc_rate_asc: "Sort by Lowest Rating",
   all: "All",
-  useful_review_description: "It is useful"
+  useful_review_description: "It is useful",
 }

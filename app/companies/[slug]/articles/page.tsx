@@ -7,8 +7,7 @@ import { Item, Sort } from "@components/sort"
 import { getCurrentUser } from "@lib/account"
 import { logError, logger } from "@lib/logger"
 import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, isDefaultLang, limits, sort } from "@resources"
-import { getCompanyService } from "@service/company"
-import { ArticleFilter } from "@service/company/article"
+import { ArticleFilter, getCompanyService } from "@service/company"
 import Form from "next/form"
 import Link from "next/link"
 import { buildFilter, datetimeToString, formatDateTime, removeLimit, removePage, removeSort } from "web-one"
@@ -136,7 +135,15 @@ export default async function CompanyArticlesPage({
                       }}
                     >
                       <p style={{ margin: 0 }}>{formatDateTime(item.publishedAt, dateFormat)}</p>
-                      <SaveButton id={item.id} saved={item.savedAt != null} />
+                      <SaveButton
+                        id={item.id}
+                        saved={item.savedAt != null}
+                        api="/api/articles"
+                        savedMessage={resource.article_save_success}
+                        unsavedMessage={resource.article_unsave_success}
+                        errorMessage={resource.error_network}
+                        errorHeader={resource.header_error}
+                      />
                     </div>
                     <p>{item.description}</p>
                   </section>

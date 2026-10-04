@@ -1,46 +1,39 @@
 "use client"
 
 import { useState } from "react"
+import { alertError, hideLoading, showLoading, toast } from "./client-script"
 
 interface Props {
   id: string
   saved: boolean
+  api: string
+  savedMessage: string
+  unsavedMessage: string
+  errorMessage: string
+  errorHeader: string
 }
 
-export default function SaveButton({ id, saved }: Props) {
+export default function SaveButton({ id, saved, api, savedMessage, unsavedMessage, errorMessage, errorHeader }: Props) {
   const [isSaved, setIsSaved] = useState(saved)
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState("")
 
   const handleClick = async () => {
-    if (loading) {
-      return
-    }
+    showLoading()
 
-    setLoading(true)
-
+    const method = isSaved ? "DELETE" : "PATCH"
     try {
-      const response = await fetch(`/api/articles/${id}/save`, {
-        method: isSaved ? "DELETE" : "POST",
-      })
+      const response = await fetch(`${api}/${id}`, { method })
 
-      if (!response.ok) {
-        throw new Error(isSaved ? "Unsave failed" : "Save failed")
+      if (response.ok) {
+        const newSavedState = !isSaved
+        setIsSaved(newSavedState)
+        toast(newSavedState ? savedMessage : unsavedMessage)
+      } else {
+        alertError(errorMessage, errorHeader)
       }
-
-      const newSavedState = !isSaved
-
-      setIsSaved(newSavedState)
-
-      setMessage(newSavedState ? "Save article successfully" : "Unsave article successfully")
-
-      setTimeout(() => {
-        setMessage("")
-      }, 2000)
     } catch (error) {
       console.error(error)
     } finally {
-      setLoading(false)
+      hideLoading()
     }
   }
 
@@ -49,14 +42,12 @@ export default function SaveButton({ id, saved }: Props) {
       <button
         type="button"
         onClick={handleClick}
-        disabled={loading}
         aria-label={isSaved ? "Unsave article" : "Save article"}
         style={{
           border: "none",
           background: "transparent",
           padding: 0,
           margin: 0,
-          cursor: loading ? "default" : "pointer",
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
@@ -73,28 +64,6 @@ export default function SaveButton({ id, saved }: Props) {
           {isSaved ? "bookmark" : "bookmark_border"}
         </i>
       </button>
-
-      {message && (
-        <span
-          style={{
-            position: "fixed",
-            left: "50%",
-            bottom: "30px",
-            transform: "translateX(-50%)",
-            zIndex: 9999,
-            minWidth: "280px",
-            padding: "12px 24px",
-            background: "#4d8f87",
-            color: "#fff",
-            textAlign: "center",
-            borderRadius: "6px",
-            fontWeight: 600,
-            display: "block",
-          }}
-        >
-          {message}
-        </span>
-      )}
     </>
   )
 }

@@ -118,7 +118,15 @@ export default async function News({ searchParams }: { searchParams: Promise<Rec
                         top: "3px",
                       }}
                     >
-                      <SaveButton id={item.id} saved={item.savedAt != null} />
+                      <SaveButton
+                        id={item.id}
+                        saved={item.savedAt != null}
+                        api="/api/articles"
+                        savedMessage={resource.article_save_success}
+                        unsavedMessage={resource.article_unsave_success}
+                        errorMessage={resource.error_network}
+                        errorHeader={resource.header_error}
+                      />
                     </span>
                   </p>
                   <p>{item.description}</p>

@@ -45,7 +45,17 @@ export default async function Article({
           <h4 className="article-description">{article.description}</h4>
           <h4 className="article-meta center-align-items">
             {formatDateTime(article.publishedAt, dateFormat)}
-            {account && <SaveButton id={article.id} saved={article.savedAt != null} />}
+            {account && (
+              <SaveButton
+                id={article.id}
+                saved={article.savedAt != null}
+                api="/api/articles"
+                savedMessage={resource.article_save_success}
+                unsavedMessage={resource.article_unsave_success}
+                errorMessage={resource.error_network}
+                errorHeader={resource.header_error}
+              />
+            )}
           </h4>
           <h4 className="rating-title">
             <Link href={`/news/${slug}/review${langSearch}`}>{resource.ratings_and_reviews}</Link>
