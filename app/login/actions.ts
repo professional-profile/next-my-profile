@@ -37,11 +37,7 @@ export async function loginAction(prevState: LoginState, formData: FormData): Pr
     const account = result.user
     const cookieStore = await cookies()
 
-    const displayName =
-      account.displayName ||
-      account.username ||
-      account.email ||
-      account.id
+    const displayName = account.displayName || account.username || account.email || account.id
 
     const token = sign(
       {
@@ -52,10 +48,10 @@ export async function loginAction(prevState: LoginState, formData: FormData): Pr
         dateFormat: account.dateFormat,
       },
       process.env.TOKEN_SECRET || config.token.secret,
-      { expiresIn: config.token.expires }
+      { expiresIn: config.token.expires },
     )
 
-    cookieStore.set("token", token, {
+    cookieStore.set("accessToken", token, {
       httpOnly: true,
       path: "/",
     })

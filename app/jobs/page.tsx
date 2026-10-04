@@ -1,12 +1,13 @@
 import { Error } from "@components/error"
 import { Pagination } from "@components/pagination"
+import SaveButton from "@components/save-button"
 import Search from "@components/search"
 import { Item, Sort } from "@components/sort"
 import { getCurrentUser } from "@lib/account"
 import { logError } from "@lib/logger"
-import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, isDefaultLang, limits, sort } from "@resources"
+import { defaultLimit, getDateFormat, getLang, getLangSearch, getResource, limits, sort } from "@resources"
 import { getJobService } from "@service/job"
-import { JobFilter } from "@service/shared/job"
+import { JobFilter, Published } from "@service/shared/job"
 import Form from "next/form"
 import Link from "next/link"
 import { buildFilter, datetimeToString, formatDateTime, removeLimit, removePage, removeSort } from "web-one"
@@ -18,6 +19,11 @@ export default async function Jobs({ searchParams }: { searchParams: Promise<Rec
   const resource = getResource(lang)
 
   const filter = buildFilter<JobFilter>(query, defaultLimit, ["publishedAt"])
+  if (!filter.sort) {
+    filter.sort = "-publishedAt"
+  }
+  filter.status = Published
+  filter.userId = account?.id
 
   const service = getJobService()
   try {
@@ -44,7 +50,7 @@ export default async function Jobs({ searchParams }: { searchParams: Promise<Rec
           <Form id="jobsForm" name="jobsForm" className="form" noValidate={true} action="/jobs">
             <section className="row search-group">
               <Search
-                className="col s12 m6 l3 search-input"
+                className="col s12 m6 l4 xl6 search-input"
                 limit={filter.limit}
                 limits={limits}
                 limitSearch={limitSearch}
@@ -54,10 +60,10 @@ export default async function Jobs({ searchParams }: { searchParams: Promise<Rec
                 maxLength={40}
                 placeholder={resource.keyword}
               />
-              <Sort id="sortBtn" className="col s12 m6 l3 sort" text={sortText} items={items} dropDownId="sortDropdown" />
+              <Sort id="sortBtn" className="col s12 m6 l4 xl3 sort" text={sortText} items={items} dropDownId="sortDropdown" />
               <Pagination className="col s12 m12 l6" total={total} size={filter.limit} page={filter.page} search={search} />
             </section>
-            <section className="row search-group advance-search" hidden>
+            <section className="row search-group inline advance-search" hidden>
               <label className="col s12 m6">
                 {resource.published_at_from}
                 <input
@@ -81,18 +87,32 @@ export default async function Jobs({ searchParams }: { searchParams: Promise<Rec
                 />
               </label>
             </section>
-            {!isDefaultLang(lang) && <input type="hidden" id="lang" name="lang" value={lang} />}
+            {langSearch && <input type="hidden" id="lang" name="lang" value={lang} />}
           </Form>
           <ul className="row list card-grid">
             {list.map((item, i) => {
               return (
-                <li key={i} className="col s12 m6 list-item">
+                <li key={i} className="col s12 m6 img-item">
+                  <img src={item.logo} alt="Company logo" />
                   <Link href={`/jobs/${item.slug}${langSearch}`} prefetch={false}>
                     {item.title}
                   </Link>
+                  <button className="btn-detail"></button>
+                  <p className="center-align-items">
+                    {formatDateTime(item.publishedAt, dateFormat)}
+                    <SaveButton
+                      id={item.id}
+                      saved={item.savedAt != null}
+                      api="/api/jobs"
+                      savedMessage={resource.job_save_success}
+                      unsavedMessage={resource.job_unsave_success}
+                      errorHeader={resource.header_error}
+                      errorMessage={resource.error_network}
+                      error401={resource.error_401}
+                    />
+                  </p>
                   <p>
                     {item.location} {item.quantity}
-                    <span>{formatDateTime(item.publishedAt, dateFormat)}</span>
                   </p>
                 </li>
               )

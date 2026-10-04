@@ -1,9 +1,14 @@
-import { DB, SaveStrings } from "onecore"
+import { db } from "@lib/db"
+import { SaveStrings } from "onecore"
 import { SqlUserRepository } from "./repository"
 import { MyProfileUseCase } from "./service"
 import { MyProfileService } from "./user"
 
-export function useMyProfileController(db: DB, saveSkills?: SaveStrings, saveInterests?: SaveStrings): MyProfileService {
-  const repository = new SqlUserRepository(db)
-  return new MyProfileUseCase(repository)
+let service: MyProfileService | undefined
+export function getMyProfileService(saveSkills?: SaveStrings, saveInterests?: SaveStrings): MyProfileService {
+  if (!service) {
+    const repository = new SqlUserRepository(db)
+    service = new MyProfileUseCase(repository)
+  }
+  return service
 }

@@ -5,7 +5,7 @@ import Search from "@components/search"
 import SearchResultMessage from "@components/search-result-message"
 import { getCurrentUser } from "@lib/account"
 import { logError } from "@lib/logger"
-import { defaultLimit, getLang, getLangSearch, getResource, isDefaultLang, limits } from "@resources"
+import { defaultLimit, getLang, getLangSearch, getResource, limits } from "@resources"
 import { CompanyFilter, getCompanyService } from "@service/company"
 import Form from "next/form"
 import Link from "next/link"
@@ -48,13 +48,13 @@ export default async function CompaniesForm({ searchParams }: { searchParams: Pr
                 placeholder={resource.keyword}
               />
               <Pagination className="col s12 l4 xl3" total={total} size={filter.limit} page={filter.page} search={search} />
-              {!isDefaultLang(lang) && <input type="hidden" id="lang" name="lang" value={lang} />}
+              {langSearch && <input type="hidden" id="lang" name="lang" value={lang} />}
             </section>
           </Form>
           <ul className="row list">
             {list.map((item) => (
               <li key={item.id} className="col s12 l6 img-item">
-                <img src={item.logo || ""} alt={item.name} width={60} height={60} />
+                <img src={item.logo || ""} alt="Company logo" />
                 <Link href={`/companies/${item.slug}${langSearch}`} prefetch={false}>
                   {item.name}
                 </Link>

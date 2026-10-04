@@ -3,10 +3,9 @@ export const en = {
   industry: "Industry",
   size: "Size",
 
-  sort_name_asc: "Name",
-  sort_name_desc: "Name Revert",
-  sort_desc_name_asc: "Sort by Name",
-  sort_desc_name_desc: "Sort by Name Revert",
+  company_basic_info: "Basic Info",
+  company_contact_info: "Contact Info",
+  company_overview: "Overview",
 
   company_followers: "{0} followers",
   company_follow_success: "Follow successfully",

@@ -3,7 +3,11 @@ import { ArticleService } from "./article"
 import { SqlArticleRepository } from "./repository"
 import { ArticleUseCase } from "./service"
 
-export function useMyArticlesController(db: DB): ArticleService {
-  const repository = new SqlArticleRepository(db)
-  return new ArticleUseCase(repository)
+let service: ArticleService | undefined
+export function getMyArticlesService(db: DB): ArticleService {
+  if (!service) {
+    const repository = new SqlArticleRepository(db)
+    service = new ArticleUseCase(repository)
+  }
+  return service
 }

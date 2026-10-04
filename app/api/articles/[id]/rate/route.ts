@@ -18,7 +18,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     rate.author = account.id
 
     await service.rate(rate)
-    return NextResponse.json({}, { status: 500 })
+    return NextResponse.json({}, { status: 200 })
   } catch (err) {
     logger.error(`Error to rate article ${id}: ${err}`)
     return NextResponse.json({}, { status: 500 })

@@ -3,7 +3,7 @@ import { Pagination } from "@components/pagination"
 import Search from "@components/search"
 import { getCurrentUser } from "@lib/account"
 import { logError } from "@lib/logger"
-import { defaultLimit, getLang, getLangSearch, getResource, isDefaultLang, limits } from "@resources"
+import { defaultLimit, getLang, getLangSearch, getResource, limits } from "@resources"
 import { getUserService, UserFilter } from "@service/user"
 import Form from "next/form"
 import Link from "next/link"
@@ -52,7 +52,7 @@ export default async function UsersForm({ searchParams }: { searchParams: Promis
                 <input type="text" id="email" name="email" defaultValue={filter.email} maxLength={60} />
               </label>
             </section>
-            {!isDefaultLang(lang) && <input type="hidden" id="lang" name="lang" value={lang} />}
+            {langSearch && <input type="hidden" id="lang" name="lang" value={lang} />}
           </Form>
           <ul className="row list card-grid">
             {list.map((item, i) => {

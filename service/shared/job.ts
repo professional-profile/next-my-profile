@@ -18,9 +18,10 @@ export interface Job {
   skills?: string[]
   minSalary?: number
   maxSalary?: number
+  status: string
   companyId?: string
   companyName?: string
-  status: string
+  logo?: string
   savedAt?: Date
 }
 export interface JobFilter extends Filter {

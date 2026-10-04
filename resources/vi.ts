@@ -5,7 +5,9 @@ export const vi = {
   about: "Giới thiệu",
 
   articles: "Bài viết",
+  settings: "Cấu hình",
   saved_articles: "Bài viết đã lưu",
+  saved_jobs: "Việc làm đã lưu",
   my_articles: "Bài viết của tôi",
   my_article: "Bài viết của tôi",
   followers: "Người theo dõi",
@@ -140,6 +142,7 @@ export const vi = {
   ratings_and_reviews: "Đánh giá và nhận xét",
   write_a_review: "Đánh giá",
   review_placeholder: "Viết nhận xét",
+  useful_review_description: "Đánh giá này có ích",
 
   sort_useful_desc: "Có ích nhất",
   sort_time_desc: "Mới nhất",
@@ -152,6 +155,11 @@ export const vi = {
   sort_desc_time_asc: "Sắp xếp theo Cũ nhất",
   sort_desc_rate_desc: "Sắp xếp theo Đánh giá cao nhất",
   sort_desc_rate_asc: "Sắp xếp theo Đánh giá thấp nhất",
+
+  sort_name_asc: "Tên",
+  sort_name_desc: "Đảo ngược tên",
+  sort_desc_name_asc: "Sắp xếp theo tên",
+  sort_desc_name_desc: "Sắp xếp theo tên (ngược lại)",
+
   all: "Tất cả",
-  useful_review_description: "Đánh giá này có ích",
 }

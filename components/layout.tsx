@@ -24,7 +24,7 @@ export default async function LayoutPage({ children }: { children: React.ReactNo
     }
   }
   const resource = getResource(lang)
-  const pageHeader = <PageHeader resource={resource} />
+  const pageHeader = <PageHeader account={account} />
   const nav = (
     <>
       <div className="top-banner">

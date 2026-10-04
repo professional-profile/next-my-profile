@@ -59,7 +59,7 @@ export function getDateFormat(lang?: string, dateFormat?: string): string {
   return locale.dateFormat
 }
 
-export function getDefaultLang(lang?: string): string {
+export function getDefaultLang(): string {
   return "en"
 }
 export function isDefaultLang(lang?: string): boolean {
