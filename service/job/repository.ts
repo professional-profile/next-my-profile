@@ -13,14 +13,16 @@ export class SqlJobRepository extends SearchRepository<Job, JobFilter> implement
       select j.*,
         c.name as company_name, c.logo
       from jobs j
-      left join companies c on j.company_id = c.id where slug = ${this.db.param(1)}`
+        left join companies c on j.company_id = c.id
+      where j.slug = ${this.db.param(1)}`
     if (userId) {
       query = `
       select j.*, sj.saved_at,
         c.name as company_name, c.logo
       from jobs j
         left join companies c on j.company_id = c.id
-        left join saved_jobs sj on sj.id = j.id and sj.user_id = ${this.db.param(2)} where j.slug = ${this.db.param(1)}`
+        left join saved_jobs sj on sj.id = j.id and sj.user_id = ${this.db.param(2)}
+      where j.slug = ${this.db.param(1)}`
       params.push(userId)
     }
     const jobs = await this.db.query<Job>(query, params, this.map)

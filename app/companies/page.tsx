@@ -1,4 +1,5 @@
 import { Error } from "@components/error"
+import FollowButton from "@components/follow-button"
 import { Pagination } from "@components/pagination"
 import Search from "@components/search"
 import SearchResultMessage from "@components/search-result-message"
@@ -9,7 +10,6 @@ import { CompanyFilter, getCompanyService } from "@service/company"
 import Form from "next/form"
 import Link from "next/link"
 import { buildFilter, removeLimit, removePage } from "web-one"
-import FollowButton from "./follow-button"
 
 export default async function CompaniesForm({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const query = await searchParams
@@ -65,7 +65,16 @@ export default async function CompaniesForm({ searchParams }: { searchParams: Pr
                 <button type="button" className="btn-detail" />
                 <p className="center-align-items">
                   {item.industry}
-                  <FollowButton slug={item.slug} followed={Boolean(item.followingAt || item.followedAt)} />
+                  <FollowButton
+                    id={item.id}
+                    followed={item.followingAt != null}
+                    api="/api/companies"
+                    followedMessage={resource.company_follow_success}
+                    unfollowedMessage={resource.company_unfollow_success}
+                    errorHeader={resource.header_error}
+                    errorMessage={resource.error_network}
+                    error401={resource.error_401}
+                  />
                 </p>
               </li>
             ))}

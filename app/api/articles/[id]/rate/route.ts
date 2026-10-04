@@ -1,43 +1,26 @@
-import { cookies } from "next/headers"
+import { getCurrentUser } from "@lib/account"
+import { logger } from "@lib/logger"
+import { getRateService } from "@service/article"
 import { NextRequest, NextResponse } from "next/server"
+import { SubmittedRate } from "rate-service"
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-) {
-  const { slug } = await params
-
-  const cookieStore = await cookies()
-  const token = cookieStore.get("token")?.value
-
-  if (!token) {
-    return NextResponse.json(
-      { message: "Require Authentication" },
-      { status: 401 }
-    )
-  }
-
-  const body = await request.json()
-
-  const res = await fetch(
-    `http://localhost:8083/articles/${slug}/rate`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(body),
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  try {
+    const account = await getCurrentUser()
+    if (!account) {
+      return NextResponse.json({ message: "Require authentication" }, { status: 401 })
     }
-  )
+    const service = getRateService()
 
-  const text = await res.text()
+    const rate: SubmittedRate = await request.json()
+    rate.id = id
+    rate.author = account.id
 
-  return new NextResponse(text, {
-    status: res.status,
-    headers: {
-      "Content-Type":
-        res.headers.get("content-type") ?? "application/json",
-    },
-  })
+    await service.rate(rate)
+    return NextResponse.json({}, { status: 500 })
+  } catch (err) {
+    logger.error(`Error to rate article ${id}: ${err}`)
+    return NextResponse.json({}, { status: 500 })
+  }
 }

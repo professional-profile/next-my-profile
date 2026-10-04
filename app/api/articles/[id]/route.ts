@@ -8,10 +8,7 @@ export async function PATCH(_request: Request, { params }: { params: Promise<{ i
   try {
     const account = await getCurrentUser()
     if (!account) {
-      return new NextResponse("Require authentication", {
-        status: 401,
-        headers: { "Content-Type": "text/plain" },
-      })
+      return NextResponse.json({ message: "Require authentication" }, { status: 401 })
     }
 
     const service = getArticleService()
@@ -29,10 +26,7 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
   try {
     const account = await getCurrentUser()
     if (!account) {
-      return new NextResponse("Require authentication", {
-        status: 401,
-        headers: { "Content-Type": "text/plain" },
-      })
+      return NextResponse.json({ message: "Require authentication" }, { status: 401 })
     }
 
     const service = getArticleService()

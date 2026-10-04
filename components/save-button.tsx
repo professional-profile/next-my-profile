@@ -9,11 +9,12 @@ interface Props {
   api: string
   savedMessage: string
   unsavedMessage: string
-  errorMessage: string
   errorHeader: string
+  errorMessage: string
+  error401: string
 }
 
-export default function SaveButton({ id, saved, api, savedMessage, unsavedMessage, errorMessage, errorHeader }: Props) {
+export default function SaveButton({ id, saved, api, savedMessage, unsavedMessage, errorHeader, errorMessage, error401 }: Props) {
   const [isSaved, setIsSaved] = useState(saved)
 
   const handleClick = async () => {
@@ -27,6 +28,8 @@ export default function SaveButton({ id, saved, api, savedMessage, unsavedMessag
         const newSavedState = !isSaved
         setIsSaved(newSavedState)
         toast(newSavedState ? savedMessage : unsavedMessage)
+      } else if (response.status === 401) {
+        alertError(error401, errorHeader)
       } else {
         alertError(errorMessage, errorHeader)
       }
@@ -42,7 +45,6 @@ export default function SaveButton({ id, saved, api, savedMessage, unsavedMessag
       <button
         type="button"
         onClick={handleClick}
-        aria-label={isSaved ? "Unsave article" : "Save article"}
         style={{
           border: "none",
           background: "transparent",

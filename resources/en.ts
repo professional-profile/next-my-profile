@@ -152,4 +152,7 @@ export const en = {
   sort_desc_rate_asc: "Sort by Lowest Rating",
   all: "All",
   useful_review_description: "It is useful",
+
+  review_required_error: "Please select rating.",
+  review_success: "Review is submitted successfully.",
 }

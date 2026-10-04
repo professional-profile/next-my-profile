@@ -141,8 +141,9 @@ export default async function CompanyArticlesPage({
                         api="/api/articles"
                         savedMessage={resource.article_save_success}
                         unsavedMessage={resource.article_unsave_success}
-                        errorMessage={resource.error_network}
                         errorHeader={resource.header_error}
+                        errorMessage={resource.error_network}
+                        error401={resource.error_401}
                       />
                     </div>
                     <p>{item.description}</p>
