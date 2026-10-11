@@ -58,7 +58,7 @@ export default async function FollowersPage({
 
     return (
       <div className="profile">
-        <Header company={company} activeTab="followers" />
+        <Header company={company} lang={lang} />
         <div className="profile-body">
           <SearchResultMessage page={filter.page} limit={filter.limit} length={list.length} total={total} eventName="company-followers-click" />
           <header>

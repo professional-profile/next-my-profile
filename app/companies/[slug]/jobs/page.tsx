@@ -58,7 +58,7 @@ export default async function JobsPage({
 
     return (
       <div className="profile">
-        <Header company={company} activeTab="jobs" />
+        <Header company={company} lang={lang} />
         <div className="profile-body">
           <header>
             <h3>{resource.jobs}</h3>

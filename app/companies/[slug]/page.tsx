@@ -28,7 +28,7 @@ export default async function CompanyPage({
 
     return (
       <div className="profile">
-        <Header company={company} activeTab="overview" />
+        <Header company={company} lang={lang} />
         <div className="profile-body">
           <form id="companyForm" name="companyForm">
             <div className="row list card-grid">

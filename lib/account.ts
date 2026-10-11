@@ -12,7 +12,7 @@ export interface Account {
 
 export async function getCurrentUser(): Promise<Account | null | undefined> {
   const cookie = await cookies()
-  const token = cookie.get("token")?.value
+  const token = cookie.get("accessToken")?.value
   if (!token) {
     return null
   }

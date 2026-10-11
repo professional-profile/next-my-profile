@@ -59,7 +59,7 @@ export default async function ArticlesPage({
 
     return (
       <div className="profile">
-        <Header company={company} activeTab="articles" />
+        <Header company={company} lang={lang} />
         <div className="profile-body">
           <SearchResultMessage page={filter.page} limit={filter.limit} length={list.length} total={total} eventName="company-articles-click" />
           <header>

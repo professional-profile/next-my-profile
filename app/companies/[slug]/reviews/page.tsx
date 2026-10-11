@@ -79,7 +79,7 @@ export default async function CompanyReviewsPage({
 
     return (
       <div className="profile">
-        <Header company={company} activeTab="reviews" />
+        <Header company={company} lang={lang} />
         <div className="profile-body">
           <header>
             <h3>{resource.reviews}</h3>

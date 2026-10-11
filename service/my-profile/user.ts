@@ -57,6 +57,7 @@ export interface Skill {
 export interface Achievement {
   subject: string
   description: string
+  highlight?: boolean
 }
 export interface Work {
   name: string

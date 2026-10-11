@@ -4,6 +4,7 @@ import { getCompanyService } from "@service/company"
 import { NextResponse } from "next/server"
 
 export async function PATCH(_request: Request, { params }: { params: Promise<{ id: string }> }) {
+  console.log("Follow")
   const { id } = await params
   try {
     const account = await getCurrentUser()
@@ -11,8 +12,8 @@ export async function PATCH(_request: Request, { params }: { params: Promise<{ i
       return NextResponse.json({ message: "Require authentication" }, { status: 401 })
     }
     const service = getCompanyService()
-    await service.follow(account.id, id)
-
+    const count = await service.follow(account.id, id)
+    console.log("Count " + count)
     return NextResponse.json({}, { status: 200 })
   } catch (err) {
     logger.error(`Error to follow company ${id}: ${err}`)
@@ -21,6 +22,7 @@ export async function PATCH(_request: Request, { params }: { params: Promise<{ i
 }
 
 export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
+  console.log("Unfollow")
   const { id } = await params
   try {
     const account = await getCurrentUser()

@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@lib/account"
 import { logger } from "@lib/logger"
-import { getRateService } from "@service/article"
+import { getRateService } from "@service/company"
 import { NextRequest, NextResponse } from "next/server"
 import { SubmittedRate } from "rate-service"
 
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     await service.rate(rate)
     return NextResponse.json({}, { status: 200 })
   } catch (err) {
-    logger.error(`Error to rate article ${id}: ${err}`)
+    logger.error(`Error to rate company ${id}: ${err}`)
     return NextResponse.json({}, { status: 500 })
   }
 }
