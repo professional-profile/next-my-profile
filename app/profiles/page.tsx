@@ -59,7 +59,7 @@ export default async function UsersForm({ searchParams }: { searchParams: Promis
               return (
                 <li key={i} className="col s12 m6 l6 xl3 img-item">
                   <img src={item.imageURL} alt="user" className="round-border" />
-                  <Link href={`/users/${item.username}${langSearch}`} prefetch={false}>
+                  <Link href={`/profiles/${item.username}${langSearch}`} prefetch={false}>
                     {item.displayName}
                   </Link>
                   <p>

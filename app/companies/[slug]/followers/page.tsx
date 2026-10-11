@@ -25,10 +25,10 @@ export default async function FollowersPage({
   const resource = getResource(lang)
 
   const filter = buildFilter<UserFilter>(query, defaultLimit, ["followedAt"])
-  filter.userId = account?.id
   if (!filter.sort) {
     filter.sort = "-followedAt"
   }
+  filter.userId = account?.id
 
   const service = getCompanyService()
   try {
