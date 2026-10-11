@@ -1,7 +1,6 @@
 export const vi = {
   my_profile: "My profile",
   my_password: "My password",
-  notification: "Thông báo",
 
   skills: "Kỹ năng",
   interests: "Quan tâm",

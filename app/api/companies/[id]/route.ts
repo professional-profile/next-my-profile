@@ -4,7 +4,6 @@ import { getCompanyService } from "@service/company"
 import { NextResponse } from "next/server"
 
 export async function PATCH(_request: Request, { params }: { params: Promise<{ id: string }> }) {
-  console.log("Follow")
   const { id } = await params
   try {
     const account = await getCurrentUser()
@@ -22,7 +21,6 @@ export async function PATCH(_request: Request, { params }: { params: Promise<{ i
 }
 
 export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
-  console.log("Unfollow")
   const { id } = await params
   try {
     const account = await getCurrentUser()

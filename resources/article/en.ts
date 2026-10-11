@@ -1,4 +1,11 @@
 export const en = {
+  id: "Id",
+  thumbnail: "Thumbnail",
+  tags: "Tags",
+  title: "Title",
+  description: "Description",
+  content: "Content",
+
   status: "Status",
   published: "Published",
   draft: "Draft",

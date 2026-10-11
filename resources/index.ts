@@ -22,6 +22,21 @@ export const limit = "limit"
 
 export const email = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$"
 
+export class Status {
+  static New = "new"
+  static Draft = "D"
+  static Submitted = "S"
+  static Rejected = "R"
+  static Approved = "A"
+  static Published = "P"
+  static Expired = "E"
+  static RequestToEdit = "T"
+  static Active = "A"
+  static Inactive = "I"
+  static Deativated = "D"
+  static Deleted = "D"
+}
+
 export interface Resources {
   [key: string]: StringMap
 }

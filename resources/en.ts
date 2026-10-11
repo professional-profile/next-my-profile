@@ -4,8 +4,8 @@ export const en = {
   profiles: "Profiles",
   about: "About",
 
-  articles: "Articles",
   settings: "Settings",
+  articles: "Articles",
   saved_articles: "My saved articles",
   saved_jobs: "My saved jobs",
   my_articles: "My articles",
@@ -121,9 +121,10 @@ export const en = {
 
   keyword: "Keyword",
 
+  notification: "Notification",
+  email: "Email",
   country: "Country",
   company: "Company",
-  email: "Email",
   phone: "Telephone",
   fullname: "Full Name",
   job_title: "Job Title",
@@ -132,9 +133,6 @@ export const en = {
   published_at: "Published At",
   published_at_from: "Published At From",
   published_at_to: "Published At To",
-
-  quantity: "Quantity",
-  location: "Location",
 
   review_required_error: "Please select rating.",
   review_success: "Review is submitted successfully.",

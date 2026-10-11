@@ -1,4 +1,5 @@
 import { Error } from "@components/error"
+import FollowButton from "@components/follow-button"
 import { Pagination } from "@components/pagination"
 import Search from "@components/search"
 import { getCurrentUser } from "@lib/account"
@@ -62,8 +63,18 @@ export default async function UsersForm({ searchParams }: { searchParams: Promis
                   <Link href={`/profiles/${item.username}${langSearch}`} prefetch={false}>
                     {item.displayName}
                   </Link>
-                  <p>
-                    {item.location} {item.occupation}
+                  <p className="center-align-items">
+                    {item.occupation} 
+                    {account && account.id !== item.id && <FollowButton
+                      id={item.id}
+                      followed={item.followedAt != null}
+                      api="/api/users"
+                      followedMessage={resource.user_profile_follow_success}
+                      unfollowedMessage={resource.user_profile_unfollow_success}
+                      errorHeader={resource.header_error}
+                      errorMessage={resource.error_network}
+                      error401={resource.error_401}
+                    />}
                   </p>
                 </li>
               )

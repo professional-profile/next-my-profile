@@ -4,8 +4,8 @@ export const vi = {
   profiles: "Hồ sơ",
   about: "Giới thiệu",
 
-  articles: "Bài viết",
   settings: "Cấu hình",
+  articles: "Bài viết",
   saved_articles: "Bài viết đã lưu",
   saved_jobs: "Việc làm đã lưu",
   my_articles: "Bài viết của tôi",
@@ -121,9 +121,10 @@ export const vi = {
 
   keyword: "Keyword",
 
+  notification: "Thông báo",
+  email: "Thư điện tử",
   country: "Quốc gia",
   company: "Công ty",
-  email: "Thư điện tử",
   phone: "Số điện thoại",
   fullname: "Tên",
   job_title: "Chức danh",
@@ -132,9 +133,6 @@ export const vi = {
   published_at: "Đăng lúc",
   published_at_from: "Đăng sau khi",
   published_at_to: "Đăng trước khi",
-
-  quantity: "Số lượng",
-  location: "Vị trí",
 
   review_required_error: "Vui lòng đánh giá.",
   review_success: "Đánh giá đã được gửi thành công.",

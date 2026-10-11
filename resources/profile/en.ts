@@ -1,7 +1,6 @@
 export const en = {
   my_profile: "My profile",
   my_password: "My password",
-  notification: "Notification",
 
   skills: "Skills",
   interests: "Interests",

@@ -1,4 +1,11 @@
 export const vi = {
+  id: "Id",
+  thumbnail: "Thumbnail",
+  tags: "Tags",
+  title: "Title",
+  description: "Description",
+  content: "Content",
+  
   status: "Trạng thái",
   published: "Xuất bản",
   draft: "Nháp",
