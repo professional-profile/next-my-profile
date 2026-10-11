@@ -101,21 +101,23 @@ export default async function MyArticlesPage({ searchParams }: { searchParams: P
               <li key={item.id ?? i} className="col s12 m6 l4 xl3 img-card">
                 <section>
                   <div className="cover" style={{ backgroundImage: `url('${item.thumbnail}')` }} />
-                  <Link href={`/news/${item.slug}${langSearch}`} prefetch={false}>
+                  <Link href={`/my-articles/${item.id}`} prefetch={false}>
                     {item.title}
                   </Link>
                   <p className="article-meta center-align-items">
                     {formatDateTime(item.publishedAt, dateFormat)}
-                    <SaveButton
-                      id={item.id}
-                      saved={item.savedAt != null}
-                      api="/api/articles"
-                      savedMessage={resource.article_save_success}
-                      unsavedMessage={resource.article_unsave_success}
-                      errorHeader={resource.header_error}
-                      errorMessage={resource.error_network}
-                      error401={resource.error_401}
-                    />
+                    {account && (
+                      <SaveButton
+                        id={item.id}
+                        saved={item.savedAt != null}
+                        api="/api/articles"
+                        savedMessage={resource.article_save_success}
+                        unsavedMessage={resource.article_unsave_success}
+                        errorHeader={resource.header_error}
+                        errorMessage={resource.error_network}
+                        error401={resource.error_401}
+                      />
+                    )}
                   </p>
                   <p>{item.description}</p>
                 </section>

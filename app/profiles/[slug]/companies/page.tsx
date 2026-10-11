@@ -94,16 +94,18 @@ export default async function CompaniesPage({
                 <button type="button" className="btn-detail" />
                 <p className="center-align-items">
                   {item.industry}
-                  <FollowButton
-                    id={item.id}
-                    followed={item.followedAt != null}
-                    api="/api/companies"
-                    followedMessage={resource.company_follow_success}
-                    unfollowedMessage={resource.company_unfollow_success}
-                    errorHeader={resource.header_error}
-                    errorMessage={resource.error_network}
-                    error401={resource.error_401}
-                  />
+                  {account && (
+                    <FollowButton
+                      id={item.id}
+                      followed={item.followedAt != null}
+                      api="/api/companies"
+                      followedMessage={resource.company_follow_success}
+                      unfollowedMessage={resource.company_unfollow_success}
+                      errorHeader={resource.header_error}
+                      errorMessage={resource.error_network}
+                      error401={resource.error_401}
+                    />
+                  )}
                 </p>
               </li>
             ))}

@@ -108,16 +108,18 @@ export default async function SavedNews({ searchParams }: { searchParams: Promis
                   </Link>
                   <p className="article-meta center-align-items">
                     {formatDateTime(item.publishedAt, dateFormat)}
-                    <SaveButton
-                      id={item.id}
-                      saved={item.savedAt != null}
-                      api="/api/articles"
-                      savedMessage={resource.article_save_success}
-                      unsavedMessage={resource.article_unsave_success}
-                      errorHeader={resource.header_error}
-                      errorMessage={resource.error_network}
-                      error401={resource.error_401}
-                    />
+                    {account && (
+                      <SaveButton
+                        id={item.id}
+                        saved={item.savedAt != null}
+                        api="/api/articles"
+                        savedMessage={resource.article_save_success}
+                        unsavedMessage={resource.article_unsave_success}
+                        errorHeader={resource.header_error}
+                        errorMessage={resource.error_network}
+                        error401={resource.error_401}
+                      />
+                    )}
                   </p>
                   <p>{item.description}</p>
                 </section>

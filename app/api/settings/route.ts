@@ -4,10 +4,9 @@ import { getMyProfileService } from "@service/my-profile"
 import { UserSettings } from "@service/my-profile/user"
 import { NextRequest, NextResponse } from "next/server"
 
-export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
+export async function POST(request: NextRequest) {
+  const account = await getCurrentUser()
   try {
-    const account = await getCurrentUser()
     if (!account) {
       return NextResponse.json({ message: "Require authentication" }, { status: 401 })
     }
@@ -18,7 +17,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
     return NextResponse.json({}, { status: 200 })
   } catch (err) {
-    logger.error(`Error to rate article ${id}: ${err}`)
+    logger.error(`Error to save settings ${account?.id} ${account?.username} ${account?.displayName}: ${err}`)
     return NextResponse.json({}, { status: 500 })
   }
 }

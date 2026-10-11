@@ -1,4 +1,5 @@
 import { Error } from "@components/error"
+import { SubmitButton } from "@components/form"
 import { getCurrentUser } from "@lib/account"
 import { logger } from "@lib/logger"
 import { getLang, getResource } from "@resources"
@@ -148,9 +149,23 @@ export default async function SettingsForm({ searchParams }: { searchParams: Pro
           </section>
         </div>
         <footer>
-          <button type="submit" id="saveBtn" name="saveBtn">
+          <SubmitButton
+            type="submit"
+            id="saveBtn"
+            name="saveBtn"
+            api={`/api/settings`}
+            confirmHeader={resource.header_confirm}
+            confirmMessage={resource.msg_confirm_save}
+            successMessage={resource.msg_save_success}
+            errorHeader={resource.header_error}
+            forbiddenError={resource.error_403}
+            parsingError={resource.error_response_body}
+            networkError={resource.error_network}
+            conflictError={resource.error_409}
+            goneError={resource.error_410}
+          >
             {resource.save}
-          </button>
+          </SubmitButton>
         </footer>
       </form>
     )

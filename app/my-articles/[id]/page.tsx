@@ -3,17 +3,25 @@ import { formatText } from "@components/client-script"
 import { Error } from "@components/error"
 import { Input, SubmitButton } from "@components/form"
 import { getCurrentUser } from "@lib/account"
-import { logError, logger } from "@lib/logger"
+import { logger } from "@lib/logger"
 import { getResource, Status } from "@resources"
 import { Article, getMyArticlesService } from "@service/my-articles"
+import { headers } from "next/headers"
+import { redirect } from "next/navigation"
 import { create, datetimeToString } from "web-one"
 
 export default async function ArticleForm({ params }: { params: Promise<{ id: string }> }) {
+  const headerList = await headers()
+  const pathname = headerList.get("x-current-fullpath") as string
+  const account = await getCurrentUser()
+  if (!account) {
+    redirect(`/login?redirect=${encodeURIComponent(pathname)}`)
+  }
+
   const { id } = await params
   const newMode = id === "new"
-  const account = await getCurrentUser()
   const resource = getResource(account?.language)
-  
+
   const service = getMyArticlesService()
   try {
     let article: Article | null = create<Article>("A")
@@ -29,11 +37,11 @@ export default async function ArticleForm({ params }: { params: Promise<{ id: st
       <form id="articleForm" name="articleForm" className="form" noValidate={true} data-required-error={resource.error_required}>
         <header>
           <BackButton id="backBtn" name="backBtn" className="btn-back" />
-          <h2>{resource.article}</h2>
+          <h2>{resource.my_article}</h2>
         </header>
         <div className="row">
           <label className="col s12 m6 required">
-            {resource.article_id}
+            {resource.id}
             <Input
               type="text"
               id="id"
@@ -42,8 +50,8 @@ export default async function ArticleForm({ params }: { params: Promise<{ id: st
               readOnly={!newMode}
               maxLength={40}
               required={true}
-              requiredError={formatText(resource.error_required, resource.article_id)}
-              placeholder={resource.article_id}
+              requiredError={formatText(resource.error_required, resource.id)}
+              placeholder={resource.id}
             />
           </label>
           <label className="col s12 m6 required">
@@ -63,8 +71,8 @@ export default async function ArticleForm({ params }: { params: Promise<{ id: st
             {resource.published_at}
             <Input
               type="datetime-local"
-              id="displayName"
-              name="displayName"
+              id="publishedAt"
+              name="publishedAt"
               defaultValue={datetimeToString(article.publishedAt)}
               requiredError={formatText(resource.error_required, resource.published_at)}
               placeholder={resource.published_at}
@@ -99,23 +107,26 @@ export default async function ArticleForm({ params }: { params: Promise<{ id: st
           </label>
           <label className="col s12 auto-height required">
             {resource.description}
-            <textarea id="description" name="description" rows={4} maxLength={1200} 
+            <textarea
+              id="description"
+              name="description"
+              rows={4}
+              maxLength={1200}
               placeholder={resource.description}
-              defaultValue={article.content}></textarea>
+              defaultValue={article.description}
+            ></textarea>
           </label>
           <label className="col s12 auto-height required">
             {resource.content}
-            <textarea id="content" name="content" rows={40} maxLength={9600} 
-              placeholder={resource.content}
-              defaultValue={article.content}></textarea>
+            <textarea id="content" name="content" rows={40} maxLength={9600} placeholder={resource.content} defaultValue={article.content}></textarea>
           </label>
         </div>
         <footer>
           <SubmitButton
             type="submit"
-            id="btnSubmit"
-            name="btnSubmit"
-            api={`/api/articles/${id}`}
+            id="submitBtn"
+            name="submitBtn"
+            api={`/api/my-articles/${id}`}
             confirmHeader={resource.header_confirm}
             confirmMessage={resource.msg_confirm_save}
             successMessage={resource.msg_save_success}
@@ -127,13 +138,13 @@ export default async function ArticleForm({ params }: { params: Promise<{ id: st
             goneError={resource.error_410}
             successUrl="back"
           >
-            {resource.submit}
+            {resource.save}
           </SubmitButton>
         </footer>
       </form>
     )
   } catch (err) {
-    logError(err)
+    logger.error(`Error at ${pathname}: ${err}`)
     return <Error title={resource.error_500_title} message={resource.error_500_message} />
   }
 }

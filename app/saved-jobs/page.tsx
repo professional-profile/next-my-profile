@@ -109,16 +109,18 @@ export default async function Jobs({ searchParams }: { searchParams: Promise<Rec
                   <button className="btn-detail"></button>
                   <p className="center-align-items">
                     {formatDateTime(item.publishedAt, dateFormat)}
-                    <SaveButton
-                      id={item.id}
-                      saved={item.savedAt != null}
-                      api="/api/jobs"
-                      savedMessage={resource.job_save_success}
-                      unsavedMessage={resource.job_unsave_success}
-                      errorHeader={resource.header_error}
-                      errorMessage={resource.error_network}
-                      error401={resource.error_401}
-                    />
+                    {account && (
+                      <SaveButton
+                        id={item.id}
+                        saved={item.savedAt != null}
+                        api="/api/jobs"
+                        savedMessage={resource.job_save_success}
+                        unsavedMessage={resource.job_unsave_success}
+                        errorHeader={resource.header_error}
+                        errorMessage={resource.error_network}
+                        error401={resource.error_401}
+                      />
+                    )}
                   </p>
                   <p>
                     {item.location} {item.quantity}
