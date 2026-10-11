@@ -23,7 +23,7 @@ export default async function Job({
 
   const service = getJobService()
   try {
-    const job = await service.load(slug)
+    const job = await service.load(slug, account?.id)
     if (!job) {
       logger.warn(`Job not found: ${slug}`)
       return <Error title={resource.error_404_title} message={resource.error_404_message} />

@@ -36,6 +36,8 @@ export default function Header({ user, lang }: Props) {
             followed={user.followedAt != null}
             followerCount={user.followerCount ?? 0}
             api="/api/users"
+            followingCount={user.followingCount || 0}
+            followingText={resource.user_profile_following}
             followersText={resource.user_profile_followers}
             followText={resource.button_follow}
             unfollowText={resource.button_unfollow}

@@ -4,6 +4,7 @@ import { RateDropdown } from "@components/rate-dropdown"
 import RatingForm from "@components/rating-form"
 import { RatingSummary } from "@components/rating-summary"
 import { Sort } from "@components/sort"
+import Useful from "@components/useful"
 import { getCurrentUser } from "@lib/account"
 import { logError, logger } from "@lib/logger"
 import { defaultLimit, getDateFormat, getLang, getResource, sort } from "@resources"
@@ -124,18 +125,16 @@ export default async function CompanyReviewsPage({
                     </header>
                     <p className="center-align-items">{formatDateTime(item.time, dateFormat)}</p>
                     <p>{item.review}</p>
-                    <footer>
-                      <span className="center-align-items">
-                        {resource.useful_review_description}
-                        {item.reaction > 0 ? <i className="material-icons highlight">thumb_up</i> : <i className="material-icons">thumb_up</i>}
-                      </span>
-                      {item.usefulCount > 0 && (
-                        <span className="center-align-items">
-                          <span className="useful">{item.usefulCount}</span>
-                          <i className="material-icons">thumb_up</i>
-                        </span>
-                      )}
-                    </footer>
+                    <Useful
+                      api="/api/companies"
+                      id={item.rateId}
+                      reaction={item.reaction}
+                      usefulCount={item.usefulCount}
+                      description={resource.useful_review_description}
+                      errorHeader={resource.header_error}
+                      errorMessage={resource.error_network}
+                      error401={resource.error_401}
+                    />
                   </li>
                 ))}
               </ul>

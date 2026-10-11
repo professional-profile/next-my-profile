@@ -9,6 +9,8 @@ type Props = {
   description?: string
   followed: boolean
   api: string
+  followingCount: number
+  followingText: string
   followersText: string
   followText: string
   unfollowText: string
@@ -26,6 +28,8 @@ export default function ProfileInfo({
   description,
   followed,
   api,
+  followingText,
+  followingCount,
   followersText,
   followText,
   unfollowText,
@@ -71,10 +75,18 @@ export default function ProfileInfo({
       </h1>
       <p>{description}</p>
       <div className="profile-followers">
-        <span>
-          <i className="material-icons highlight">group</i>
-          {formatText(followersText, followerCount)}
-        </span>
+        {followerCount > 0 && (
+          <span>
+            <i className="material-icons highlight">group</i>
+            {formatText(followersText, followerCount)}
+          </span>
+        )}
+        {followingCount > 0 && (
+          <span>
+            <i className="material-icons highlight">group_add</i>
+            {formatText(followingText, followingCount)}
+          </span>
+        )}
       </div>
       <button type="button" className="btn-follow" onClick={handleClick}>
         {isFollowed ? unfollowText : followText}

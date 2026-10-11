@@ -30,6 +30,7 @@ export default async function MyArticlesPage({ searchParams }: { searchParams: P
   if (!filter.sort) {
     filter.sort = "-publishedAt"
   }
+  filter.userId = account?.id
   filter.authorId = account?.id
 
   const service = getArticleService()

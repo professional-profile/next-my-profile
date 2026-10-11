@@ -17,6 +17,7 @@ export default async function UsersForm({ searchParams }: { searchParams: Promis
   const resource = getResource(lang)
 
   const filter = buildFilter<UserFilter>(query, defaultLimit, ["publishedAt"])
+  filter.userId = account?.id
 
   const service = getUserService()
   try {
@@ -64,17 +65,19 @@ export default async function UsersForm({ searchParams }: { searchParams: Promis
                     {item.displayName}
                   </Link>
                   <p className="center-align-items">
-                    {item.occupation} 
-                    {account && account.id !== item.id && <FollowButton
-                      id={item.id}
-                      followed={item.followedAt != null}
-                      api="/api/users"
-                      followedMessage={resource.user_profile_follow_success}
-                      unfollowedMessage={resource.user_profile_unfollow_success}
-                      errorHeader={resource.header_error}
-                      errorMessage={resource.error_network}
-                      error401={resource.error_401}
-                    />}
+                    {item.occupation}
+                    {account && account.id !== item.id && (
+                      <FollowButton
+                        id={item.id}
+                        followed={item.followedAt != null}
+                        api="/api/users"
+                        followedMessage={resource.user_profile_follow_success}
+                        unfollowedMessage={resource.user_profile_unfollow_success}
+                        errorHeader={resource.header_error}
+                        errorMessage={resource.error_network}
+                        error401={resource.error_401}
+                      />
+                    )}
                   </p>
                 </li>
               )

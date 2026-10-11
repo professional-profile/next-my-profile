@@ -24,3 +24,35 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     return NextResponse.json({}, { status: 500 })
   }
 }
+
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params // rate id, not company id
+  const account = await getCurrentUser()
+  if (!account) {
+    return NextResponse.json({ message: "Require authentication" }, { status: 401 })
+  }
+  const service = getRateService()
+  try {
+    await service.setUseful(id, account.id)
+    return NextResponse.json({}, { status: 200 })
+  } catch (err) {
+    logger.error(`Error to setUseful rateId ${id} and user ${account.id}: ${err}`)
+    return NextResponse.json({}, { status: 500 })
+  }
+}
+
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params // rate id, not company id
+  const account = await getCurrentUser()
+  if (!account) {
+    return NextResponse.json({ message: "Require authentication" }, { status: 401 })
+  }
+  const service = getRateService()
+  try {
+    await service.removeUseful(id, account.id)
+    return NextResponse.json({}, { status: 200 })
+  } catch (err) {
+    logger.error(`Error to removeUseful rateId ${id} and user ${account.id}: ${err}`)
+    return NextResponse.json({}, { status: 500 })
+  }
+}
