@@ -9,19 +9,17 @@ export const vi = {
   button_follow: "Theo dõi",
   button_unfollow: "Bỏ theo dõi",
 
-  success_save_my_profile: "You have updated your profile successfully.",
-  fail_save_my_profile: "Cannot update your profile.",
+  success_save_my_profile: "Bạn đã cập nhật hồ sơ của mình thành công.",
+  fail_save_my_profile: "Không thể cập nhật hồ sơ của bạn.",
 
-  success_save_my_settings: "You have updated your settings successfully.",
-  fail_save_my_settings: "Cannot update your settings.",
+  success_save_my_settings: "Bạn đã cập nhật cài đặt của mình thành công.",
+  fail_save_my_settings: "Không thể cập nhật cài đặt của bạn.",
 
-  user_profile_followers: "{0} followers",
-  user_profile_following: "{0} followings",
+  user_profile_followers: "{0} người theo dõi",
+  user_profile_following: "{0} đang theo dõi",
 
-  user_profile_follow_success: "Follow successfully",
-  user_profile_follow_conflict: "No change. You already follow this user before.",
-  user_profile_unfollow_success: "Unfollow successfully.",
-  user_profile_unfollow_conflict: "No change. You already unfollowed this user before.",
+  user_profile_follow_success: "Theo dõi thành công",
+  user_profile_unfollow_success: "Hủy theo dõi thành công.",
 
   user_profile_basic_info: "Basic Info",
   user_profile_website: "Website",

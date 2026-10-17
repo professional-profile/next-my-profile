@@ -58,7 +58,7 @@ export default async function CompanyPage({
                   </header>
                   {company.website && (
                     <p className="icon-text">
-                      <i className="material-icons">bookmark</i>
+                      <i className="material-icons">public</i>
                       <a href={company.website} title="website" target="_blank" rel="noreferrer">
                         {company.website}
                       </a>

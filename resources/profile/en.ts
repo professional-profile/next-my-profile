@@ -19,9 +19,7 @@ export const en = {
   user_profile_following: "{0} followings",
 
   user_profile_follow_success: "Follow successfully",
-  user_profile_follow_conflict: "No change. You already follow this user before.",
   user_profile_unfollow_success: "Unfollow successfully.",
-  user_profile_unfollow_conflict: "No change. You already unfollowed this user before.",
 
   user_profile_basic_info: "Basic Info",
   user_profile_website: "Website",
