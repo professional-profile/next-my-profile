@@ -27,9 +27,9 @@ export class SqlUserRepository extends SearchRepository<User, UserFilter> implem
       params.push(slug)
     }
 
-    let users = await this.db.query<User>(query, params, this.map)
-    if (users && users.length > 0) {
-      return users[0]
+    let user = await this.db.queryOne<User>(query, params, this.map)
+    if (user) {
+      return user
     }
 
     params = []
@@ -49,14 +49,13 @@ export class SqlUserRepository extends SearchRepository<User, UserFilter> implem
       params.push(slug)
     }
 
-    users = await this.db.query<User>(query, [slug], this.map)
-    return users && users.length > 0 ? users[0] : null
+    return this.db.queryOne<User>(query, [slug], this.map)
   }
 
   async getIdBySlug(slug: string): Promise<string> {
     const query = `select u.id from users u where u.username = ${this.db.param(1)}`
     const users = await this.db.query<User>(query, [slug], this.map)
-    return (users && users.length > 0 ? users[0].id : slug)
+    return users && users.length > 0 ? users[0].id : slug
   }
 }
 

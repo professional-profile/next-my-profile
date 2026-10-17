@@ -14,7 +14,7 @@ export class SqlArticleRepository extends SearchRepository<Article, ArticleFilte
   constructor(db: DB) {
     super(db, "articles", articleModel, buildQuery)
   }
-  async load(slug: string, userId?: string): Promise<Article | null> {
+  load(slug: string, userId?: string): Promise<Article | null> {
     const params = []
     let query: string
     if (userId) {
@@ -27,13 +27,12 @@ export class SqlArticleRepository extends SearchRepository<Article, ArticleFilte
       query = `select a.* from articles a where a.slug = ${this.db.param(1)}`
     }
     params.push(slug)
-    const articles = await this.db.query<Article>(query, params, this.map)
-    return articles && articles.length > 0 ? articles[0] : null
+    return this.db.queryOne<Article>(query, params, this.map)
   }
   async getIdBySlug(slug: string): Promise<string> {
     const query = `select a.id from articles a where a.slug = ${this.db.param(1)}`
     const articles = await this.db.query<Article>(query, [slug], this.map)
-    return (articles && articles.length > 0 ? articles[0].id : slug)
+    return articles && articles.length > 0 ? articles[0].id : slug
   }
 }
 
