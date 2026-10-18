@@ -55,6 +55,7 @@ export default async function UserForm({ searchParams }: { searchParams: Promise
                   <header>
                     <i className="material-icons highlight">account_box</i>
                     {resource.user_profile_basic_info}
+                    <button type="button" id="basicInfoBtn" name="basicInfoBtn" className="btn-edit"></button>
                   </header>
                   {user.occupation && (
                     <p className="icon-text">
@@ -99,6 +100,7 @@ export default async function UserForm({ searchParams }: { searchParams: Promise
                   <header>
                     <i className="material-icons highlight">local_mall</i>
                     {resource.skills}
+                    <button type="button" id="skillBtn" name="skillBtn" className="btn-edit"></button>
                   </header>
                   <section className="chip-list">
                     {user.skills &&
@@ -120,6 +122,7 @@ export default async function UserForm({ searchParams }: { searchParams: Promise
                 <div className="card">
                   <header>
                     <i className="material-icons highlight">chat</i>Social
+                    <button type="button" id="socialBtn" name="socialBtn" className="btn-edit"></button>
                   </header>
                   <p className="icon-text">
                     <svg
@@ -192,6 +195,7 @@ export default async function UserForm({ searchParams }: { searchParams: Promise
                   <header>
                     <i className="material-icons highlight">person</i>
                     {resource.user_profile_bio}
+                    <button type="button" id="bioBtn" name="bioBtn" className="btn-edit"></button>
                   </header>
                   <p>{user.bio}</p>
                 </div>
@@ -199,6 +203,7 @@ export default async function UserForm({ searchParams }: { searchParams: Promise
                   <header>
                     <i className="material-icons highlight">flash_on</i>
                     {resource.interests}
+                    <button type="button" id="interestBtn" name="interestBtn" className="btn-edit"></button>
                   </header>
                   <section className="chip-list">
                     {user.interests &&
@@ -215,6 +220,7 @@ export default async function UserForm({ searchParams }: { searchParams: Promise
                   <header>
                     <i className="material-icons highlight">beenhere</i>
                     {resource.achievements}
+                    <button type="button" id="achievementBtn" name="achievementBtn" className="btn-edit"></button>
                   </header>
                   {user.achievements &&
                     user.achievements.map((achievement: Achievement, index: number) => {
