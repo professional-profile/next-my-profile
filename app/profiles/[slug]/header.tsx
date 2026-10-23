@@ -1,6 +1,9 @@
+"use client"
+
 import { ClientLink } from "@components/client"
 import { getResource } from "@resources"
 import { User } from "@service/shared/user"
+import { useEffect, useRef, useState } from "react"
 import ProfileInfo from "./profile-info"
 
 type Props = {
@@ -9,6 +12,30 @@ type Props = {
 }
 
 export default function Header({ user, lang }: Props) {
+  const triggerRef = useRef<HTMLDivElement>(null)
+  const [compact, setCompact] = useState(false)
+
+  useEffect(() => {
+    const trigger = triggerRef.current
+    if (!trigger) return
+
+    const page = trigger.parentElement as HTMLDivElement
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setCompact(!entry.isIntersecting)
+      },
+      {
+        root: page,
+        threshold: 0,
+      },
+    )
+
+    observer.observe(trigger)
+
+    return () => observer.disconnect()
+  }, [])
+
   const resource = getResource(lang)
   return (
     <>
@@ -18,8 +45,8 @@ export default function Header({ user, lang }: Props) {
           backgroundImage: `url(${user.coverURL || ""})`,
         }}
       />
-      <div id="headerTrigger" className="header-trigger" />
-      <header id="profileHeader" className="profile-header">
+      <div id="headerTrigger" className="header-trigger" ref={triggerRef} />
+      <header id="profileHeader" className={`profile-header${compact ? " compact" : ""}`}>
         <div className="profile-header-inner">
           <div className="avatar-wrapper">
             <div
