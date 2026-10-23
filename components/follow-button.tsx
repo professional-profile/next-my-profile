@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { alertError, hideLoading, showLoading, toast } from "./client-script"
+import { alertError, hideLoading, showLoading, toast } from "./ui"
 
 interface Props {
   id: string
