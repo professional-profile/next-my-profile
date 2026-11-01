@@ -1,10 +1,10 @@
 "use client"
 
+import { formatText } from "@components/ui"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { StringMap } from "onecore"
 import { SubmitEvent, useActionState, useEffect, useState } from "react"
-import { formatText } from "script-plus"
 import { loginAction, LoginState } from "./actions"
 
 export interface Props {
