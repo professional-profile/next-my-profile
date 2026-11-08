@@ -1,6 +1,7 @@
 "use client"
 
-import { alertError, formatText, hideLoading, showLoading, toast } from "@components/ui"
+import { formatText } from "@components/format-text"
+import { alertError, hideLoading, showLoading, toast } from "@components/ui"
 import { useEffect, useRef, useState } from "react"
 
 type Props = {

@@ -1,4 +1,4 @@
-import { BackButton } from "@components/client"
+import { BackButton } from "@components/back-button"
 import { Error } from "@components/error"
 import { Pagination } from "@components/pagination"
 import { RateDropdown } from "@components/rate-dropdown"

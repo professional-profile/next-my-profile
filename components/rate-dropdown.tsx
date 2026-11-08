@@ -1,4 +1,4 @@
-import { SearchLink, ToggleDropdown } from "./client"
+import { SearchLink, ToggleDropdown } from "./search-link"
 
 export interface Item {
   id?: string

@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { validate } from "validation-core"
 import { isSuccessful } from "web-one"
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
   const account = await getCurrentUser()
   if (!account) {
     return NextResponse.json({ message: "Require authentication" }, { status: 401 })
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
   const { id } = await params
   const resource = getResource(account.language)
-  const article: Article = await req.json()
+  const article: Article = await request.json()
 
   const errors = validate(article, articleModel, resource)
   if (errors.length > 0) {

@@ -1,3 +1,5 @@
+"use client"
+
 import { FocusEvent, KeyboardEvent } from "react"
 import {
   addErrorMessage,
@@ -12,9 +14,9 @@ import {
   removeError,
   removeSeparators,
 } from "./client-script"
+import { formatText } from "./format-text"
 import { digitKeyDown, integerKeyDown, numberKeyDown } from "./number-client"
 import { materialOnBlur, materialOnFocus } from "./react-material"
-import { formatText } from "./ui"
 
 export function formatInteger(v: number | null | undefined, groupSeparator: string = ","): string {
   if (v == null || !Number.isFinite(v)) {

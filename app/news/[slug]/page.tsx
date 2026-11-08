@@ -1,4 +1,4 @@
-import { BackButton } from "@components/client"
+import { BackButton } from "@components/back-button"
 import { Error } from "@components/error"
 import { RatingSummary } from "@components/rating-summary"
 import SaveButton from "@components/save-button"

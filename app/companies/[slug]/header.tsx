@@ -1,4 +1,4 @@
-import { ClientLink } from "@components/client"
+import { ClientLink } from "@components/client-link"
 import { getResource } from "@resources"
 import { Company } from "@service/shared/company"
 import ClientHeader from "./client-header"

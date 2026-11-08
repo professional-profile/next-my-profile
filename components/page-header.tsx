@@ -3,8 +3,10 @@ import { getDefaultLang, getResource } from "@resources"
 import { headers } from "next/headers"
 import Link from "next/link"
 import { StringMap } from "onecore"
-import { ButtonQ, InputQ, ToggleMenu, ToggleUniversalSearch } from "./client"
+import { ButtonQ, InputQ } from "./client-search"
 import { ToggleSidebar, ToggleTheme } from "./menu"
+import { ToggleMenu } from "./toggle-menu"
+import { ToggleUniversalSearch } from "./toggle-search"
 
 export interface Props {
   account?: Account | null

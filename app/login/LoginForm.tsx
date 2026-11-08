@@ -1,6 +1,6 @@
 "use client"
 
-import { formatText } from "@components/ui"
+import { formatText } from "@components/format-text"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { StringMap } from "onecore"
