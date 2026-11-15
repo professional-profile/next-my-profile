@@ -72,6 +72,7 @@ export const en = {
   user_profile_highlight_achievement: "Highlight Achievement",
   button_add_achievement: "Add Achievement",
   button_add_skill: "Add Skill",
+  button_add_interest: "Add Interest",
   button_add_work: "Add Work",
   button_add_education: "Add Education",
   button_add_company: "Add Company",

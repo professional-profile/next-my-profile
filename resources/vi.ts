@@ -28,6 +28,7 @@ export const vi = {
   save: "Lưu",
   cancel: "Hủy",
   close: "Đóng",
+  remove: "Xóa",
 
   msg_no_data_found: "No data found.",
   msg_search_result_sequence: "Items {0} to {1}.",

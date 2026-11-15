@@ -28,6 +28,7 @@ export const en = {
   save: "Save",
   cancel: "Cancel",
   close: "Close",
+  remove: "Remove",
 
   msg_no_data_found: "No data found.",
   msg_search_result_sequence: "Items {0} to {1}.",

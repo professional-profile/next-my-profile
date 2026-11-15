@@ -54,7 +54,7 @@ export const vi = {
 
   placeholder_user_profile_looking_for: "Enter a skill you are looking for",
   placeholder_user_profile_skill: "Enter a new skill",
-  placeholder_user_profile_interest: "Enter a new interest",
+  placeholder_user_profile_interest: "Nhập quan tâm mới",
   placeholder_user_profile_achievement_subject: "Name of Achievement",
   placeholder_user_profile_achievement_description: "Description of Achievement",
   placeholder_user_profile_company: "Enter Place of employment",
@@ -62,10 +62,14 @@ export const vi = {
   user_profile_highlight_achievement: "Highlight Achievement",
   button_add_achievement: "Add Achievement",
   button_add_skill: "Add Skill",
+  button_add_interest: "Thêm quan tâm",
+  button_add_work: "Add Work",
+  button_add_education: "Add Education",
+  button_add_company: "Add Company",
 
   error_duplicated_skill: "This skill is duplicated. Please input another skill.",
   error_duplicated_looking_for: "This looking for is duplicated. Please input another interest.",
-  error_duplicated_interest: "This interest is duplicated.",
+  error_duplicated_interest: "Quan tâm này đã tồn tại.",
   error_duplicated_achievement: "This achievement is duplicated.",
   error_load_user_profile: "Error: Cannot load user profile.",
 

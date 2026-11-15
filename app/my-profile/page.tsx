@@ -7,6 +7,7 @@ import { Achievement, Skill } from "@service/my-profile/user"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import BasicInfo from "./basic-info"
+import Interests from "./interests"
 
 export default async function UserForm({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const headerList = await headers()
@@ -166,23 +167,7 @@ export default async function UserForm({ searchParams }: { searchParams: Promise
                   </header>
                   <p>{user.bio}</p>
                 </div>
-                <div className="card border-bottom-highlight">
-                  <header>
-                    <i className="material-icons highlight">flash_on</i>
-                    {resource.interests}
-                    <button type="button" id="interestBtn" name="interestBtn" className="btn-edit"></button>
-                  </header>
-                  <section className="chip-list">
-                    {user.interests &&
-                      user.interests.map((item: string, index: number) => {
-                        return (
-                          <div key={index} className="chip" tabIndex={index}>
-                            {item}
-                          </div>
-                        )
-                      })}
-                  </section>
-                </div>
+                <Interests interests={user.interests || []} resource={resource} />
                 <div className="card border-bottom-highlight">
                   <header>
                     <i className="material-icons highlight">beenhere</i>
