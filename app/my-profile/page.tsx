@@ -6,6 +6,7 @@ import { getMyProfileService } from "@service/my-profile"
 import { Achievement, Skill } from "@service/my-profile/user"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
+import BasicInfo from "./basic-info"
 
 export default async function UserForm({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const headerList = await headers()
@@ -51,51 +52,17 @@ export default async function UserForm({ searchParams }: { searchParams: Promise
           <form id="userForm" name="userForm">
             <div className="row list card-grid">
               <div className="col m12 l4">
-                <div className="card">
-                  <header>
-                    <i className="material-icons highlight">account_box</i>
-                    {resource.user_profile_basic_info}
-                    <button type="button" id="basicInfoBtn" name="basicInfoBtn" className="btn-edit"></button>
-                  </header>
-                  {user.occupation && (
-                    <p className="icon-text">
-                      <i className="material-icons">local_mall</i>
-                      {user.occupation}
-                    </p>
-                  )}
-                  {user.company && (
-                    <p className="icon-text">
-                      <i className="material-icons">location_city</i>
-                      {user.company}
-                    </p>
-                  )}
-                  {user.location && (
-                    <p className="icon-text">
-                      <i className="material-icons">location_on</i>
-                      {user.location}
-                    </p>
-                  )}
-                  {user.email && (
-                    <p className="icon-text">
-                      <i className="material-icons">email</i>
-                      {user.email}
-                    </p>
-                  )}
-                  {user.phone && (
-                    <p className="icon-text">
-                      <i className="material-icons">phone</i>
-                      {user.phone}
-                    </p>
-                  )}
-                  {user.website && (
-                    <p className="icon-text">
-                      <i className="material-icons">bookmark</i>
-                      <a href={user.website} title="website" target="_blank" rel="noreferrer">
-                        {user.website}
-                      </a>
-                    </p>
-                  )}
-                </div>
+                <BasicInfo
+                  info={{
+                    occupation: user.occupation || "",
+                    company: user.company || "",
+                    location: user.location || "",
+                    email: user.email || "",
+                    phone: user.phone || "",
+                    website: user.website || "",
+                  }}
+                  resource={resource}
+                />
                 <div className="card">
                   <header>
                     <i className="material-icons highlight">local_mall</i>

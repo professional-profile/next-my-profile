@@ -1,6 +1,6 @@
 "use client"
 
-import { formatText } from "@components/format-text"
+import { formatText } from "@components/format"
 import { alertError, hideLoading, showLoading, toast } from "@components/ui"
 import { useEffect, useRef, useState } from "react"
 

@@ -94,7 +94,7 @@ export interface UserRepository {
 }
 export interface MyProfileService {
   getMyProfile(id: string): Promise<User | null>
-  saveMyProfile(user: User): Promise<number>
+  saveMyProfile(user: Partial<User>): Promise<number>
   getMySettings(id: string): Promise<UserSettings | null>
   saveMySettings(id: string, settings: UserSettings): Promise<number>
 }
@@ -221,5 +221,24 @@ export const userModel: Attributes = {
   settings: {
     type: "object",
     typeof: userSettingsModel,
+  },
+}
+
+export const basicInfoModel: Attributes = {
+  occupation: {
+    length: 100,
+  },
+  company: {
+    length: 100,
+  },
+  location: {
+    length: 100,
+  },
+  phone: {
+    format: "phone",
+  },
+  website: {
+    format: "url",
+    length: 255,
   },
 }

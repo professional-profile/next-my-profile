@@ -23,7 +23,7 @@ const settings: UserSettings = {
 }
 
 export class MyProfileUseCase implements MyProfileService {
-  constructor(private repository: UserRepository) { }
+  constructor(private repository: UserRepository) {}
   async getMyProfile(id: string): Promise<User | null> {
     const user = await this.repository.load(id)
     if (user) {
@@ -32,7 +32,7 @@ export class MyProfileUseCase implements MyProfileService {
     }
     return null
   }
-  saveMyProfile(user: User): Promise<number> {
+  saveMyProfile(user: Partial<User>): Promise<number> {
     return this.repository.patch(user)
   }
   getMySettings(id: string): Promise<UserSettings | null> {

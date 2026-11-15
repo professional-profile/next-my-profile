@@ -267,6 +267,9 @@ ul.list > li > section:first-child > div > p {
   border: 1px solid;
   background: none;
 }
+.card > footer > button.btn-cancel::before {
+  content: unset;
+}
 
 .card > textarea {
   margin-bottom: 8px;

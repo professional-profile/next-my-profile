@@ -20,6 +20,9 @@ export const sort = "sort"
 export const page = "page"
 export const limit = "limit"
 
+// Absolute http(s) URL with a dotted host, optional port and path.
+export const website = /^https?:\/\/([a-z0-9-]+\.)+[a-z]{2,}(:\d+)?([/?#]\S*)?$/i
+
 export const email = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$"
 
 export class Status {

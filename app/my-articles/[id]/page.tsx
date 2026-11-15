@@ -1,7 +1,7 @@
 import { BackButton } from "@components/back-button"
 import { Error } from "@components/error"
 import { Input, SubmitButton } from "@components/form"
-import { formatText } from "@components/format-text"
+import { formatText } from "@components/format"
 import { getCurrentUser } from "@lib/account"
 import { logger } from "@lib/logger"
 import { getResource, Status } from "@resources"
